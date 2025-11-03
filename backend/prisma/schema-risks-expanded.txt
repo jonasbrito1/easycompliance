@@ -1,0 +1,411 @@
+// Categoria de risco
+enum RiskCategory {
+  ESTRATEGICO          // Risco estratégico
+  OPERACIONAL          // Risco operacional
+  FINANCEIRO           // Risco financeiro
+  COMPLIANCE           // Risco de compliance/regulatório
+  REPUTACIONAL         // Risco reputacional
+  TECNOLOGIA           // Risco de tecnologia/TI
+  SEGURANCA            // Risco de segurança da informação
+  MERCADO              // Risco de mercado
+  CREDITO              // Risco de crédito
+  LIQUIDEZ             // Risco de liquidez
+  AMBIENTAL            // Risco ambiental (ESG)
+  SOCIAL               // Risco social (ESG)
+  GOVERNANCA           // Risco de governança (ESG)
+  JURIDICO             // Risco jurídico
+  RH                   // Risco de recursos humanos
+  FRAUDE               // Risco de fraude
+  CORRUPCAO            // Risco de corrupção
+  OUTROS               // Outros riscos
+}
+
+// Status do risco
+enum RiskStatus {
+  IDENTIFICADO         // Identificado/Novo
+  EM_ANALISE           // Em análise
+  EM_TRATAMENTO        // Em tratamento
+  MONITORADO           // Sob monitoramento
+  MITIGADO             // Mitigado
+  ACEITO               // Aceito
+  TRANSFERIDO          // Transferido
+  ELIMINADO            // Eliminado
+  ARQUIVADO            // Arquivado
+}
+
+// Nível de risco (resultado da matriz)
+enum RiskLevel {
+  MUITO_BAIXO          // 1-4: Muito baixo
+  BAIXO                // 5-9: Baixo
+  MEDIO                // 10-14: Médio
+  ALTO                 // 15-19: Alto
+  MUITO_ALTO           // 20-24: Muito alto
+  CRITICO              // 25: Crítico
+}
+
+// Estratégia de tratamento
+enum RiskStrategy {
+  ACEITAR              // Aceitar o risco
+  MITIGAR              // Mitigar/Reduzir o risco
+  TRANSFERIR           // Transferir o risco (seguro, terceirização)
+  EVITAR               // Evitar o risco (eliminar a atividade)
+}
+
+// Área de impacto
+enum RiskImpactArea {
+  FINANCEIRO           // Impacto financeiro/lucro
+  REPUTACIONAL         // Impacto na reputação/marca
+  OPERACIONAL          // Impacto nas operações
+  ESTRATEGICO          // Impacto nos objetivos estratégicos
+  REGULATORIO          // Impacto regulatório/multas
+  CLIENTES             // Impacto nos clientes
+  COLABORADORES        // Impacto nos colaboradores
+  FORNECEDORES         // Impacto em fornecedores
+  MEIO_AMBIENTE        // Impacto ambiental
+  SEGURANCA            // Impacto em segurança
+}
+
+// Modelo principal de Risco
+model Risk {
+  id               String             @id @default(uuid())
+  code             String             // Código único (ex: RSK-001)
+  title            String
+  description      String?            @db.Text
+
+  // Categorização
+  category         RiskCategory
+  subcategory      String?            // Subcategoria customizável
+  tags             String[]           @default([])
+
+  // Status e tipo
+  status           RiskStatus         @default(IDENTIFICADO)
+  type             RiskType           @default(INHERENT)
+
+  // Contexto do risco
+  cause            String?            @db.Text // Causa raiz
+  consequence      String?            @db.Text // Consequências potenciais
+  impactAreas      RiskImpactArea[]   @default([]) // Áreas afetadas
+
+  // Avaliação - Risco Inerente (sem controles)
+  inherentProbability     Int         @default(3) // 1-5
+  inherentImpact          Int         @default(3) // 1-5
+  inherentScore           Int         @default(9) // probability * impact
+  inherentLevel           RiskLevel   @default(MEDIO)
+
+  // Avaliação - Risco Residual (com controles)
+  residualProbability     Int         @default(2) // 1-5
+  residualImpact          Int         @default(2) // 1-5
+  residualScore           Int         @default(4) // probability * impact
+  residualLevel           RiskLevel   @default(BAIXO)
+
+  // Avaliação - Risco Alvo (objetivo desejado)
+  targetProbability       Int?        // 1-5
+  targetImpact            Int?        // 1-5
+  targetScore             Int?        // probability * impact
+  targetLevel             RiskLevel?
+
+  // Estratégia de tratamento
+  strategy         RiskStrategy?      // Estratégia escolhida
+  strategyDetails  String?            @db.Text // Detalhes da estratégia
+
+  // Apetite e tolerância ao risco
+  appetiteLevel    RiskLevel?         // Nível de apetite ao risco
+  isWithinAppetite Boolean            @default(true) // Está dentro do apetite?
+
+  // Responsabilidade
+  ownerId          String?            // Dono do risco (userId)
+  ownerName        String?            // Nome do dono
+  ownerDepartment  String?            // Departamento do dono
+
+  // Datas importantes
+  identifiedAt     DateTime           @default(now()) // Data de identificação
+  lastAssessmentAt DateTime           @default(now()) // Última avaliação
+  nextReviewDate   DateTime?          // Próxima revisão programada
+  reviewFrequency  Int?               // Frequência de revisão (dias)
+
+  // Priorização
+  priority         Int                @default(3) // 1-5
+  requiresAction   Boolean            @default(true)
+
+  // Valor estimado
+  estimatedLoss    Float?             // Perda estimada (valor monetário)
+  currency         String             @default("BRL")
+
+  // Flags
+  isActive         Boolean            @default(true)
+  isDeleted        Boolean            @default(false)
+  isApproved       Boolean            @default(false)
+
+  // Metadados
+  metadata         Json?              // Dados flexíveis
+
+  // Relacionamentos
+  companyId        String
+  company          Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  // Relações
+  assessments      RiskAssessment[]   // Histórico de avaliações
+  controls         RiskControl[]      // Controles associados
+  mitigations      RiskMitigation[]   // Ações de mitigação
+  indicators       RiskIndicator[]    // KRIs
+  activities       RiskActivity[]     // Auditoria
+  approvals        RiskApproval[]     // Aprovações
+  ownerships       RiskOwnership[]    // Responsáveis
+
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  @@unique([companyId, code]) // Código único por empresa
+  @@index([companyId])
+  @@index([category])
+  @@index([status])
+  @@index([inherentLevel])
+  @@index([residualLevel])
+  @@index([ownerId])
+  @@index([identifiedAt])
+  @@index([nextReviewDate])
+  @@map("risks")
+}
+
+// Histórico de avaliações de risco
+model RiskAssessment {
+  id                  String      @id @default(uuid())
+
+  // Referência
+  riskId              String
+  risk                Risk        @relation(fields: [riskId], references: [id], onDelete: Cascade)
+
+  // Tipo de avaliação
+  assessmentType      RiskType    // INHERENT, RESIDUAL, TARGET
+
+  // Avaliação
+  probability         Int         // 1-5
+  impact              Int         // 1-5
+  score               Int         // probability * impact
+  level               RiskLevel
+
+  // Justificativa
+  rationale           String?     @db.Text // Justificativa da avaliação
+  methodology         String?     // Metodologia utilizada
+
+  // Autor
+  assessedBy          String?     // userId
+  assessedByName      String
+
+  // Aprovação
+  isApproved          Boolean     @default(false)
+  approvedBy          String?     // userId
+  approvedAt          DateTime?
+
+  // Validade
+  validFrom           DateTime    @default(now())
+  validUntil          DateTime?
+
+  // Metadados
+  metadata            Json?
+
+  createdAt           DateTime    @default(now())
+
+  @@index([riskId])
+  @@index([assessmentType])
+  @@index([createdAt])
+  @@map("risk_assessments")
+}
+
+// Indicadores de risco (KRIs - Key Risk Indicators)
+model RiskIndicator {
+  id                  String      @id @default(uuid())
+
+  // Referência
+  riskId              String
+  risk                Risk        @relation(fields: [riskId], references: [id], onDelete: Cascade)
+
+  // Indicador
+  name                String
+  description         String?     @db.Text
+  unit                String?     // Unidade (%, R$, quantidade, etc)
+
+  // Valores
+  currentValue        Float?      // Valor atual
+  targetValue         Float?      // Valor alvo
+  thresholdGreen      Float?      // Limite verde (ok)
+  thresholdYellow     Float?      // Limite amarelo (atenção)
+  thresholdRed        Float?      // Limite vermelho (crítico)
+
+  // Status
+  status              String      @default("green") // green, yellow, red
+  trend               String?     // up, down, stable
+
+  // Frequência de monitoramento
+  frequency           String?     // daily, weekly, monthly, quarterly
+  lastMeasuredAt      DateTime?
+  nextMeasurementAt   DateTime?
+
+  // Responsável
+  ownerId             String?     // userId
+  ownerName           String?
+
+  // Flags
+  isActive            Boolean     @default(true)
+  isAutomated         Boolean     @default(false) // Coleta automatizada?
+
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+
+  @@index([riskId])
+  @@index([status])
+  @@map("risk_indicators")
+}
+
+// Ações de mitigação/tratamento de risco
+model RiskMitigation {
+  id                  String            @id @default(uuid())
+
+  // Referência
+  riskId              String
+  risk                Risk              @relation(fields: [riskId], references: [id], onDelete: Cascade)
+
+  // Ação
+  title               String
+  description         String?           @db.Text
+  strategy            RiskStrategy      // Estratégia de tratamento
+
+  // Status
+  status              String            @default("planned") // planned, in_progress, completed, cancelled
+  priority            Int               @default(3) // 1-5
+
+  // Responsável
+  ownerId             String?           // userId
+  ownerName           String?
+
+  // Prazos
+  startDate           DateTime?
+  dueDate             DateTime?
+  completedAt         DateTime?
+
+  // Efetividade esperada
+  expectedReduction   Int?              // Redução esperada no score (%)
+  actualReduction     Int?              // Redução real alcançada (%)
+
+  // Custo
+  estimatedCost       Float?
+  actualCost          Float?
+  currency            String            @default("BRL")
+
+  // Controle associado (se aplicável)
+  controlId           String?
+
+  // Flags
+  isActive            Boolean           @default(true)
+  requiresApproval    Boolean           @default(false)
+
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@index([riskId])
+  @@index([status])
+  @@index([dueDate])
+  @@map("risk_mitigations")
+}
+
+// Responsáveis pelo risco (ownership)
+model RiskOwnership {
+  id                  String      @id @default(uuid())
+
+  // Referência
+  riskId              String
+  risk                Risk        @relation(fields: [riskId], references: [id], onDelete: Cascade)
+
+  // Responsável
+  userId              String?     // userId
+  userName            String
+  userEmail           String?
+  role                String      // owner, approver, monitor, contributor
+
+  // Departamento
+  department          String?
+
+  // Permissões
+  canEdit             Boolean     @default(false)
+  canApprove          Boolean     @default(false)
+  canViewOnly         Boolean     @default(true)
+
+  // Notificações
+  notifyOnChange      Boolean     @default(true)
+  notifyOnReview      Boolean     @default(true)
+
+  // Flags
+  isActive            Boolean     @default(true)
+  isPrimary           Boolean     @default(false) // Responsável principal?
+
+  createdAt           DateTime    @default(now())
+
+  @@index([riskId])
+  @@index([userId])
+  @@index([role])
+  @@map("risk_ownerships")
+}
+
+// Fluxo de aprovação de riscos
+model RiskApproval {
+  id                  String      @id @default(uuid())
+
+  // Referência
+  riskId              String
+  risk                Risk        @relation(fields: [riskId], references: [id], onDelete: Cascade)
+
+  // Aprovador
+  approverId          String      // userId
+  approverName        String
+  approverRole        String?
+
+  // Status
+  status              String      @default("pending") // pending, approved, rejected, cancelled
+  comments            String?     @db.Text
+
+  // Ordem (para múltiplos aprovadores)
+  order               Int         @default(1)
+  isRequired          Boolean     @default(true)
+
+  // Datas
+  requestedAt         DateTime    @default(now())
+  respondedAt         DateTime?
+
+  @@index([riskId])
+  @@index([approverId])
+  @@index([status])
+  @@map("risk_approvals")
+}
+
+// Auditoria de atividades em riscos
+model RiskActivity {
+  id                  String      @id @default(uuid())
+
+  // Referência
+  riskId              String
+  risk                Risk        @relation(fields: [riskId], references: [id], onDelete: Cascade)
+
+  // Atividade
+  action              String      // CREATED, UPDATED, ASSESSED, APPROVED, etc
+  description         String      @db.Text
+
+  // Valores (para comparação)
+  oldValue            String?     @db.Text
+  newValue            String?     @db.Text
+
+  // Autor
+  userId              String?
+  userName            String
+  userRole            String?
+
+  // Metadados
+  metadata            Json?
+  ipAddress           String?
+
+  createdAt           DateTime    @default(now())
+
+  @@index([riskId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("risk_activities")
+}

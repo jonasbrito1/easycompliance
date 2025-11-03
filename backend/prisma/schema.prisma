@@ -1,0 +1,847 @@
+// Prisma Schema para EasyCompliance
+// Multi-tenant B2B2C Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== MULTI-TENANT CORE ====================
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  domain    String?  @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Configurações do tenant
+  settings Json?
+
+  // Relações
+  users     User[]
+  companies Company[]
+
+  @@map("tenants")
+}
+
+// ==================== AUTHENTICATION & USERS ====================
+
+enum UserRole {
+  SUPER_ADMIN // Administrador da plataforma
+  CONSULTOR // Consultor (dono do tenant)
+  EMPRESA_ADMIN // Administrador da empresa
+  EMPRESA_USER // Usuário da empresa
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  avatar    String?
+  role      UserRole @default(EMPRESA_USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Multi-tenant
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // Relação com empresas (usuário pode estar em múltiplas empresas)
+  companyUsers CompanyUser[]
+
+  @@index([tenantId])
+  @@index([email])
+  @@map("users")
+}
+
+// ==================== COMPANIES (Multi-tenant) ====================
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  cnpj      String?
+  logo      String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Multi-tenant
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // Configurações
+  settings Json?
+
+  // Relações
+  companyUsers        CompanyUser[]
+  risks               Risk[]
+  controls            Control[]
+  documents           Document[]
+  actionPlans         ActionPlan[]
+  ethicsReports       EthicsReport[]
+  ethicsChannelConfig EthicsChannelConfig?
+
+  @@unique([tenantId, cnpj])
+  @@index([tenantId])
+  @@map("companies")
+}
+
+// Relação Many-to-Many entre User e Company
+model CompanyUser {
+  id        String   @id @default(uuid())
+  userId    String
+  companyId String
+  role      String   @default("user") // admin, manager, user
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, companyId])
+  @@index([userId])
+  @@index([companyId])
+  @@map("company_users")
+}
+
+// ==================== RISK MANAGEMENT ====================
+
+enum RiskType {
+  INHERENT // Risco inerente
+  RESIDUAL // Risco residual
+  TARGET // Risco objetivo
+}
+
+enum RiskLevel {
+  VERY_LOW
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+  CRITICAL
+}
+
+model Risk {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  category    String?
+  type        RiskType @default(INHERENT)
+
+  // Scoring (1-5)
+  probability Int       @default(3)
+  impact      Int       @default(3)
+  level       RiskLevel @default(MEDIUM)
+
+  // Status
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relações
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  controls RiskControl[]
+
+  @@index([companyId])
+  @@index([level])
+  @@map("risks")
+}
+
+// ==================== CONTROLS ====================
+
+enum ControlType {
+  PREVENTIVE
+  DETECTIVE
+  CORRECTIVE
+}
+
+enum ControlStatus {
+  PLANNED
+  IMPLEMENTED
+  TESTING
+  ACTIVE
+  INACTIVE
+}
+
+model Control {
+  id          String        @id @default(uuid())
+  title       String
+  description String?
+  type        ControlType   @default(PREVENTIVE)
+  status      ControlStatus @default(PLANNED)
+
+  // Efetividade (1-5)
+  effectiveness Int @default(3)
+
+  // Responsável
+  owner String?
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relações
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  risks RiskControl[]
+
+  @@index([companyId])
+  @@map("controls")
+}
+
+// Relação Many-to-Many entre Risk e Control
+model RiskControl {
+  id        String   @id @default(uuid())
+  riskId    String
+  controlId String
+  createdAt DateTime @default(now())
+
+  risk    Risk    @relation(fields: [riskId], references: [id], onDelete: Cascade)
+  control Control @relation(fields: [controlId], references: [id], onDelete: Cascade)
+
+  @@unique([riskId, controlId])
+  @@index([riskId])
+  @@index([controlId])
+  @@map("risk_controls")
+}
+
+// ==================== DOCUMENTS (GED - Gestão Eletrônica de Documentos) ====================
+
+// Status do documento
+enum DocumentStatus {
+  RASCUNHO // Em elaboração
+  REVISAO // Em revisão
+  APROVACAO // Aguardando aprovação
+  APROVADO // Aprovado e publicado
+  VIGENTE // Em vigor
+  OBSOLETO // Obsoleto/Substituído
+  ARQUIVADO // Arquivado
+  CANCELADO // Cancelado
+}
+
+// Tipo de documento
+enum DocumentType {
+  POLITICA // Política corporativa
+  PROCEDIMENTO // Procedimento operacional
+  INSTRUCAO // Instrução de trabalho
+  FORMULARIO // Formulário
+  MANUAL // Manual
+  NORMA // Norma
+  CODIGO_ETICA // Código de ética/conduta
+  CONTRATO // Contrato
+  REGULAMENTO // Regulamento
+  RELATORIO // Relatório
+  ATA // Ata de reunião
+  CERTIFICADO // Certificado
+  OUTROS // Outros
+}
+
+// Nível de confidencialidade
+enum DocumentConfidentiality {
+  PUBLICA // Pública
+  INTERNA // Interna
+  CONFIDENCIAL // Confidencial
+  RESTRITA // Restrita
+  SECRETA // Secreta
+}
+
+// Documento principal
+model Document {
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Text
+  fileName    String
+  fileUrl     String
+  fileSize    Int
+  mimeType    String
+
+  // Classificação
+  type            DocumentType            @default(OUTROS)
+  category        String? // Categoria customizável
+  confidentiality DocumentConfidentiality @default(INTERNA)
+
+  // Status e versionamento
+  status          DocumentStatus @default(RASCUNHO)
+  version         String         @default("1.0")
+  versionMajor    Int            @default(1)
+  versionMinor    Int            @default(0)
+  isLatestVersion Boolean        @default(true)
+
+  // Metadados
+  tags     String[] @default([])
+  keywords String[] @default([]) // Para busca
+  metadata Json? // Metadados flexíveis
+
+  // Controle documental
+  code       String? // Código do documento (ex: POL-001)
+  department String? // Departamento responsável
+  process    String? // Processo relacionado
+  language   String  @default("pt-BR")
+
+  // Responsáveis
+  ownerId    String? // Dono do documento (userId)
+  ownerName  String? // Nome do dono
+  reviewerId String? // Revisor (userId)
+  approverId String? // Aprovador (userId)
+
+  // Datas importantes
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  uploadedAt    DateTime  @default(now())
+  publishedAt   DateTime? // Data de publicação
+  effectiveDate DateTime? // Data de vigência
+  expiryDate    DateTime? // Data de vencimento
+  reviewDate    DateTime? // Data de revisão programada
+  approvedAt    DateTime? // Data de aprovação
+
+  // Controle de acesso
+  isPublic      Boolean @default(false)
+  requiresAuth  Boolean @default(true)
+  downloadCount Int     @default(0)
+  viewCount     Int     @default(0)
+
+  // Flags
+  isActive    Boolean @default(true)
+  isDeleted   Boolean @default(false)
+  isSigned    Boolean @default(false) // Assinatura digital
+  isEncrypted Boolean @default(false)
+
+  // Relacionamento com outras versões
+  parentDocumentId String? // Versão anterior
+  parentDocument   Document?  @relation("DocumentVersions", fields: [parentDocumentId], references: [id], onDelete: SetNull)
+  childDocuments   Document[] @relation("DocumentVersions")
+
+  // Multi-tenant
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  // Relações
+  versions   DocumentVersion[]
+  shares     DocumentShare[]
+  comments   DocumentComment[]
+  activities DocumentActivity[]
+  approvals  DocumentApproval[]
+
+  @@unique([companyId, code]) // Código único por empresa
+  @@index([companyId])
+  @@index([type])
+  @@index([category])
+  @@index([status])
+  @@index([code])
+  @@index([ownerId])
+  @@index([createdAt])
+  @@index([expiryDate])
+  @@map("documents")
+}
+
+// Histórico de versões (detalhado)
+model DocumentVersion {
+  id String @id @default(uuid())
+
+  // Referência
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  // Dados da versão
+  version   String
+  fileName  String
+  fileUrl   String
+  fileSize  Int
+  changeLog String? @db.Text // Descrição das mudanças
+
+  // Autor
+  createdBy     String? // userId
+  createdByName String
+
+  // Controle
+  createdAt DateTime @default(now())
+
+  @@index([documentId])
+  @@index([createdAt])
+  @@map("document_versions")
+}
+
+// Compartilhamento de documentos
+model DocumentShare {
+  id String @id @default(uuid())
+
+  // Documento
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  // Compartilhado com
+  sharedWithType String // USER, DEPARTMENT, ROLE, PUBLIC
+  sharedWithId   String? // userId, departmentId, etc
+  sharedWithName String // Nome para exibição
+
+  // Permissões
+  canView     Boolean @default(true)
+  canDownload Boolean @default(true)
+  canEdit     Boolean @default(false)
+  canDelete   Boolean @default(false)
+  canShare    Boolean @default(false)
+
+  // Validade
+  expiresAt DateTime?
+
+  // Autor
+  sharedBy     String? // userId
+  sharedByName String
+
+  // Controle
+  createdAt DateTime @default(now())
+
+  @@index([documentId])
+  @@index([sharedWithId])
+  @@map("document_shares")
+}
+
+// Comentários e anotações
+model DocumentComment {
+  id String @id @default(uuid())
+
+  // Documento
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  // Comentário
+  content String @db.Text
+  page    Int? // Página do documento (se aplicável)
+
+  // Autor
+  authorId   String? // userId
+  authorName String
+  authorRole String?
+
+  // Thread (resposta a outro comentário)
+  parentCommentId String?
+
+  // Controle
+  isResolved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([documentId])
+  @@index([createdAt])
+  @@map("document_comments")
+}
+
+// Auditoria de atividades
+model DocumentActivity {
+  id String @id @default(uuid())
+
+  // Documento
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  // Atividade
+  action      String // CREATED, UPDATED, VIEWED, DOWNLOADED, SHARED, APPROVED, etc
+  description String @db.Text
+
+  // Valores (para comparação)
+  oldValue String? @db.Text
+  newValue String? @db.Text
+
+  // Autor
+  userId   String?
+  userName String
+  userRole String?
+
+  // Metadados
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+
+  // Controle
+  createdAt DateTime @default(now())
+
+  @@index([documentId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("document_activities")
+}
+
+// Fluxo de aprovação
+model DocumentApproval {
+  id String @id @default(uuid())
+
+  // Documento
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  // Aprovador
+  approverId   String // userId
+  approverName String
+  approverRole String?
+
+  // Status
+  status   String // PENDING, APPROVED, REJECTED
+  comments String? @db.Text
+
+  // Ordem (para múltiplos aprovadores)
+  order      Int     @default(1)
+  isRequired Boolean @default(true)
+
+  // Datas
+  requestedAt DateTime  @default(now())
+  respondedAt DateTime?
+
+  @@index([documentId])
+  @@index([approverId])
+  @@index([status])
+  @@map("document_approvals")
+}
+
+// Categorias de documentos (customizável por empresa)
+model DocumentCategory {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  icon        String? // Nome do ícone
+  color       String? // Cor hex
+  parentId    String? // Para subcategorias
+
+  // Configurações
+  requiresApproval       Boolean                 @default(false)
+  defaultConfidentiality DocumentConfidentiality @default(INTERNA)
+
+  // Multi-tenant
+  companyId String
+
+  // Controle
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, name])
+  @@index([companyId])
+  @@map("document_categories")
+}
+
+// ==================== ACTION PLANS ====================
+
+enum ActionPlanStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ActionPlanPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model ActionPlan {
+  id          String             @id @default(uuid())
+  title       String
+  description String?
+  status      ActionPlanStatus   @default(PENDING)
+  priority    ActionPlanPriority @default(MEDIUM)
+
+  // Responsável
+  owner String?
+
+  // Datas
+  dueDate     DateTime?
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relações
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([status])
+  @@map("action_plans")
+}
+
+// ==================== CANAL DE ÉTICA ====================
+
+// Tipos de denúncia seguindo melhores práticas de compliance
+enum EthicsReportType {
+  ASSEDIO_MORAL // Assédio moral
+  ASSEDIO_SEXUAL // Assédio sexual
+  DISCRIMINACAO // Discriminação (raça, gênero, religião, etc)
+  FRAUDE // Fraude financeira
+  CORRUPCAO // Corrupção/Suborno
+  CONFLITO_INTERESSES // Conflito de interesses
+  VIOLACAO_CODIGO_ETICA // Violação do código de ética
+  VIOLACAO_POLITICAS // Violação de políticas internas
+  ROUBO_FURTO // Roubo ou furto
+  USO_INDEVIDO_RECURSOS // Uso indevido de recursos da empresa
+  VAZAMENTO_INFORMACOES // Vazamento de informações confidenciais
+  MEIO_AMBIENTE // Violação ambiental
+  SEGURANCA_TRABALHO // Segurança do trabalho
+  OUTROS // Outros
+}
+
+// Status principal da denúncia
+enum EthicsReportStatus {
+  NOVO // Novo - Aguardando triagem
+  EM_ANALISE // Em análise inicial
+  EM_INVESTIGACAO // Em investigação
+  AGUARDANDO_INFORMACOES // Aguardando informações adicionais
+  AGUARDANDO_DECISAO // Aguardando decisão
+  EM_ACAO // Ações corretivas em andamento
+  CONCLUIDO // Concluído
+  ARQUIVADO // Arquivado sem procedência
+  CANCELADO // Cancelado
+}
+
+// Origem da denúncia
+enum EthicsReportOrigin {
+  WEB_ANONIMO // Portal web (anônimo)
+  WEB_IDENTIFICADO // Portal web (identificado)
+  TELEFONE // Telefone/0800
+  EMAIL // E-mail
+  PRESENCIAL // Presencial
+  CARTA // Carta
+  TERCEIROS // Terceiros (auditoria, fiscalização)
+}
+
+// Prioridade da denúncia
+enum EthicsReportPriority {
+  BAIXA // Baixa prioridade
+  MEDIA // Média prioridade
+  ALTA // Alta prioridade
+  URGENTE // Urgente - requer ação imediata
+}
+
+// Nível de confidencialidade
+enum EthicsReportConfidentiality {
+  PUBLICA // Pública
+  INTERNA // Interna
+  CONFIDENCIAL // Confidencial
+  RESTRITA // Restrita
+}
+
+// Denúncia principal
+model EthicsReport {
+  id       String @id @default(uuid())
+  protocol String @unique // Protocolo único para rastreamento
+
+  // Informações básicas
+  type        EthicsReportType
+  title       String
+  description String           @db.Text
+
+  // Status e prioridade
+  status          EthicsReportStatus          @default(NOVO)
+  substatus       String? // Substatus customizável
+  priority        EthicsReportPriority        @default(MEDIA)
+  confidentiality EthicsReportConfidentiality @default(CONFIDENCIAL)
+
+  // Origem e identificação
+  origin           EthicsReportOrigin
+  isAnonymous      Boolean            @default(true)
+  reporterName     String? // Nome do denunciante (se não anônimo)
+  reporterEmail    String? // Email do denunciante
+  reporterPhone    String? // Telefone do denunciante
+  reporterDocument String? // CPF/Documento (criptografado)
+
+  // Localização e contexto
+  unit            String? // Unidade/Filial
+  department      String? // Departamento
+  location        String? // Localização física
+  involvedParties String? @db.Text // Envolvidos (pode ser criptografado)
+  witnesses       String? @db.Text // Testemunhas
+
+  // Datas e prazos (SLA)
+  incidentDate      DateTime? // Data do incidente
+  reportedAt        DateTime  @default(now()) // Data da denúncia
+  dueDate           DateTime? // Prazo para resposta (SLA)
+  lastInteractionAt DateTime  @default(now()) // Última interação
+  closedAt          DateTime? // Data de conclusão
+
+  // Investigação
+  assignedTo        String? // Responsável pela investigação (userId)
+  investigationTeam String? // Equipe de investigação
+  estimatedDays     Int? // Dias estimados para conclusão
+
+  // Resultado
+  conclusion   String?  @db.Text // Conclusão da investigação
+  actionsTaken String?  @db.Text // Ações tomadas
+  isFounded    Boolean? // Denúncia procedente?
+
+  // Métricas
+  riskLevel RiskLevel @default(MEDIUM) // Nível de risco
+  viewCount Int       @default(0) // Contador de visualizações
+
+  // Flags
+  isActive       Boolean @default(true)
+  isDeleted      Boolean @default(false)
+  requiresAction Boolean @default(true)
+
+  // Metadados
+  metadata Json? // Dados adicionais flexíveis
+  tags     String[] @default([]) // Tags para categorização
+
+  // Relações
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  interactions EthicsReportInteraction[]
+  attachments  EthicsReportAttachment[]
+  timeline     EthicsReportTimeline[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([protocol])
+  @@index([status])
+  @@index([priority])
+  @@index([type])
+  @@index([origin])
+  @@index([reportedAt])
+  @@index([dueDate])
+  @@map("ethics_reports")
+}
+
+// Interações/Mensagens (comunicação entre denunciante e investigador)
+model EthicsReportInteraction {
+  id String @id @default(uuid())
+
+  // Conteúdo
+  message        String  @db.Text
+  isInternal     Boolean @default(false) // Nota interna (não visível ao denunciante)
+  isFromReporter Boolean @default(false) // Mensagem do denunciante
+
+  // Autor
+  authorId   String? // userId do autor (se interno)
+  authorName String // Nome do autor
+  authorRole String? // Papel do autor
+
+  // Visibilidade
+  isVisible Boolean   @default(true)
+  readAt    DateTime? // Data de leitura
+
+  // Relações
+  reportId String
+  report   EthicsReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([reportId])
+  @@index([createdAt])
+  @@map("ethics_report_interactions")
+}
+
+// Anexos e evidências
+model EthicsReportAttachment {
+  id String @id @default(uuid())
+
+  // Arquivo
+  fileName     String
+  originalName String
+  fileUrl      String
+  fileSize     Int
+  mimeType     String
+
+  // Metadados
+  description    String?
+  uploadedBy     String? // userId de quem fez upload
+  isEvidence     Boolean @default(true) // É uma evidência?
+  isConfidential Boolean @default(true)
+
+  // Relações
+  reportId String
+  report   EthicsReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  uploadedAt DateTime @default(now())
+
+  @@index([reportId])
+  @@map("ethics_report_attachments")
+}
+
+// Timeline de eventos (auditoria completa)
+model EthicsReportTimeline {
+  id String @id @default(uuid())
+
+  // Evento
+  action      String // Ação realizada (ex: "STATUS_CHANGED", "ASSIGNED", "MESSAGE_SENT")
+  description String  @db.Text // Descrição do evento
+  oldValue    String? @db.Text // Valor anterior (para comparação)
+  newValue    String? @db.Text // Novo valor
+
+  // Autor
+  userId   String? // userId do autor
+  userName String // Nome do autor
+  userRole String? // Papel do autor
+
+  // Metadados
+  metadata  Json? // Dados adicionais do evento
+  ipAddress String? // IP de origem (para auditoria)
+
+  // Relações
+  reportId String
+  report   EthicsReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([reportId])
+  @@index([createdAt])
+  @@index([action])
+  @@map("ethics_report_timeline")
+}
+
+// Configurações do Canal de Ética por empresa
+model EthicsChannelConfig {
+  id String @id @default(uuid())
+
+  // SLA e prazos
+  slaResponseDays      Int @default(15) // Prazo padrão de resposta (dias)
+  slaInvestigationDays Int @default(30) // Prazo padrão de investigação
+  slaClosingDays       Int @default(45) // Prazo total para conclusão
+
+  // Notificações
+  enableEmailNotifications Boolean  @default(true)
+  enableSmsNotifications   Boolean  @default(false)
+  notificationEmails       String[] @default([]) // E-mails para notificação
+
+  // Anonimato
+  allowAnonymous   Boolean @default(true)
+  allowIdentified  Boolean @default(true)
+  requiresEvidence Boolean @default(false)
+
+  // Formulário
+  customFields   Json? // Campos customizados do formulário
+  termsOfUse     String? @db.Text // Termos de uso do canal
+  welcomeMessage String? @db.Text // Mensagem de boas-vindas
+
+  // Política de retenção
+  retentionDays Int @default(1825) // 5 anos (Lei Anticorrupção)
+
+  // Configurações visuais
+  primaryColor String  @default("#0066CC")
+  logo         String?
+
+  // Flags
+  isActive Boolean @default(true)
+  isPublic Boolean @default(true) // Canal é público (sem login)?
+
+  // Relações
+  companyId String  @unique
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ethics_channel_configs")
+}

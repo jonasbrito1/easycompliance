@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EasyCompliance - Planilha de Custos MVP Interativa">
+    <meta name="theme-color" content="#2563eb">
+    <title>EasyCompliance - Planilha de Custos MVP</title>
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- React e ReactDOM via CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel Standalone para transpilar JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Lucide Icons via CDN -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <!-- SheetJS para exportação Excel -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: #f8fafc;
+        }
+
+        #root {
+            min-height: 100vh;
+        }
+
+        /* Tabela tipo Excel */
+        .excel-table {
+            border-collapse: collapse;
+            width: 100%;
+            background: white;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        }
+
+        .excel-table th {
+            background: #f1f5f9;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .excel-table td {
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .excel-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .excel-table input {
+            width: 100%;
+            border: 1px solid transparent;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            background: transparent;
+        }
+
+        .excel-table input:focus {
+            outline: none;
+            border: 1px solid #3b82f6;
+            background: white;
+        }
+
+        .excel-table input[type="number"] {
+            text-align: right;
+        }
+
+        /* Cores para categorias */
+        .bg-ia { background: #dbeafe !important; }
+        .bg-cloud { background: #e0e7ff !important; }
+        .bg-dev { background: #fef3c7 !important; }
+        .bg-comm { background: #d1fae5 !important; }
+        .bg-security { background: #ffe4e6 !important; }
+        .bg-storage { background: #f3e8ff !important; }
+        .bg-mgmt { background: #fce7f3 !important; }
+        .bg-buffer { background: #f1f5f9 !important; }
+
+        /* Scrollbar customizado */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Print styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background: white;
+            }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .excel-table {
+                font-size: 12px;
+            }
+            .excel-table th,
+            .excel-table td {
+                padding: 8px 6px;
+            }
+        }
+
+        /* Animação de salvamento */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Dados iniciais da planilha
+        const initialData = {
+            investimentoMensal: 1500,
+            meses: 4,
+            categorias: [
+                {
+                    id: 'ia',
+                    nome: '🤖 Ferramentas de IA',
+                    color: 'bg-ia',
+                    items: [
+                        { nome: 'OpenAI API (GPT-4)', valor: 350, finalidade: 'Análise denúncias, categorização documentos, sugestões controles', prioridade: 'Crítico' },
+                        { nome: 'Claude API (Anthropic)', valor: 150, finalidade: 'Análise documentos longos, geração relatórios', prioridade: 'Médio' },
+                        { nome: 'OpenAI Embeddings', valor: 50, finalidade: 'Busca semântica documentos, similaridade riscos', prioridade: 'Médio' },
+                        { nome: 'Hugging Face', valor: 30, finalidade: 'Modelos open-source, PLN', prioridade: 'Baixo' },
+                        { nome: 'Reserva técnica IA', valor: 20, finalidade: 'Testes, experimentação, novos modelos', prioridade: 'Baixo' }
+                    ]
+                },
+                {
+                    id: 'cloud',
+                    nome: '☁️ Infraestrutura Cloud',
+                    color: 'bg-cloud',
+                    items: [
+                        { nome: 'Servidor Backend', valor: 80, finalidade: '2 vCPU, 4GB RAM, Container NestJS, Dev+Staging', prioridade: 'Crítico' },
+                        { nome: 'Banco de Dados PostgreSQL', valor: 60, finalidade: 'PostgreSQL 15, 20GB SSD, Backup automático', prioridade: 'Crítico' },
+                        { nome: 'Cache Redis', valor: 30, finalidade: '1GB RAM, Cache sessões, Rate limiting', prioridade: 'Médio' },
+                        { nome: 'Domínio & SSL', valor: 15, finalidade: 'Domínio .com.br, Certificado SSL', prioridade: 'Médio' },
+                        { nome: 'Serverless Functions', valor: 15, finalidade: 'Processamento assíncrono, Jobs programados', prioridade: 'Baixo' }
+                    ]
+                },
+                {
+                    id: 'dev',
+                    nome: '🔧 Ferramentas Dev',
+                    color: 'bg-dev',
+                    items: [
+                        { nome: 'Vercel Pro', valor: 100, finalidade: 'Hospedagem Next.js, Deploy automático, Edge Functions', prioridade: 'Crítico' },
+                        { nome: 'GitHub Pro + Copilot', valor: 60, finalidade: 'Repos privados, GitHub Actions CI/CD, Copilot', prioridade: 'Crítico' },
+                        { nome: 'Figma Professional', valor: 60, finalidade: 'Design System, Protótipos, Colaboração', prioridade: 'Médio' },
+                        { nome: 'Postman Team', valor: 30, finalidade: 'Documentação API, Testes, Ambientes', prioridade: 'Baixo' }
+                    ]
+                },
+                {
+                    id: 'comm',
+                    nome: '📧 Comunicação',
+                    color: 'bg-comm',
+                    items: [
+                        { nome: 'SendGrid', valor: 50, finalidade: '40k emails/mês - Confirmação cadastro, Alertas', prioridade: 'Crítico' },
+                        { nome: 'Twilio SMS', valor: 30, finalidade: '150 SMS/mês - 2FA, Alertas críticos', prioridade: 'Médio' }
+                    ]
+                },
+                {
+                    id: 'security',
+                    nome: '🔐 Segurança',
+                    color: 'bg-security',
+                    items: [
+                        { nome: 'Sentry', valor: 50, finalidade: 'Monitoramento erros, Performance, Alertas tempo real', prioridade: 'Crítico' },
+                        { nome: 'LogRocket / FullStory', valor: 40, finalidade: 'Session replay, Debugging frontend', prioridade: 'Médio' },
+                        { nome: 'Cloudflare Pro', valor: 30, finalidade: 'DDoS protection, WAF, Analytics', prioridade: 'Crítico' }
+                    ]
+                },
+                {
+                    id: 'storage',
+                    nome: '📦 Armazenamento',
+                    color: 'bg-storage',
+                    items: [
+                        { nome: 'AWS S3', valor: 40, finalidade: '100GB - Documentos PDF, Políticas, Evidências', prioridade: 'Crítico' },
+                        { nome: 'CloudFront CDN', valor: 20, finalidade: '100GB distribuição - Delivery documentos, Assets', prioridade: 'Médio' }
+                    ]
+                },
+                {
+                    id: 'mgmt',
+                    nome: '💼 Gestão',
+                    color: 'bg-mgmt',
+                    items: [
+                        { nome: 'Notion Team', valor: 30, finalidade: 'Documentação, Knowledge base, Sprint planning', prioridade: 'Baixo' },
+                        { nome: 'Linear', valor: 20, finalidade: 'Gestão tarefas, Bug tracking, Roadmap', prioridade: 'Baixo' }
+                    ]
+                },
+                {
+                    id: 'buffer',
+                    nome: '⚡ Imprevistos',
+                    color: 'bg-buffer',
+                    items: [
+                        { nome: 'Overages de API', valor: 50, finalidade: 'Picos uso IA, Testes intensivos', prioridade: 'Médio' },
+                        { nome: 'Testes com usuários', valor: 30, finalidade: 'Incentivos beta testers, Brindes', prioridade: 'Baixo' },
+                        { nome: 'Integrações extras', valor: 30, finalidade: 'APIs não previstas, Webhooks', prioridade: 'Baixo' },
+                        { nome: 'Upgrade emergencial', valor: 30, finalidade: 'Mais recursos servidor, Banda adicional', prioridade: 'Baixo' }
+                    ]
+                }
+            ]
+        };
+
+        function App() {
+            const [data, setData] = useState(() => {
+                // Tentar carregar dados salvos do localStorage
+                const saved = localStorage.getItem('easycompliance-custos');
+                return saved ? JSON.parse(saved) : initialData;
+            });
+            const [saved, setSaved] = useState(true);
+            const [view, setView] = useState('resumo'); // resumo, detalhado, graficos
+            const chartRef = useRef(null);
+            const pieChartRef = useRef(null);
+
+            // Auto-save para localStorage
+            useEffect(() => {
+                const timer = setTimeout(() => {
+                    localStorage.setItem('easycompliance-custos', JSON.stringify(data));
+                    setSaved(true);
+                }, 1000);
+                setSaved(false);
+                return () => clearTimeout(timer);
+            }, [data]);
+
+            // Calcular totais
+            const calcularTotais = () => {
+                const totaisPorCategoria = data.categorias.map(cat => {
+                    const total = cat.items.reduce((sum, item) => sum + parseFloat(item.valor || 0), 0);
+                    return { ...cat, total };
+                });
+                const totalMensal = totaisPorCategoria.reduce((sum, cat) => sum + cat.total, 0);
+                const totalGeral = totalMensal * data.meses;
+                return { totaisPorCategoria, totalMensal, totalGeral };
+            };
+
+            const { totaisPorCategoria, totalMensal, totalGeral } = calcularTotais();
+
+            // Formatar valores em PT-BR
+            const formatBR = (valor) => {
+                return valor.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            };
+
+            // Atualizar valor de item
+            const atualizarItem = (categoriaId, itemIndex, campo, valor) => {
+                setData(prev => ({
+                    ...prev,
+                    categorias: prev.categorias.map(cat =>
+                        cat.id === categoriaId
+                            ? {
+                                ...cat,
+                                items: cat.items.map((item, idx) =>
+                                    idx === itemIndex ? { ...item, [campo]: valor } : item
+                                )
+                            }
+                            : cat
+                    )
+                }));
+            };
+
+            // Adicionar novo item
+            const adicionarItem = (categoriaId) => {
+                setData(prev => ({
+                    ...prev,
+                    categorias: prev.categorias.map(cat =>
+                        cat.id === categoriaId
+                            ? {
+                                ...cat,
+                                items: [...cat.items, { nome: 'Novo item', valor: 0, finalidade: '', prioridade: 'Baixo' }]
+                            }
+                            : cat
+                    )
+                }));
+            };
+
+            // Remover item
+            const removerItem = (categoriaId, itemIndex) => {
+                if (confirm('Deseja remover este item?')) {
+                    setData(prev => ({
+                        ...prev,
+                        categorias: prev.categorias.map(cat =>
+                            cat.id === categoriaId
+                                ? {
+                                    ...cat,
+                                    items: cat.items.filter((_, idx) => idx !== itemIndex)
+                                }
+                                : cat
+                        )
+                    }));
+                }
+            };
+
+            // Exportar para CSV
+            const exportarCSV = () => {
+                let csv = 'PLANILHA DE CUSTOS MVP - EASYCOMPLIANCE\n\n';
+                csv += `Investimento Mensal,R$ ${totalMensal.toFixed(2)}\n`;
+                csv += `Período,${data.meses} meses\n`;
+                csv += `Investimento Total,R$ ${totalGeral.toFixed(2)}\n\n`;
+
+                csv += 'Categoria,Item,Valor Mensal,Finalidade,Prioridade\n';
+                data.categorias.forEach(cat => {
+                    cat.items.forEach(item => {
+                        csv += `"${cat.nome}","${item.nome}",${item.valor},"${item.finalidade}","${item.prioridade}"\n`;
+                    });
+                });
+
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `easycompliance-custos-mvp-${new Date().toISOString().split('T')[0]}.csv`;
+                link.click();
+            };
+
+            // Exportar para Excel usando SheetJS
+            const exportarExcel = () => {
+                const wb = XLSX.utils.book_new();
+
+                // Função auxiliar para formatar moeda PT-BR
+                const formatMoeda = (valor) => {
+                    return valor.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                };
+
+                // Aba 1: Resumo
+                const resumoData = [
+                    ['PLANILHA DE CUSTOS MVP - EASYCOMPLIANCE'],
+                    [],
+                    ['Investimento Mensal', formatMoeda(totalMensal)],
+                    ['Período', `${data.meses} meses`],
+                    ['Investimento Total', formatMoeda(totalGeral)],
+                    [],
+                    ['Categoria', 'Custo Mensal (R$)', 'Custo Total (R$)', 'Percentual'],
+                    ...totaisPorCategoria.map(cat => [
+                        cat.nome,
+                        formatMoeda(cat.total),
+                        formatMoeda(cat.total * data.meses),
+                        ((cat.total / totalMensal) * 100).toFixed(1).replace('.', ',') + '%'
+                    ]),
+                    [],
+                    ['TOTAL', formatMoeda(totalMensal), formatMoeda(totalGeral), '100,0%']
+                ];
+                const wsResumo = XLSX.utils.aoa_to_sheet(resumoData);
+
+                // Definir larguras das colunas - Resumo
+                wsResumo['!cols'] = [
+                    { wch: 30 },  // Categoria
+                    { wch: 20 },  // Custo Mensal
+                    { wch: 20 },  // Custo Total
+                    { wch: 15 }   // Percentual
+                ];
+
+                // Aplicar estilos ao cabeçalho - Resumo
+                const headerRowResumo = 7;
+                ['A7', 'B7', 'C7', 'D7'].forEach(cell => {
+                    if (wsResumo[cell]) {
+                        wsResumo[cell].s = {
+                            font: { bold: true },
+                            fill: { fgColor: { rgb: "F3F4F6" } },
+                            alignment: { horizontal: "center" }
+                        };
+                    }
+                });
+
+                XLSX.utils.book_append_sheet(wb, wsResumo, 'Resumo');
+
+                // Aba 2: Detalhamento
+                const detalheData = [
+                    ['Categoria', 'Item', 'Valor Mensal (R$)', 'Valor Total 4m (R$)', 'Finalidade', 'Prioridade'],
+                    ...data.categorias.flatMap(cat =>
+                        cat.items.map(item => [
+                            cat.nome,
+                            item.nome,
+                            formatMoeda(item.valor),
+                            formatMoeda(item.valor * data.meses),
+                            item.finalidade,
+                            item.prioridade
+                        ])
+                    )
+                ];
+
+                // Adicionar linha de totais
+                detalheData.push([]);
+                detalheData.push([
+                    'TOTAL GERAL',
+                    '',
+                    formatMoeda(totalMensal),
+                    formatMoeda(totalGeral),
+                    '',
+                    ''
+                ]);
+
+                const wsDetalhe = XLSX.utils.aoa_to_sheet(detalheData);
+
+                // Definir larguras das colunas - Detalhamento
+                wsDetalhe['!cols'] = [
+                    { wch: 25 },  // Categoria
+                    { wch: 35 },  // Item
+                    { wch: 18 },  // Valor Mensal
+                    { wch: 20 },  // Valor Total
+                    { wch: 50 },  // Finalidade
+                    { wch: 12 }   // Prioridade
+                ];
+
+                // Aplicar estilos ao cabeçalho - Detalhamento
+                ['A1', 'B1', 'C1', 'D1', 'E1', 'F1'].forEach(cell => {
+                    if (wsDetalhe[cell]) {
+                        wsDetalhe[cell].s = {
+                            font: { bold: true },
+                            fill: { fgColor: { rgb: "F3F4F6" } },
+                            alignment: { horizontal: "center" }
+                        };
+                    }
+                });
+
+                XLSX.utils.book_append_sheet(wb, wsDetalhe, 'Detalhamento');
+
+                // Aba 3: Análise
+                const analiseData = [
+                    ['ANÁLISE DE CUSTOS E ROI'],
+                    [],
+                    ['Comparação com Mercado'],
+                    ['Item', 'Mercado (R$/mês)', 'Nossa Solução (R$/mês)', 'Economia (R$)', 'Economia (%)'],
+                    ['Infraestrutura', '1.200,00', formatMoeda(totaisPorCategoria.find(c => c.id === 'cloud')?.total || 0), formatMoeda(1200 - (totaisPorCategoria.find(c => c.id === 'cloud')?.total || 0)), '83%'],
+                    ['Ferramentas', '800,00', formatMoeda(totaisPorCategoria.find(c => c.id === 'dev')?.total || 0), formatMoeda(800 - (totaisPorCategoria.find(c => c.id === 'dev')?.total || 0)), '69%'],
+                    ['IA/ML', '1.500,00', formatMoeda(totaisPorCategoria.find(c => c.id === 'ia')?.total || 0), formatMoeda(1500 - (totaisPorCategoria.find(c => c.id === 'ia')?.total || 0)), '60%'],
+                    ['Outros', '500,00', formatMoeda((totaisPorCategoria.find(c => c.id === 'comm')?.total || 0) + (totaisPorCategoria.find(c => c.id === 'security')?.total || 0) + (totaisPorCategoria.find(c => c.id === 'storage')?.total || 0) + (totaisPorCategoria.find(c => c.id === 'mgmt')?.total || 0) + (totaisPorCategoria.find(c => c.id === 'buffer')?.total || 0)), '...', '...'],
+                    ['TOTAL', '4.000,00', formatMoeda(totalMensal), formatMoeda(4000 - totalMensal), ((4000 - totalMensal) / 4000 * 100).toFixed(0) + '%'],
+                    [],
+                    ['ROI das Ferramentas de IA'],
+                    ['Métrica', 'Valor'],
+                    ['Investimento mensal em IA', 'R$ ' + formatMoeda(totaisPorCategoria.find(c => c.id === 'ia')?.total || 0)],
+                    ['Economia de tempo consultor', '60 horas/mês'],
+                    ['Valor hora consultor', 'R$ 150,00'],
+                    ['Valor gerado por cliente', 'R$ 9.000,00/mês'],
+                    ['ROI', '15x sobre investimento'],
+                    [],
+                    ['Economia vs Servidor Tradicional'],
+                    ['Métrica', 'Valor'],
+                    ['Nossa escolha (Cloud)', 'R$ ' + formatMoeda(totaisPorCategoria.find(c => c.id === 'cloud')?.total || 0) + '/mês'],
+                    ['Servidor dedicado tradicional', 'R$ 1.200,00/mês'],
+                    ['Manutenção tradicional', 'R$ 400,00/mês'],
+                    ['Economia total', 'R$ ' + formatMoeda(1200 - (totaisPorCategoria.find(c => c.id === 'cloud')?.total || 0)) + '/mês (83%)']
+                ];
+
+                const wsAnalise = XLSX.utils.aoa_to_sheet(analiseData);
+
+                // Definir larguras das colunas - Análise
+                wsAnalise['!cols'] = [
+                    { wch: 30 },
+                    { wch: 20 },
+                    { wch: 25 },
+                    { wch: 18 },
+                    { wch: 15 }
+                ];
+
+                XLSX.utils.book_append_sheet(wb, wsAnalise, 'Análise');
+
+                // Salvar arquivo
+                const dataAtual = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
+                XLSX.writeFile(wb, `EasyCompliance-Custos-MVP-${dataAtual}.xlsx`);
+            };
+
+            // Resetar para dados iniciais
+            const resetarDados = () => {
+                if (confirm('Deseja resetar todos os dados para os valores iniciais? Esta ação não pode ser desfeita.')) {
+                    setData(initialData);
+                    localStorage.removeItem('easycompliance-custos');
+                }
+            };
+
+            // Renderizar gráficos
+            useEffect(() => {
+                if (view === 'graficos') {
+                    // Gráfico de barras
+                    if (chartRef.current) {
+                        const ctx = chartRef.current.getContext('2d');
+                        const existingChart = Chart.getChart(chartRef.current);
+                        if (existingChart) existingChart.destroy();
+
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: totaisPorCategoria.map(cat => cat.nome),
+                                datasets: [{
+                                    label: 'Custo Mensal (R$)',
+                                    data: totaisPorCategoria.map(cat => cat.total),
+                                    backgroundColor: [
+                                        '#3b82f6', '#6366f1', '#f59e0b', '#10b981',
+                                        '#ef4444', '#8b5cf6', '#ec4899', '#64748b'
+                                    ]
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: false },
+                                    title: {
+                                        display: true,
+                                        text: 'Distribuição de Custos Mensais por Categoria'
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: value => `R$ ${value}`
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                    // Gráfico de pizza
+                    if (pieChartRef.current) {
+                        const ctx = pieChartRef.current.getContext('2d');
+                        const existingChart = Chart.getChart(pieChartRef.current);
+                        if (existingChart) existingChart.destroy();
+
+                        new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: totaisPorCategoria.map(cat => cat.nome),
+                                datasets: [{
+                                    data: totaisPorCategoria.map(cat => cat.total),
+                                    backgroundColor: [
+                                        '#3b82f6', '#6366f1', '#f59e0b', '#10b981',
+                                        '#ef4444', '#8b5cf6', '#ec4899', '#64748b'
+                                    ]
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { position: 'right' },
+                                    title: {
+                                        display: true,
+                                        text: 'Proporção de Custos'
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: context => {
+                                                const label = context.label || '';
+                                                const value = context.parsed || 0;
+                                                const percent = ((value / totalMensal) * 100).toFixed(1);
+                                                return `${label}: R$ ${value.toFixed(2)} (${percent}%)`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            }, [view, data]);
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+                    {/* Header */}
+                    <header className="bg-white shadow-md sticky top-0 z-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                                        Planilha de Custos MVP
+                                    </h1>
+                                    <p className="text-sm text-gray-600 mt-1">
+                                        EasyCompliance - Editável e Interativa
+                                        {!saved && <span className="ml-2 text-blue-600 pulse">Salvando...</span>}
+                                        {saved && <span className="ml-2 text-green-600">Salvo</span>}
+                                    </p>
+                                </div>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => window.location.href = 'index.html'}
+                                        className="no-print px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm"
+                                    >
+                                        ← Voltar
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Cards de totais */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                                <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                                    <div className="text-sm text-blue-600 font-medium">Investimento Mensal</div>
+                                    <div className="text-2xl font-bold text-blue-900 mt-1">
+                                        R$ {formatBR(totalMensal)}
+                                    </div>
+                                </div>
+                                <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-200">
+                                    <div className="text-sm text-indigo-600 font-medium">Período</div>
+                                    <div className="text-2xl font-bold text-indigo-900 mt-1">
+                                        {data.meses} meses
+                                    </div>
+                                </div>
+                                <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                                    <div className="text-sm text-purple-600 font-medium">Total Investimento</div>
+                                    <div className="text-2xl font-bold text-purple-900 mt-1">
+                                        R$ {formatBR(totalGeral)}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Navegação de abas */}
+                            <div className="flex gap-2 mt-6 border-b border-gray-200">
+                                <button
+                                    onClick={() => setView('resumo')}
+                                    className={`px-4 py-2 font-medium border-b-2 transition-colors ${
+                                        view === 'resumo'
+                                            ? 'border-blue-600 text-blue-600'
+                                            : 'border-transparent text-gray-600 hover:text-gray-900'
+                                    }`}
+                                >
+                                    Resumo
+                                </button>
+                                <button
+                                    onClick={() => setView('detalhado')}
+                                    className={`px-4 py-2 font-medium border-b-2 transition-colors ${
+                                        view === 'detalhado'
+                                            ? 'border-blue-600 text-blue-600'
+                                            : 'border-transparent text-gray-600 hover:text-gray-900'
+                                    }`}
+                                >
+                                    Detalhado
+                                </button>
+                                <button
+                                    onClick={() => setView('graficos')}
+                                    className={`px-4 py-2 font-medium border-b-2 transition-colors ${
+                                        view === 'graficos'
+                                            ? 'border-blue-600 text-blue-600'
+                                            : 'border-transparent text-gray-600 hover:text-gray-900'
+                                    }`}
+                                >
+                                    Gráficos
+                                </button>
+                            </div>
+
+                            {/* Barra de ações */}
+                            <div className="no-print flex flex-wrap gap-2 mt-4">
+                                <button
+                                    onClick={exportarCSV}
+                                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm flex items-center gap-2"
+                                >
+                                    Exportar CSV
+                                </button>
+                                <button
+                                    onClick={exportarExcel}
+                                    className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm flex items-center gap-2"
+                                >
+                                    Exportar Excel
+                                </button>
+                                <button
+                                    onClick={() => window.print()}
+                                    className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm flex items-center gap-2"
+                                >
+                                    Imprimir
+                                </button>
+                                <button
+                                    onClick={resetarDados}
+                                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm flex items-center gap-2"
+                                >
+                                    Resetar Dados
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Conteúdo principal */}
+                    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        {/* View: Resumo */}
+                        {view === 'resumo' && (
+                            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+                                <div className="overflow-x-auto">
+                                    <table className="excel-table">
+                                        <thead>
+                                            <tr>
+                                                <th className="w-12">#</th>
+                                                <th>Categoria</th>
+                                                <th className="text-right">Custo Mensal</th>
+                                                <th className="text-right">Custo Total ({data.meses}m)</th>
+                                                <th className="text-right">% do Orçamento</th>
+                                                <th className="w-32">Visualização</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {totaisPorCategoria.map((cat, idx) => (
+                                                <tr key={cat.id} className={cat.color}>
+                                                    <td className="text-center font-medium">{idx + 1}</td>
+                                                    <td className="font-medium">{cat.nome}</td>
+                                                    <td className="text-right font-semibold">
+                                                        R$ {formatBR(cat.total)}
+                                                    </td>
+                                                    <td className="text-right font-semibold">
+                                                        R$ {formatBR(cat.total * data.meses)}
+                                                    </td>
+                                                    <td className="text-right">
+                                                        {((cat.total / totalMensal) * 100).toFixed(1)}%
+                                                    </td>
+                                                    <td>
+                                                        <div className="w-full bg-gray-200 rounded-full h-2">
+                                                            <div
+                                                                className="bg-blue-600 h-2 rounded-full"
+                                                                style={{ width: `${(cat.total / totalMensal) * 100}%` }}
+                                                            ></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            <tr className="bg-gray-100 font-bold">
+                                                <td></td>
+                                                <td>TOTAL</td>
+                                                <td className="text-right">R$ {formatBR(totalMensal)}</td>
+                                                <td className="text-right">R$ {formatBR(totalGeral)}</td>
+                                                <td className="text-right">100%</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* View: Detalhado */}
+                        {view === 'detalhado' && (
+                            <div className="space-y-6">
+                                {data.categorias.map((cat, catIdx) => (
+                                    <div key={cat.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
+                                        <div className={`${cat.color} px-6 py-4 border-b border-gray-200`}>
+                                            <div className="flex justify-between items-center">
+                                                <h3 className="text-lg font-bold text-gray-900">{cat.nome}</h3>
+                                                <div className="flex items-center gap-4">
+                                                    <span className="text-sm font-medium">
+                                                        Subtotal: R$ {formatBR(totaisPorCategoria[catIdx].total)}/mês
+                                                    </span>
+                                                    <button
+                                                        onClick={() => adicionarItem(cat.id)}
+                                                        className="no-print px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                                                    >
+                                                        + Adicionar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="overflow-x-auto">
+                                            <table className="excel-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th className="w-12">#</th>
+                                                        <th>Item</th>
+                                                        <th className="text-right w-32">Valor Mensal</th>
+                                                        <th className="text-right w-32">Valor Total</th>
+                                                        <th>Finalidade</th>
+                                                        <th className="w-28">Prioridade</th>
+                                                        <th className="no-print w-24">Ações</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {cat.items.map((item, itemIdx) => (
+                                                        <tr key={itemIdx}>
+                                                            <td className="text-center text-gray-500">{itemIdx + 1}</td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
+                                                                    value={item.nome}
+                                                                    onChange={(e) => atualizarItem(cat.id, itemIdx, 'nome', e.target.value)}
+                                                                    className="font-medium"
+                                                                />
+                                                            </td>
+                                                            <td className="text-right">
+                                                                <input
+                                                                    type="number"
+                                                                    value={item.valor}
+                                                                    onChange={(e) => atualizarItem(cat.id, itemIdx, 'valor', parseFloat(e.target.value) || 0)}
+                                                                    className="font-semibold"
+                                                                    step="0.01"
+                                                                    min="0"
+                                                                />
+                                                            </td>
+                                                            <td className="text-right text-gray-600">
+                                                                R$ {formatBR(item.valor * data.meses)}
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                    type="text"
+                                                                    value={item.finalidade}
+                                                                    onChange={(e) => atualizarItem(cat.id, itemIdx, 'finalidade', e.target.value)}
+                                                                    className="text-sm"
+                                                                />
+                                                            </td>
+                                                            <td>
+                                                                <select
+                                                                    value={item.prioridade}
+                                                                    onChange={(e) => atualizarItem(cat.id, itemIdx, 'prioridade', e.target.value)}
+                                                                    className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+                                                                >
+                                                                    <option>Crítico</option>
+                                                                    <option>Médio</option>
+                                                                    <option>Baixo</option>
+                                                                </select>
+                                                            </td>
+                                                            <td className="no-print text-center">
+                                                                <button
+                                                                    onClick={() => removerItem(cat.id, itemIdx)}
+                                                                    className="px-2 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 text-sm"
+                                                                >
+                                                                    🗑️
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* View: Gráficos */}
+                        {view === 'graficos' && (
+                            <div className="space-y-6">
+                                <div className="bg-white rounded-xl shadow-lg p-6">
+                                    <h3 className="text-lg font-bold text-gray-900 mb-4">
+                                        Distribuição de Custos Mensais
+                                    </h3>
+                                    <div style={{ height: '400px' }}>
+                                        <canvas ref={chartRef}></canvas>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white rounded-xl shadow-lg p-6">
+                                    <h3 className="text-lg font-bold text-gray-900 mb-4">
+                                        Proporção de Custos por Categoria
+                                    </h3>
+                                    <div style={{ height: '400px' }}>
+                                        <canvas ref={pieChartRef}></canvas>
+                                    </div>
+                                </div>
+
+                                {/* Análise de ROI */}
+                                <div className="bg-white rounded-xl shadow-lg p-6">
+                                    <h3 className="text-lg font-bold text-gray-900 mb-4">
+                                        Análise de Custo-Benefício
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                                            <div className="text-sm font-medium text-blue-900 mb-2">
+                                                ROI das Ferramentas de IA
+                                            </div>
+                                            <div className="text-xs text-blue-700">
+                                                Investimento: R$ {formatBR(totaisPorCategoria.find(c => c.id === 'ia')?.total || 0)}/mês
+                                            </div>
+                                            <div className="text-xs text-blue-700">
+                                                Economia de tempo: 60h/mês
+                                            </div>
+                                            <div className="text-xs text-blue-700">
+                                                Valor gerado: R$ 9.000/mês por cliente
+                                            </div>
+                                            <div className="text-sm font-bold text-blue-900 mt-2">
+                                                ROI: 15x sobre investimento
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-indigo-50 rounded-lg p-4 border border-indigo-200">
+                                            <div className="text-sm font-medium text-indigo-900 mb-2">
+                                                Economia vs Servidor Tradicional
+                                            </div>
+                                            <div className="text-xs text-indigo-700">
+                                                Nossa escolha: R$ {formatBR(totaisPorCategoria.find(c => c.id === 'cloud')?.total || 0)}/mês
+                                            </div>
+                                            <div className="text-xs text-indigo-700">
+                                                Servidor dedicado: R$ 1.200/mês
+                                            </div>
+                                            <div className="text-sm font-bold text-indigo-900 mt-2">
+                                                Economia: R$ {formatBR(1200 - (totaisPorCategoria.find(c => c.id === 'cloud')?.total || 0))}/mês (83%)
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                                            <div className="text-sm font-medium text-green-900 mb-2">
+                                                Comparação com Mercado
+                                            </div>
+                                            <div className="text-xs text-green-700">
+                                                Mercado típico: R$ 4.000/mês
+                                            </div>
+                                            <div className="text-xs text-green-700">
+                                                Nossa solução: R$ {formatBR(totalMensal)}/mês
+                                            </div>
+                                            <div className="text-sm font-bold text-green-900 mt-2">
+                                                Economia: R$ {formatBR(4000 - totalMensal)}/mês ({((4000 - totalMensal) / 4000 * 100).toFixed(0)}%)
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                                            <div className="text-sm font-medium text-purple-900 mb-2">
+                                                Eficiência do Orçamento
+                                            </div>
+                                            <div className="text-xs text-purple-700">
+                                                Total alocado: R$ {formatBR(totalMensal)}/mês
+                                            </div>
+                                            <div className="text-xs text-purple-700">
+                                                Budget de imprevistos: {((totaisPorCategoria.find(c => c.id === 'buffer')?.total || 0) / totalMensal * 100).toFixed(1).replace('.', ',')}%
+                                            </div>
+                                            <div className="text-sm font-bold text-purple-900 mt-2">
+                                                {totalMensal <= 1500 ? 'Dentro do orçamento' : 'Acima do planejado'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Notas importantes */}
+                        <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                            <h3 className="text-lg font-bold text-yellow-900 mb-3">
+                                Notas Importantes
+                            </h3>
+                            <ul className="space-y-2 text-sm text-yellow-800">
+                                <li><strong>Auto-save:</strong> Todos os dados são salvos automaticamente no navegador (localStorage)</li>
+                                <li><strong>Edição:</strong> Clique em qualquer campo para editar os valores</li>
+                                <li><strong>Cálculos automáticos:</strong> Totais e percentuais são atualizados em tempo real</li>
+                                <li><strong>Exportação:</strong> Exporte para CSV ou Excel para compartilhar com o sócio</li>
+                                <li><strong>Reset:</strong> Use o botão "Resetar Dados" para voltar aos valores iniciais</li>
+                                <li><strong>Impressão:</strong> Use Ctrl+P ou botão "Imprimir" para gerar PDF</li>
+                            </ul>
+                        </div>
+
+                        {/* Footer */}
+                        <footer className="mt-12 text-center text-sm text-gray-600">
+                            <p>EasyCompliance - Planilha de Custos MVP</p>
+                            <p className="mt-1">
+                                Versão 1.0 | Última atualização: {new Date().toLocaleDateString('pt-BR')}
+                            </p>
+                            <p className="mt-2">
+                                <a href="index.html" className="text-blue-600 hover:text-blue-800">
+                                    ← Voltar para Proposta Principal
+                                </a>
+                            </p>
+                        </footer>
+                    </main>
+                </div>
+            );
+        }
+
+        // Renderizar aplicação
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

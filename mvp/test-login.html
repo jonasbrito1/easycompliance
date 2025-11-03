@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste de Login - EasyCompliance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste de Login - EasyCompliance MVP</h1>
+
+    <form id="loginForm">
+        <label>Email:</label>
+        <input type="email" id="email" value="admin@easycompliance.com" required>
+
+        <label>Senha:</label>
+        <input type="password" id="password" value="Admin@2024" required>
+
+        <button type="submit">Fazer Login</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+
+            resultDiv.innerHTML = 'Aguarde, fazendo login...';
+            resultDiv.className = '';
+
+            console.log('=== TESTE DE LOGIN ===');
+            console.log('Email:', email);
+            console.log('URL:', 'http://localhost:4001/api/v1/auth/login');
+
+            try {
+                const response = await fetch('http://localhost:4001/api/v1/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                console.log('Status:', response.status);
+                console.log('Headers:', [...response.headers.entries()]);
+
+                const data = await response.json();
+                console.log('Resposta:', data);
+
+                if (response.ok) {
+                    resultDiv.className = 'success';
+                    resultDiv.innerHTML = `
+                        <h3>✅ LOGIN REALIZADO COM SUCESSO!</h3>
+                        <p><strong>Usuário:</strong> ${data.user.name}</p>
+                        <p><strong>Email:</strong> ${data.user.email}</p>
+                        <p><strong>Perfil:</strong> ${data.user.role}</p>
+                        <p><strong>Token gerado:</strong> ${data.accessToken.substring(0, 50)}...</p>
+                        <p style="font-size: 12px; margin-top: 10px;">
+                            Token completo e refresh token estão disponíveis no console (F12)
+                        </p>
+                    `;
+                } else {
+                    resultDiv.className = 'error';
+                    resultDiv.innerHTML = `
+                        <h3>❌ ERRO NO LOGIN</h3>
+                        <p><strong>Status:</strong> ${response.status}</p>
+                        <p><strong>Mensagem:</strong> ${data.message || 'Credenciais inválidas'}</p>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                resultDiv.className = 'error';
+                resultDiv.innerHTML = `
+                    <h3>❌ ERRO DE CONEXÃO</h3>
+                    <p><strong>Erro:</strong> ${error.message}</p>
+                    <p>Verifique se o backend está rodando em http://localhost:4001</p>
+                `;
+            }
+        });
+
+        // Auto-submit on page load for quick testing
+        window.addEventListener('load', () => {
+            console.log('Página carregada. Abra o Console (F12) para ver detalhes.');
+            console.log('Clique em "Fazer Login" ou as credenciais já estão preenchidas.');
+        });
+    </script>
+</body>
+</html>

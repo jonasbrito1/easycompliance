@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyCompliance - Roadmap de Desenvolvimento Detalhado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <style>
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.6s ease-out;
+        }
+
+        .timeline-line {
+            position: relative;
+        }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6, #10b981);
+            transform: translateX(-50%);
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { ChevronRight, Calendar, Users, Code, Rocket, CheckCircle, Clock, GitBranch,
+                Database, Shield, Zap, Layout, FileText, TrendingUp, Award, Target,
+                ArrowRight, PlayCircle, Briefcase, Settings, BarChart3 } = lucide;
+
+        function RoadmapPresentation() {
+            const [currentSlide, setCurrentSlide] = useState(0);
+            const [animateCard, setAnimateCard] = useState(true);
+
+            const slides = [
+                { id: 'intro', title: 'Introdução', icon: Rocket },
+                { id: 'overview', title: 'Visão Geral', icon: Target },
+                { id: 'methodology', title: 'Metodologia', icon: GitBranch },
+                { id: 'phase1', title: 'Fase 1 - MVP', icon: Code },
+                { id: 'phase2', title: 'Fase 2 - Crescimento', icon: TrendingUp },
+                { id: 'phase3', title: 'Fase 3 - Consolidação', icon: Award },
+                { id: 'architecture', title: 'Arquitetura', icon: Database },
+                { id: 'timeline', title: 'Timeline', icon: Calendar },
+                { id: 'delivery', title: 'Entrega e Deploy', icon: Rocket },
+                { id: 'next-steps', title: 'Próximos Passos', icon: PlayCircle }
+            ];
+
+            useEffect(() => {
+                lucide.createIcons();
+            }, [currentSlide]);
+
+            const nextSlide = () => {
+                if (currentSlide < slides.length - 1) {
+                    setAnimateCard(false);
+                    setTimeout(() => {
+                        setCurrentSlide(currentSlide + 1);
+                        setAnimateCard(true);
+                    }, 300);
+                }
+            };
+
+            const prevSlide = () => {
+                if (currentSlide > 0) {
+                    setAnimateCard(false);
+                    setTimeout(() => {
+                        setCurrentSlide(currentSlide - 1);
+                        setAnimateCard(true);
+                    }, 300);
+                }
+            };
+
+            const goToSlide = (index) => {
+                setAnimateCard(false);
+                setTimeout(() => {
+                    setCurrentSlide(index);
+                    setAnimateCard(true);
+                }, 300);
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    {/* Header */}
+                    <header className="bg-white shadow-md p-6 no-print">
+                        <div className="max-w-7xl mx-auto flex items-center justify-between">
+                            <div>
+                                <h1 className="text-3xl font-bold text-blue-600">EasyCompliance</h1>
+                                <p className="text-slate-600">Roadmap de Desenvolvimento - Apresentação Executiva</p>
+                            </div>
+                            <div className="text-right">
+                                <p className="text-sm text-slate-600">Slide {currentSlide + 1} de {slides.length}</p>
+                                <p className="text-xs text-slate-500">{slides[currentSlide].title}</p>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Progress Bar */}
+                    <div className="bg-white no-print">
+                        <div className="max-w-7xl mx-auto px-6 py-2">
+                            <div className="w-full bg-slate-200 rounded-full h-2">
+                                <div
+                                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                    style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Main Content */}
+                    <main className="flex-1 max-w-7xl mx-auto w-full p-6">
+                        <div className={`bg-white rounded-2xl shadow-2xl p-12 min-h-[600px] ${animateCard ? 'slide-in' : 'opacity-0'}`}>
+                            {currentSlide === 0 && <IntroSlide />}
+                            {currentSlide === 1 && <OverviewSlide />}
+                            {currentSlide === 2 && <MethodologySlide />}
+                            {currentSlide === 3 && <Phase1Slide />}
+                            {currentSlide === 4 && <Phase2Slide />}
+                            {currentSlide === 5 && <Phase3Slide />}
+                            {currentSlide === 6 && <ArchitectureSlide />}
+                            {currentSlide === 7 && <TimelineSlide />}
+                            {currentSlide === 8 && <DeliverySlide />}
+                            {currentSlide === 9 && <NextStepsSlide />}
+                        </div>
+                    </main>
+
+                    {/* Navigation */}
+                    <footer className="bg-white shadow-md p-6 no-print">
+                        <div className="max-w-7xl mx-auto">
+                            {/* Slide Navigator */}
+                            <div className="flex gap-2 mb-4 overflow-x-auto pb-2">
+                                {slides.map((slide, index) => (
+                                    <button
+                                        key={slide.id}
+                                        onClick={() => goToSlide(index)}
+                                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
+                                            currentSlide === index
+                                                ? 'bg-blue-600 text-white shadow-lg'
+                                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                        }`}
+                                    >
+                                        {index + 1}. {slide.title}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Arrow Navigation */}
+                            <div className="flex justify-between items-center">
+                                <button
+                                    onClick={prevSlide}
+                                    disabled={currentSlide === 0}
+                                    className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                                        currentSlide === 0
+                                            ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                            : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg'
+                                    }`}
+                                >
+                                    ← Anterior
+                                </button>
+
+                                <button
+                                    onClick={() => window.print()}
+                                    className="px-6 py-3 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 shadow-lg transition-all"
+                                >
+                                    🖨️ Imprimir
+                                </button>
+
+                                <button
+                                    onClick={nextSlide}
+                                    disabled={currentSlide === slides.length - 1}
+                                    className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                                        currentSlide === slides.length - 1
+                                            ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                            : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg'
+                                    }`}
+                                >
+                                    Próximo →
+                                </button>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        // ============ SLIDES ============
+
+        function IntroSlide() {
+            return (
+                <div className="flex flex-col items-center justify-center h-full text-center">
+                    <div className="mb-8">
+                        <i data-lucide="rocket" className="w-24 h-24 text-blue-600 mx-auto mb-6"></i>
+                    </div>
+                    <h1 className="text-6xl font-bold text-slate-800 mb-6">
+                        EasyCompliance
+                    </h1>
+                    <h2 className="text-3xl text-blue-600 mb-8">
+                        Roadmap de Desenvolvimento Detalhado
+                    </h2>
+                    <div className="bg-blue-50 rounded-xl p-8 max-w-3xl">
+                        <p className="text-xl text-slate-700 mb-4">
+                            <strong>Plataforma B2B2C de Compliance & Gestão de Riscos</strong>
+                        </p>
+                        <p className="text-lg text-slate-600 mb-6">
+                            Sistema multi-tenant para consultores gerenciarem múltiplas empresas
+                        </p>
+                        <div className="grid grid-cols-3 gap-6 mt-8">
+                            <div className="bg-white rounded-lg p-4 shadow-md">
+                                <p className="text-3xl font-bold text-blue-600 mb-2">12</p>
+                                <p className="text-sm text-slate-600">Meses de Desenvolvimento</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 shadow-md">
+                                <p className="text-3xl font-bold text-purple-600 mb-2">3</p>
+                                <p className="text-sm text-slate-600">Fases Principais</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 shadow-md">
+                                <p className="text-3xl font-bold text-green-600 mb-2">30+</p>
+                                <p className="text-sm text-slate-600">Módulos Funcionais</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function OverviewSlide() {
+            return (
+                <div className="h-full">
+                    <h2 className="text-4xl font-bold text-slate-800 mb-8 flex items-center gap-3">
+                        <i data-lucide="target" className="w-10 h-10 text-blue-600"></i>
+                        Visão Geral do Projeto
+                    </h2>
+
+                    <div className="grid grid-cols-2 gap-6 mb-8">
+                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-l-4 border-blue-600">
+                            <h3 className="text-xl font-bold text-blue-900 mb-3">🎯 Objetivo</h3>
+                            <p className="text-slate-700">
+                                Criar a primeira plataforma B2B2C do mercado que permite consultores
+                                gerenciarem compliance de múltiplas empresas simultaneamente.
+                            </p>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border-l-4 border-purple-600">
+                            <h3 className="text-xl font-bold text-purple-900 mb-3">💡 Diferencial</h3>
+                            <p className="text-slate-700">
+                                Multi-tenant com isolamento completo de dados, permitindo que um
+                                consultor alterne entre empresas com 1 clique.
+                            </p>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-l-4 border-green-600">
+                            <h3 className="text-xl font-bold text-green-900 mb-3">🚀 Modelo de Negócio</h3>
+                            <p className="text-slate-700">
+                                SaaS B2B2C - Consultores pagam por empresas gerenciadas.
+                                Potencial de R$ 18M de valuation em 3 anos.
+                            </p>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border-l-4 border-orange-600">
+                            <h3 className="text-xl font-bold text-orange-900 mb-3">⚡ Tech Stack</h3>
+                            <p className="text-slate-700">
+                                Next.js 14, NestJS, PostgreSQL, Redis, AWS/GCP -
+                                Arquitetura cloud-native escalável e moderna.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h3 className="text-2xl font-bold text-slate-800 mb-4">📊 Estrutura de Desenvolvimento</h3>
+                        <div className="grid grid-cols-3 gap-4">
+                            <div className="text-center">
+                                <div className="bg-blue-600 text-white rounded-lg p-4 mb-2">
+                                    <p className="text-2xl font-bold">FASE 1</p>
+                                    <p className="text-sm">4 meses</p>
+                                </div>
+                                <p className="text-sm text-slate-600 font-medium">MVP Funcional</p>
+                            </div>
+                            <div className="text-center">
+                                <div className="bg-purple-600 text-white rounded-lg p-4 mb-2">
+                                    <p className="text-2xl font-bold">FASE 2</p>
+                                    <p className="text-sm">4 meses</p>
+                                </div>
+                                <p className="text-sm text-slate-600 font-medium">Features Avançadas</p>
+                            </div>
+                            <div className="text-center">
+                                <div className="bg-green-600 text-white rounded-lg p-4 mb-2">
+                                    <p className="text-2xl font-bold">FASE 3</p>
+                                    <p className="text-sm">4 meses</p>
+                                </div>
+                                <p className="text-sm text-slate-600 font-medium">Consolidação</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function MethodologySlide() {
+            return (
+                <div className="h-full">
+                    <h2 className="text-4xl font-bold text-slate-800 mb-8 flex items-center gap-3">
+                        <i data-lucide="git-branch" className="w-10 h-10 text-purple-600"></i>
+                        Metodologia de Desenvolvimento
+                    </h2>
+
+                    <div className="grid grid-cols-2 gap-6 mb-6">
+                        <div className="bg-white rounded-xl p-6 border-2 border-purple-200 shadow-lg">
+                            <h3 className="text-2xl font-bold text-purple-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="zap" className="w-6 h-6"></i>
+                                Metodologia Ágil
+                            </h3>
+                            <ul className="space-y-3">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">✓</span>
+                                    <span className="text-slate-700"><strong>Sprints de 2 semanas</strong> - Entregas constantes e feedback rápido</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">✓</span>
+                                    <span className="text-slate-700"><strong>Daily standups</strong> - Alinhamento diário de 15min</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">✓</span>
+                                    <span className="text-slate-700"><strong>Sprint Review</strong> - Demonstração de funcionalidades</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">✓</span>
+                                    <span className="text-slate-700"><strong>Sprint Retrospective</strong> - Melhoria contínua</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-6 border-2 border-blue-200 shadow-lg">
+                            <h3 className="text-2xl font-bold text-blue-900 mb-4 flex items-center gap-2">
+                                <i data-lucide="code" className="w-6 h-6"></i>
+                                Práticas de Engenharia
+                            </h3>
+                            <ul className="space-y-3">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">✓</span>
+                                    <span className="text-slate-700"><strong>CI/CD automatizado</strong> - Deploy contínuo</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">✓</span>
+                                    <span className="text-slate-700"><strong>Testes automatizados</strong> - Unit, Integration, E2E</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">✓</span>
+                                    <span className="text-slate-700"><strong>Code Review</strong> - Pull requests obrigatórios</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">✓</span>
+                                    <span className="text-slate-700"><strong>Documentação</strong> - APIs e componentes</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl p-6 border border-slate-200">
+                        <h3 className="text-2xl font-bold text-slate-800 mb-4">🔄 Ciclo de Desenvolvimento (Sprint 2 semanas)</h3>
+                        <div className="grid grid-cols-5 gap-3">
+                            <div className="bg-white rounded-lg p-4 text-center shadow">
+                                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <span className="text-2xl">📋</span>
+                                </div>
+                                <p className="font-bold text-sm text-slate-800 mb-1">Planning</p>
+                                <p className="text-xs text-slate-600">Dias 1-2</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 text-center shadow">
+                                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <span className="text-2xl">💻</span>
+                                </div>
+                                <p className="font-bold text-sm text-slate-800 mb-1">Desenvolvimento</p>
+                                <p className="text-xs text-slate-600">Dias 3-10</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 text-center shadow">
+                                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <span className="text-2xl">🧪</span>
+                                </div>
+                                <p className="font-bold text-sm text-slate-800 mb-1">Testes</p>
+                                <p className="text-xs text-slate-600">Dias 11-12</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 text-center shadow">
+                                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <span className="text-2xl">👀</span>
+                                </div>
+                                <p className="font-bold text-sm text-slate-800 mb-1">Review</p>
+                                <p className="text-xs text-slate-600">Dia 13</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-4 text-center shadow">
+                                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <span className="text-2xl">🔄</span>
+                                </div>
+                                <p className="font-bold text-sm text-slate-800 mb-1">Retrospective</p>
+                                <p className="text-xs text-slate-600">Dia 14</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 bg-yellow-50 rounded-lg p-4 border-l-4 border-yellow-500">
+                        <p className="text-slate-700">
+                            <strong>💡 Transparência Total:</strong> Você terá acesso ao código em tempo real,
+                            participará das sprint reviews e receberá relatórios semanais de progresso.
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        function Phase1Slide() {
+            return (
+                <div className="h-full overflow-y-auto">
+                    <h2 className="text-4xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <i data-lucide="code" className="w-10 h-10 text-blue-600"></i>
+                        FASE 1 - MVP (Meses 1-4)
+                    </h2>
+
+                    <div className="bg-blue-50 rounded-xl p-6 mb-6 border-l-4 border-blue-600">
+                        <h3 className="text-xl font-bold text-blue-900 mb-2">🎯 Objetivo da Fase</h3>
+                        <p className="text-slate-700 mb-3">
+                            Validar product-market fit com sistema funcional em produção e 3-5 clientes beta testando.
+                        </p>
+                        <div className="grid grid-cols-3 gap-4 mt-4">
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl font-bold text-blue-600">16</p>
+                                <p className="text-sm text-slate-600">Semanas</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl font-bold text-purple-600">8</p>
+                                <p className="text-sm text-slate-600">Sprints</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl font-bold text-green-600">5</p>
+                                <p className="text-sm text-slate-600">Módulos Core</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-blue-500">
+                            <h4 className="text-lg font-bold text-blue-900 mb-3">Sprint 1-2: Setup & Fundação (Semanas 1-4)</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">🏗️ Infraestrutura</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• Arquitetura cloud-native (AWS/GCP)</li>
+                                        <li>• Repositórios Git (monorepo)</li>
+                                        <li>• CI/CD pipeline (GitHub Actions)</li>
+                                        <li>• 3 Ambientes: Dev, Staging, Prod</li>
+                                        <li>• Infraestrutura como código</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">🎨 Design & Backend</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• Design System no Figma (30+ componentes)</li>
+                                        <li>• Protótipos alta fidelidade</li>
+                                        <li>• Database schema (PostgreSQL)</li>
+                                        <li>• Autenticação JWT + RBAC</li>
+                                        <li>• APIs RESTful documentadas</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> Next.js 14, NestJS, PostgreSQL, Redis, Terraform
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-purple-500">
+                            <h4 className="text-lg font-bold text-purple-900 mb-3">Sprint 3-4: Core Multi-Tenant (Semanas 5-8)</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">👥 Multi-Tenancy</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• Sistema multi-tenant funcional</li>
+                                        <li>• Isolamento completo de dados</li>
+                                        <li>• Dashboard do consultor</li>
+                                        <li>• Gestão de empresas (CRUD)</li>
+                                        <li>• Seletor de empresa (1 clique)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">⚙️ Funcionalidades</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• Gestão de usuários (4 níveis)</li>
+                                        <li>• Onboarding de clientes</li>
+                                        <li>• Notificações em tempo real</li>
+                                        <li>• Sidebar responsiva</li>
+                                        <li>• Tema claro/escuro</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> React, Tailwind CSS, shadcn/ui, Zustand, Socket.io
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-green-500">
+                            <h4 className="text-lg font-bold text-green-900 mb-3">Sprint 5-6: Gestão de Riscos (Semanas 9-12)</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">📊 Matriz de Riscos</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• 3 matrizes: inerente, residual, objetivo</li>
+                                        <li>• CRUD completo de riscos</li>
+                                        <li>• Scoring automático</li>
+                                        <li>• Categorização e tags</li>
+                                        <li>• Heat maps interativos</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">📈 Analytics</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• Controles vinculados</li>
+                                        <li>• KRIs (Indicadores de risco)</li>
+                                        <li>• Histórico de alterações</li>
+                                        <li>• Alertas automáticos</li>
+                                        <li>• Exportação PDF/Excel</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> Recharts, React Hook Form, Zod, TanStack Table
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-orange-500">
+                            <h4 className="text-lg font-bold text-orange-900 mb-3">Sprint 7-8: Documentos & Deploy (Semanas 13-16)</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">📁 Documentos</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• Upload/download de arquivos</li>
+                                        <li>• Versionamento</li>
+                                        <li>• Busca avançada</li>
+                                        <li>• Prévia de PDFs inline</li>
+                                        <li>• Alertas de vencimento</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">🚀 Finalização</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• Dashboard consolidado</li>
+                                        <li>• Testes automatizados</li>
+                                        <li>• Deploy em produção</li>
+                                        <li>• Documentação completa</li>
+                                        <li>• Treinamento beta testers</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> AWS S3, CloudFront CDN, PDF.js, Jest, Cypress
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 bg-green-50 rounded-lg p-4 border-l-4 border-green-600">
+                        <p className="font-bold text-green-900 mb-2">✅ Entregáveis da Fase 1:</p>
+                        <p className="text-sm text-slate-700">
+                            Sistema funcional em produção • Multi-tenant operacional • Gestão de riscos completa •
+                            Repositório de documentos • 3-5 clientes beta testando
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        function Phase2Slide() {
+            return (
+                <div className="h-full overflow-y-auto">
+                    <h2 className="text-4xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <i data-lucide="trending-up" className="w-10 h-10 text-purple-600"></i>
+                        FASE 2 - Crescimento (Meses 5-8)
+                    </h2>
+
+                    <div className="bg-purple-50 rounded-xl p-6 mb-6 border-l-4 border-purple-600">
+                        <h3 className="text-xl font-bold text-purple-900 mb-2">🎯 Objetivo da Fase</h3>
+                        <p className="text-slate-700 mb-3">
+                            Adicionar features avançadas, automação com IA e preparar para escala comercial.
+                        </p>
+                        <div className="grid grid-cols-3 gap-4 mt-4">
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl font-bold text-purple-600">16</p>
+                                <p className="text-sm text-slate-600">Semanas</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl font-bold text-blue-600">8</p>
+                                <p className="text-sm text-slate-600">Sprints</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl font-bold text-green-600">6</p>
+                                <p className="text-sm text-slate-600">Módulos Novos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-blue-500">
+                            <h4 className="text-lg font-bold text-blue-900 mb-3">Sprint 9-10: Planos de Ação (Semanas 17-20)</h4>
+                            <ul className="text-sm text-slate-600 space-y-2">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Planos de ação vinculados a riscos e controles</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Kanban board para gestão de tarefas</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Atribuição de responsáveis e prazos</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Status tracking e histórico</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Lembretes automáticos via email/SMS</span>
+                                </li>
+                            </ul>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> React DnD, @dnd-kit, Notifications API
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-green-500">
+                            <h4 className="text-lg font-bold text-green-900 mb-3">Sprint 11-12: Canal de Denúncias com IA (Semanas 21-24)</h4>
+                            <ul className="text-sm text-slate-600 space-y-2">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>Portal anônimo para denúncias</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>Triagem automática com IA (GPT-4)</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>Categorização e severidade automática</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>Workflow de investigação</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>Compliance com LGPD e Lei Anticorrupção</span>
+                                </li>
+                            </ul>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> OpenAI GPT-4, Encryption, Anonymous Auth
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-purple-500">
+                            <h4 className="text-lg font-bold text-purple-900 mb-3">Sprint 13-14: Diligências Automatizadas (Semanas 25-28)</h4>
+                            <ul className="text-sm text-slate-600 space-y-2">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Templates de questionários customizáveis</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Envio automático para fornecedores/parceiros</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Scoring automático de respostas</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Integração com Receita Federal e CNPJ</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Relatórios de conformidade</span>
+                                </li>
+                            </ul>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> Webhooks, External APIs, PDF Generation
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-orange-500">
+                            <h4 className="text-lg font-bold text-orange-900 mb-3">Sprint 15-16: Assinatura Digital (Semanas 29-32)</h4>
+                            <ul className="text-sm text-slate-600 space-y-2">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-orange-600 mt-1">•</span>
+                                    <span>Integração com Clicksign ou DocuSign</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-orange-600 mt-1">•</span>
+                                    <span>Assinatura eletrônica válida juridicamente</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-orange-600 mt-1">•</span>
+                                    <span>Controle de signatários e status</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-orange-600 mt-1">•</span>
+                                    <span>Armazenamento seguro de documentos assinados</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-orange-600 mt-1">•</span>
+                                    <span>Trilha de auditoria completa</span>
+                                </li>
+                            </ul>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> Clicksign API, Digital Signatures, Blockchain
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 bg-purple-50 rounded-lg p-4 border-l-4 border-purple-600">
+                        <p className="font-bold text-purple-900 mb-2">✅ Entregáveis da Fase 2:</p>
+                        <p className="text-sm text-slate-700">
+                            Planos de ação completos • Canal de denúncias com IA • Diligências automatizadas •
+                            Assinatura digital integrada • Sistema pronto para escala comercial
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        function Phase3Slide() {
+            return (
+                <div className="h-full overflow-y-auto">
+                    <h2 className="text-4xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <i data-lucide="award" className="w-10 h-10 text-green-600"></i>
+                        FASE 3 - Consolidação (Meses 9-12)
+                    </h2>
+
+                    <div className="bg-green-50 rounded-xl p-6 mb-6 border-l-4 border-green-600">
+                        <h3 className="text-xl font-bold text-green-900 mb-2">🎯 Objetivo da Fase</h3>
+                        <p className="text-slate-700 mb-3">
+                            Otimizar, escalar e adicionar diferenciadores competitivos para lançamento comercial.
+                        </p>
+                        <div className="grid grid-cols-3 gap-4 mt-4">
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl font-bold text-green-600">16</p>
+                                <p className="text-sm text-slate-600">Semanas</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl font-bold text-blue-600">8</p>
+                                <p className="text-sm text-slate-600">Sprints</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl font-bold text-purple-600">5</p>
+                                <p className="text-sm text-slate-600">Módulos Finais</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-blue-500">
+                            <h4 className="text-lg font-bold text-blue-900 mb-3">Sprint 17-18: Relatórios & Analytics (Semanas 33-36)</h4>
+                            <ul className="text-sm text-slate-600 space-y-2">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Dashboard executivo com KPIs em tempo real</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Relatórios customizáveis (Powerpoint, PDF, Excel)</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Gráficos interativos e drill-down</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Comparação multi-empresas para consultores</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-blue-600 mt-1">•</span>
+                                    <span>Agendamento automático de relatórios</span>
+                                </li>
+                            </ul>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> D3.js, Chart.js, PDF Generation, Excel Export
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-purple-500">
+                            <h4 className="text-lg font-bold text-purple-900 mb-3">Sprint 19-20: Assistente de IA (Semanas 37-40)</h4>
+                            <ul className="text-sm text-slate-600 space-y-2">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Chatbot de compliance com GPT-4</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Sugestões inteligentes de controles</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Análise automática de documentos</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Geração de políticas e procedimentos</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-purple-600 mt-1">•</span>
+                                    <span>Alertas preditivos de riscos</span>
+                                </li>
+                            </ul>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> OpenAI GPT-4, LangChain, Vector DB, RAG
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-green-500">
+                            <h4 className="text-lg font-bold text-green-900 mb-3">Sprint 21-22: Mobile App (Semanas 41-44)</h4>
+                            <ul className="text-sm text-slate-600 space-y-2">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>App nativo iOS e Android (React Native)</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>Funcionalidades offline-first</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>Push notifications para alertas</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>Aprovações via mobile</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-green-600 mt-1">•</span>
+                                    <span>Publicação na App Store e Google Play</span>
+                                </li>
+                            </ul>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> React Native, Expo, Firebase Cloud Messaging
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl p-5 shadow-md border-l-4 border-orange-500">
+                            <h4 className="text-lg font-bold text-orange-900 mb-3">Sprint 23-24: Performance & Segurança (Semanas 45-48)</h4>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">⚡ Performance</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• Otimização de queries</li>
+                                        <li>• Caching avançado (Redis)</li>
+                                        <li>• CDN para assets</li>
+                                        <li>• Lazy loading</li>
+                                        <li>• Code splitting</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-slate-700 mb-2">🔒 Segurança</p>
+                                    <ul className="text-sm text-slate-600 space-y-1">
+                                        <li>• Penetration testing</li>
+                                        <li>• SOC 2 Type II prep</li>
+                                        <li>• LGPD compliance audit</li>
+                                        <li>• Disaster recovery plan</li>
+                                        <li>• Security awareness</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="mt-3 bg-slate-50 rounded p-2 text-xs text-slate-600">
+                                <strong>Tech:</strong> Redis, CloudFlare, Sentry, AWS WAF
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 bg-green-50 rounded-lg p-4 border-l-4 border-green-600">
+                        <p className="font-bold text-green-900 mb-2">✅ Entregáveis da Fase 3:</p>
+                        <p className="text-sm text-slate-700">
+                            Analytics avançados • Assistente de IA • App mobile • Sistema otimizado e seguro •
+                            Pronto para lançamento comercial e escala
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        function ArchitectureSlide() {
+            return (
+                <div className="h-full">
+                    <h2 className="text-4xl font-bold text-slate-800 mb-8 flex items-center gap-3">
+                        <i data-lucide="database" className="w-10 h-10 text-blue-600"></i>
+                        Arquitetura Técnica
+                    </h2>
+
+                    <div className="grid grid-cols-2 gap-6 mb-6">
+                        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-2 border-blue-200">
+                            <h3 className="text-xl font-bold text-blue-900 mb-4">🎨 Frontend</h3>
+                            <div className="space-y-3">
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Next.js 14</p>
+                                    <p className="text-xs text-slate-600">App Router, Server Components, SSR</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">React 18</p>
+                                    <p className="text-xs text-slate-600">TypeScript, Hooks, Context API</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Tailwind CSS + shadcn/ui</p>
+                                    <p className="text-xs text-slate-600">Design System consistente</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Zustand + React Query</p>
+                                    <p className="text-xs text-slate-600">State management otimizado</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border-2 border-purple-200">
+                            <h3 className="text-xl font-bold text-purple-900 mb-4">⚙️ Backend</h3>
+                            <div className="space-y-3">
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">NestJS</p>
+                                    <p className="text-xs text-slate-600">Node.js, TypeScript, Modular</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">PostgreSQL</p>
+                                    <p className="text-xs text-slate-600">Database relacional + Prisma ORM</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Redis</p>
+                                    <p className="text-xs text-slate-600">Cache, Sessions, Pub/Sub</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">REST + GraphQL</p>
+                                    <p className="text-xs text-slate-600">APIs flexíveis e tipadas</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-2 border-green-200">
+                            <h3 className="text-xl font-bold text-green-900 mb-4">☁️ Cloud & DevOps</h3>
+                            <div className="space-y-3">
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">AWS / Google Cloud</p>
+                                    <p className="text-xs text-slate-600">ECS, RDS, S3, CloudFront</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Docker + Kubernetes</p>
+                                    <p className="text-xs text-slate-600">Containerização e orquestração</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">GitHub Actions</p>
+                                    <p className="text-xs text-slate-600">CI/CD automatizado</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Terraform</p>
+                                    <p className="text-xs text-slate-600">Infrastructure as Code</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border-2 border-orange-200">
+                            <h3 className="text-xl font-bold text-orange-900 mb-4">🔒 Segurança</h3>
+                            <div className="space-y-3">
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">JWT + OAuth 2.0</p>
+                                    <p className="text-xs text-slate-600">Autenticação segura</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">RBAC</p>
+                                    <p className="text-xs text-slate-600">Controle de acesso granular</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Encryption at rest/transit</p>
+                                    <p className="text-xs text-slate-600">AES-256, TLS 1.3</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">LGPD Compliance</p>
+                                    <p className="text-xs text-slate-600">Data privacy by design</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <h3 className="text-2xl font-bold text-slate-800 mb-4">🔄 Fluxo de Dados Multi-Tenant</h3>
+                        <div className="flex items-center justify-between text-sm">
+                            <div className="bg-blue-600 text-white rounded-lg p-4 text-center">
+                                <p className="font-bold">Cliente</p>
+                                <p className="text-xs">Browser/App</p>
+                            </div>
+                            <i data-lucide="arrow-right" className="w-6 h-6 text-slate-400"></i>
+                            <div className="bg-purple-600 text-white rounded-lg p-4 text-center">
+                                <p className="font-bold">CDN</p>
+                                <p className="text-xs">CloudFront</p>
+                            </div>
+                            <i data-lucide="arrow-right" className="w-6 h-6 text-slate-400"></i>
+                            <div className="bg-green-600 text-white rounded-lg p-4 text-center">
+                                <p className="font-bold">Load Balancer</p>
+                                <p className="text-xs">AWS ALB</p>
+                            </div>
+                            <i data-lucide="arrow-right" className="w-6 h-6 text-slate-400"></i>
+                            <div className="bg-orange-600 text-white rounded-lg p-4 text-center">
+                                <p className="font-bold">API</p>
+                                <p className="text-xs">NestJS</p>
+                            </div>
+                            <i data-lucide="arrow-right" className="w-6 h-6 text-slate-400"></i>
+                            <div className="bg-red-600 text-white rounded-lg p-4 text-center">
+                                <p className="font-bold">Database</p>
+                                <p className="text-xs">PostgreSQL</p>
+                            </div>
+                        </div>
+                        <p className="text-xs text-slate-600 mt-4 text-center">
+                            Isolamento de dados por tenant ID • Redis para cache • S3 para arquivos • WebSocket para real-time
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        function TimelineSlide() {
+            return (
+                <div className="h-full overflow-y-auto">
+                    <h2 className="text-4xl font-bold text-slate-800 mb-8 flex items-center gap-3">
+                        <i data-lucide="calendar" className="w-10 h-10 text-green-600"></i>
+                        Timeline de 12 Meses
+                    </h2>
+
+                    <div className="relative">
+                        {/* Timeline visual */}
+                        <div className="space-y-6">
+                            {/* Mês 1-4 */}
+                            <div className="flex gap-4">
+                                <div className="w-32 shrink-0">
+                                    <div className="bg-blue-600 text-white rounded-lg p-3 text-center">
+                                        <p className="font-bold text-lg">Meses 1-4</p>
+                                        <p className="text-xs">FASE 1</p>
+                                    </div>
+                                </div>
+                                <div className="flex-1 bg-blue-50 rounded-xl p-4 border-l-4 border-blue-600">
+                                    <h4 className="font-bold text-blue-900 mb-2">MVP em Produção</h4>
+                                    <div className="grid grid-cols-2 gap-2 text-xs text-slate-700">
+                                        <div>✓ Setup completo (Mês 1)</div>
+                                        <div>✓ Multi-tenant (Mês 2)</div>
+                                        <div>✓ Gestão de Riscos (Mês 3)</div>
+                                        <div>✓ Deploy + Beta (Mês 4)</div>
+                                    </div>
+                                    <p className="text-xs text-blue-700 mt-2 font-medium">
+                                        🎯 Milestone: Sistema funcional com 3-5 clientes beta
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Mês 5-8 */}
+                            <div className="flex gap-4">
+                                <div className="w-32 shrink-0">
+                                    <div className="bg-purple-600 text-white rounded-lg p-3 text-center">
+                                        <p className="font-bold text-lg">Meses 5-8</p>
+                                        <p className="text-xs">FASE 2</p>
+                                    </div>
+                                </div>
+                                <div className="flex-1 bg-purple-50 rounded-xl p-4 border-l-4 border-purple-600">
+                                    <h4 className="font-bold text-purple-900 mb-2">Features Avançadas + IA</h4>
+                                    <div className="grid grid-cols-2 gap-2 text-xs text-slate-700">
+                                        <div>✓ Planos de Ação (Mês 5)</div>
+                                        <div>✓ Canal Denúncias IA (Mês 6)</div>
+                                        <div>✓ Diligências Auto (Mês 7)</div>
+                                        <div>✓ Assinatura Digital (Mês 8)</div>
+                                    </div>
+                                    <p className="text-xs text-purple-700 mt-2 font-medium">
+                                        🎯 Milestone: Automação completa e pronto para escala
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Mês 9-12 */}
+                            <div className="flex gap-4">
+                                <div className="w-32 shrink-0">
+                                    <div className="bg-green-600 text-white rounded-lg p-3 text-center">
+                                        <p className="font-bold text-lg">Meses 9-12</p>
+                                        <p className="text-xs">FASE 3</p>
+                                    </div>
+                                </div>
+                                <div className="flex-1 bg-green-50 rounded-xl p-4 border-l-4 border-green-600">
+                                    <h4 className="font-bold text-green-900 mb-2">Consolidação + Launch</h4>
+                                    <div className="grid grid-cols-2 gap-2 text-xs text-slate-700">
+                                        <div>✓ Analytics Avançado (Mês 9)</div>
+                                        <div>✓ Assistente IA (Mês 10)</div>
+                                        <div>✓ Mobile App (Mês 11)</div>
+                                        <div>✓ Otimização Final (Mês 12)</div>
+                                    </div>
+                                    <p className="text-xs text-green-700 mt-2 font-medium">
+                                        🎯 Milestone: Lançamento comercial completo
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Marcos importantes */}
+                        <div className="mt-8 bg-yellow-50 rounded-xl p-6 border-2 border-yellow-300">
+                            <h3 className="text-xl font-bold text-yellow-900 mb-4">🏆 Marcos Importantes</h3>
+                            <div className="grid grid-cols-3 gap-4">
+                                <div className="bg-white rounded-lg p-4 text-center">
+                                    <p className="text-3xl mb-2">📍</p>
+                                    <p className="font-bold text-sm text-slate-800">Mês 4</p>
+                                    <p className="text-xs text-slate-600">MVP em produção</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-4 text-center">
+                                    <p className="text-3xl mb-2">🚀</p>
+                                    <p className="font-bold text-sm text-slate-800">Mês 8</p>
+                                    <p className="text-xs text-slate-600">Sistema completo</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-4 text-center">
+                                    <p className="text-3xl mb-2">🎉</p>
+                                    <p className="font-bold text-sm text-slate-800">Mês 12</p>
+                                    <p className="text-xs text-slate-600">Launch comercial</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Ritmo de entregas */}
+                        <div className="mt-6 bg-slate-50 rounded-xl p-6 border border-slate-200">
+                            <h3 className="text-xl font-bold text-slate-800 mb-4">📦 Ritmo de Entregas</h3>
+                            <div className="space-y-2 text-sm">
+                                <div className="flex items-center justify-between bg-white rounded p-3">
+                                    <span className="text-slate-700">Sprint Review (demonstração)</span>
+                                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">A cada 2 semanas</span>
+                                </div>
+                                <div className="flex items-center justify-between bg-white rounded p-3">
+                                    <span className="text-slate-700">Deploy em Staging</span>
+                                    <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full font-medium">Toda semana</span>
+                                </div>
+                                <div className="flex items-center justify-between bg-white rounded p-3">
+                                    <span className="text-slate-700">Deploy em Produção</span>
+                                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">A cada 4 semanas</span>
+                                </div>
+                                <div className="flex items-center justify-between bg-white rounded p-3">
+                                    <span className="text-slate-700">Relatório de Progresso</span>
+                                    <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full font-medium">Toda semana</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function DeliverySlide() {
+            return (
+                <div className="h-full">
+                    <h2 className="text-4xl font-bold text-slate-800 mb-8 flex items-center gap-3">
+                        <i data-lucide="rocket" className="w-10 h-10 text-orange-600"></i>
+                        Processo de Entrega e Deploy
+                    </h2>
+
+                    <div className="grid grid-cols-2 gap-6 mb-6">
+                        <div className="bg-blue-50 rounded-xl p-6 border-l-4 border-blue-600">
+                            <h3 className="text-xl font-bold text-blue-900 mb-4">🔄 Ambientes</h3>
+                            <div className="space-y-3">
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Development</p>
+                                    <p className="text-xs text-slate-600">Deploy contínuo • Testes automatizados</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Staging</p>
+                                    <p className="text-xs text-slate-600">Réplica de produção • Testes E2E</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Production</p>
+                                    <p className="text-xs text-slate-600">Deploy controlado • Monitoramento 24/7</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-purple-50 rounded-xl p-6 border-l-4 border-purple-600">
+                            <h3 className="text-xl font-bold text-purple-900 mb-4">✅ Quality Assurance</h3>
+                            <div className="space-y-3">
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Unit Tests</p>
+                                    <p className="text-xs text-slate-600">Cobertura mínima 80%</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">Integration Tests</p>
+                                    <p className="text-xs text-slate-600">APIs e fluxos completos</p>
+                                </div>
+                                <div className="bg-white rounded-lg p-3">
+                                    <p className="font-bold text-sm text-slate-800">E2E Tests</p>
+                                    <p className="text-xs text-slate-600">User journeys completos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-6 border-2 border-green-300 mb-6">
+                        <h3 className="text-2xl font-bold text-green-900 mb-4">🚀 Pipeline CI/CD</h3>
+                        <div className="grid grid-cols-6 gap-2">
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl mb-1">📝</p>
+                                <p className="text-xs font-bold text-slate-800">Code</p>
+                                <p className="text-xs text-slate-600">Push</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl mb-1">🔍</p>
+                                <p className="text-xs font-bold text-slate-800">Lint</p>
+                                <p className="text-xs text-slate-600">ESLint</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl mb-1">🧪</p>
+                                <p className="text-xs font-bold text-slate-800">Test</p>
+                                <p className="text-xs text-slate-600">Jest</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl mb-1">🏗️</p>
+                                <p className="text-xs font-bold text-slate-800">Build</p>
+                                <p className="text-xs text-slate-600">Docker</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl mb-1">🔒</p>
+                                <p className="text-xs font-bold text-slate-800">Security</p>
+                                <p className="text-xs text-slate-600">Scan</p>
+                            </div>
+                            <div className="bg-white rounded-lg p-3 text-center">
+                                <p className="text-2xl mb-1">🚀</p>
+                                <p className="text-xs font-bold text-slate-800">Deploy</p>
+                                <p className="text-xs text-slate-600">AWS</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="bg-orange-50 rounded-xl p-6 border-l-4 border-orange-600">
+                            <h3 className="text-xl font-bold text-orange-900 mb-4">📊 Monitoramento</h3>
+                            <ul className="space-y-2 text-sm text-slate-700">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-orange-600">•</span>
+                                    <span><strong>Sentry:</strong> Error tracking e alertas</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-orange-600">•</span>
+                                    <span><strong>DataDog:</strong> APM e métricas</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-orange-600">•</span>
+                                    <span><strong>CloudWatch:</strong> Logs centralizados</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-orange-600">•</span>
+                                    <span><strong>Uptime Robot:</strong> Disponibilidade 24/7</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="bg-red-50 rounded-xl p-6 border-l-4 border-red-600">
+                            <h3 className="text-xl font-bold text-red-900 mb-4">🔐 Segurança</h3>
+                            <ul className="space-y-2 text-sm text-slate-700">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-red-600">•</span>
+                                    <span><strong>Dependabot:</strong> Updates automáticos</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-red-600">•</span>
+                                    <span><strong>Snyk:</strong> Vulnerability scanning</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-red-600">•</span>
+                                    <span><strong>SonarQube:</strong> Code quality</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-red-600">•</span>
+                                    <span><strong>OWASP ZAP:</strong> Security testing</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 bg-slate-100 rounded-xl p-6 border-2 border-slate-300">
+                        <p className="text-center text-slate-700">
+                            <strong>🎯 SLA:</strong> 99.9% uptime •
+                            <strong className="ml-4">⚡ Performance:</strong> &lt;2s página inicial •
+                            <strong className="ml-4">🔄 Recovery:</strong> Backup a cada 6h
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        function NextStepsSlide() {
+            return (
+                <div className="h-full flex flex-col justify-center">
+                    <div className="text-center mb-8">
+                        <i data-lucide="play-circle" className="w-20 h-20 text-green-600 mx-auto mb-6"></i>
+                        <h2 className="text-5xl font-bold text-slate-800 mb-4">Próximos Passos</h2>
+                        <p className="text-xl text-slate-600">Vamos começar essa jornada juntos!</p>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-6 mb-8">
+                        <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl p-6 shadow-xl">
+                            <div className="text-center">
+                                <p className="text-4xl mb-3">1️⃣</p>
+                                <h3 className="text-xl font-bold mb-2">Definir Proposta</h3>
+                                <p className="text-sm opacity-90">
+                                    Escolher entre as 3 propostas e formalizar parceria
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-xl p-6 shadow-xl">
+                            <div className="text-center">
+                                <p className="text-4xl mb-3">2️⃣</p>
+                                <h3 className="text-xl font-bold mb-2">Kick-off Meeting</h3>
+                                <p className="text-sm opacity-90">
+                                    Alinhar expectativas, definir ferramentas e processos
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-xl p-6 shadow-xl">
+                            <div className="text-center">
+                                <p className="text-4xl mb-3">3️⃣</p>
+                                <h3 className="text-xl font-bold mb-2">Sprint 1 Começa</h3>
+                                <p className="text-sm opacity-90">
+                                    Setup de infraestrutura e primeiras entregas
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-yellow-50 rounded-2xl p-8 border-2 border-yellow-300 mb-6">
+                        <h3 className="text-2xl font-bold text-yellow-900 mb-4 text-center">📋 Checklist Pré-Início</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-5 h-5 rounded border-2 border-yellow-600"></div>
+                                    <span className="text-slate-700">Contrato de parceria assinado</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-5 h-5 rounded border-2 border-yellow-600"></div>
+                                    <span className="text-slate-700">Primeira parcela transferida</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-5 h-5 rounded border-2 border-yellow-600"></div>
+                                    <span className="text-slate-700">Acessos criados (GitHub, AWS, etc)</span>
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-5 h-5 rounded border-2 border-yellow-600"></div>
+                                    <span className="text-slate-700">Ferramentas de comunicação setup</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-5 h-5 rounded border-2 border-yellow-600"></div>
+                                    <span className="text-slate-700">Calendário de sprints definido</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-5 h-5 rounded border-2 border-yellow-600"></div>
+                                    <span className="text-slate-700">Documentação inicial compartilhada</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl p-8 text-center">
+                        <h3 className="text-3xl font-bold mb-4">🚀 Vamos construir algo incrível!</h3>
+                        <p className="text-lg mb-6 opacity-90">
+                            Estou animado para começar esse projeto e criar uma plataforma que vai revolucionar
+                            o mercado de compliance no Brasil.
+                        </p>
+                        <div className="flex justify-center gap-6">
+                            <div className="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                                <p className="text-sm opacity-75">Prazo</p>
+                                <p className="text-2xl font-bold">12 meses</p>
+                            </div>
+                            <div className="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                                <p className="text-sm opacity-75">Entregas</p>
+                                <p className="text-2xl font-bold">48 sprints</p>
+                            </div>
+                            <div className="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                                <p className="text-sm opacity-75">Potencial</p>
+                                <p className="text-2xl font-bold">R$ 18M</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Render
+        ReactDOM.render(<RoadmapPresentation />, document.getElementById('root'));
+    </script>
+</body>
+</html>

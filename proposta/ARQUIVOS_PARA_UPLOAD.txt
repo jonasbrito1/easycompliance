@@ -1,0 +1,111 @@
+═══════════════════════════════════════════════════════════
+   ARQUIVOS PARA UPLOAD NO HOSTINGER
+   URL: https://i9script.com/propostas/easycompliance
+═══════════════════════════════════════════════════════════
+
+📦 ARQUIVOS NECESSÁRIOS (apenas 2):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ✅ index.html (OBRIGATÓRIO)
+   └─ Tamanho: ~1.5 MB
+   └─ Contém: Aplicação completa standalone
+   └─ Localização: C:\Users\Home\Desktop\Projects\easycompliance\index.html
+
+2. 📄 .htaccess (OPCIONAL - Recomendado)
+   └─ Tamanho: ~2 KB
+   └─ Contém: Cache, GZIP, otimizações
+   └─ Localização: C:\Users\Home\Desktop\Projects\easycompliance\.htaccess
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📍 DESTINO NO SERVIDOR:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+/public_html/propostas/easycompliance/
+├── index.html
+└── .htaccess
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 MÉTODOS DE UPLOAD:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPÇÃO 1 - Via FTP (Mais Rápido)
+  → Host: ftp.i9script.com
+  → Porta: 21
+  → Software: FileZilla ou WinSCP
+
+OPÇÃO 2 - Via Painel Hostinger
+  → https://hpanel.hostinger.com/file-manager
+  → Files → File Manager
+  → Navegar até: public_html/propostas/easycompliance/
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ NÃO ENVIAR (Arquivos locais/desenvolvimento):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ index.js (desenvolvimento)
+❌ index_novo.html (temporário)
+❌ index_backup_*.html (backups)
+❌ *.md (documentação - FORMAS_PAGAMENTO.md, README.md, etc)
+❌ *.txt (documentação - PROPOSTAS_FASES.txt, etc)
+❌ COMECE_AQUI.txt
+❌ FUNCIONALIDADES.md
+❌ TESTE_LOCAL.md
+❌ RESUMO_PROJETO.md
+❌ ATUALIZACAO_VALORES.md
+❌ FLUXOGRAMA_DESENVOLVIMENTO.md
+❌ RESUMO_EQUITIES_ATUALIZADAS.md
+❌ GUIA_UPLOAD_HOSTINGER.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ CHECKLIST PÓS-UPLOAD:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. [ ] index.html enviado para o servidor
+2. [ ] .htaccess enviado (opcional)
+3. [ ] Permissões 644 em ambos os arquivos
+4. [ ] Testar URL: https://i9script.com/propostas/easycompliance
+5. [ ] Navegação Propostas funciona
+6. [ ] Navegação Roadmap funciona
+7. [ ] Navegação Fluxograma funciona
+8. [ ] Export PDF funciona
+9. [ ] Testar em mobile/tablet
+10. [ ] Compartilhar link com o cliente
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 POR QUE APENAS 1 ARQUIVO?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+O index.html é um arquivo STANDALONE que contém:
+✅ Todo o código React (via CDN)
+✅ Todo o código JavaScript embutido
+✅ Todos os estilos (Tailwind via CDN)
+✅ Todos os ícones (Lucide via CDN)
+✅ Biblioteca PDF (html2pdf.js via CDN)
+✅ Todos os dados (proposals, phases, sprints)
+
+Não precisa de node_modules, build, ou arquivos externos!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 URL FINAL:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+https://i9script.com/propostas/easycompliance
+
+Este link pode ser compartilhado diretamente com o
+Consultor de Compliance!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📖 GUIA COMPLETO:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Para instruções detalhadas, consulte:
+→ GUIA_UPLOAD_HOSTINGER.md
+
+═══════════════════════════════════════════════════════════

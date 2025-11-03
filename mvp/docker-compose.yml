@@ -1,0 +1,126 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: easycompliance-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_2024
+      MYSQL_DATABASE: easycompliance
+      MYSQL_USER: easycompliance_user
+      MYSQL_PASSWORD: easycompliance_pass_2024
+    ports:
+      - "3307:3306"  # Alterado para porta livre
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - easycompliance-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: easycompliance-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root_password_2024
+      UPLOAD_LIMIT: 50M
+    ports:
+      - "8081:80"  # Alterado para porta livre
+    depends_on:
+      - mysql
+    networks:
+      - easycompliance-network
+
+  # Redis (Cache)
+  redis:
+    image: redis:7-alpine
+    container_name: easycompliance-redis
+    restart: unless-stopped
+    ports:
+      - "6381:6379"  # Alterado para porta livre
+    volumes:
+      - redis_data:/data
+    networks:
+      - easycompliance-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      timeout: 3s
+      retries: 5
+
+  # Backend API (NestJS)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: easycompliance-backend
+    restart: unless-stopped
+    ports:
+      - "4001:3001"  # Alterado para porta livre
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_USER: easycompliance_user
+      DATABASE_PASSWORD: easycompliance_pass_2024
+      DATABASE_NAME: easycompliance
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      JWT_EXPIRATION: 1h
+      JWT_REFRESH_SECRET: your-super-secret-refresh-key-change-in-production
+      JWT_REFRESH_EXPIRATION: 7d
+      CORS_ORIGIN: http://localhost:4000
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - easycompliance-network
+    command: npm run start:dev
+
+  # Frontend (Next.js)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: easycompliance-frontend
+    restart: unless-stopped
+    ports:
+      - "4000:3000"  # Alterado para porta livre
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:4001
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - easycompliance-network
+    command: npm run dev
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  easycompliance-network:
+    driver: bridge

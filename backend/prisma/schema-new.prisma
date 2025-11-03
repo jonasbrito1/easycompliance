@@ -1,0 +1,115 @@
+// Prisma Schema para EasyCompliance
+// Multi-tenant B2B2C Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== MULTI-TENANT CORE ====================
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  domain    String?  @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Configurações do tenant
+  settings Json?
+
+  // Relações
+  users     User[]
+  companies Company[]
+
+  @@map("tenants")
+}
+
+// ==================== AUTHENTICATION & USERS ====================
+
+enum UserRole {
+  SUPER_ADMIN // Administrador da plataforma
+  CONSULTOR // Consultor (dono do tenant)
+  EMPRESA_ADMIN // Administrador da empresa
+  EMPRESA_USER // Usuário da empresa
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  avatar    String?
+  role      UserRole @default(EMPRESA_USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Multi-tenant
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // Relação com empresas (usuário pode estar em múltiplas empresas)
+  companyUsers CompanyUser[]
+
+  @@index([tenantId])
+  @@index([email])
+  @@map("users")
+}
+
+// ==================== COMPANIES (Multi-tenant) ====================
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  cnpj      String?
+  logo      String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Multi-tenant
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // Configurações
+  settings Json?
+
+  // Relações
+  companyUsers        CompanyUser[]
+  risks               Risk[]
+  controls            Control[]
+  documents           Document[]
+  actionPlans         ActionPlan[]
+  ethicsReports       EthicsReport[]
+  ethicsChannelConfig EthicsChannelConfig?
+
+  @@unique([tenantId, cnpj])
+  @@index([tenantId])
+  @@map("companies")
+}
+
+// Relação Many-to-Many entre User e Company
+model CompanyUser {
+  id        String   @id @default(uuid())
+  userId    String
+  companyId String
+  role      String   @default("user") // admin, manager, user
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, companyId])
+  @@index([userId])
+  @@index([companyId])
+  @@map("company_users")
+}
+
+// ==================== RISK MANAGEMENT ====================

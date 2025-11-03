@@ -1,0 +1,129 @@
+PLANILHA DE CUSTOS MVP - EASYCOMPLIANCE
+Período,4 meses (Desenvolvimento MVP)
+Investimento Mensal,R$ 1.500,00
+Investimento Total,R$ 6.000,00
+
+RESUMO EXECUTIVO
+Categoria,Custo Mensal,Custo Total (4 meses),% do Orçamento
+🤖 Ferramentas de IA,R$ 600.00,R$ 2400.00,40.0%
+☁️ Infraestrutura Cloud,R$ 200.00,R$ 800.00,13.3%
+🔧 Ferramentas de Desenvolvimento,R$ 250.00,R$ 1000.00,16.7%
+📧 Comunicação & Email,R$ 80.00,R$ 320.00,5.3%
+🔐 Segurança & Monitoramento,R$ 120.00,R$ 480.00,8.0%
+📦 Armazenamento & CDN,R$ 60.00,R$ 240.00,4.0%
+💼 Ferramentas de Gestão,R$ 50.00,R$ 200.00,3.3%
+⚡ Imprevistos & Buffer,R$ 140.00,R$ 560.00,9.3%
+TOTAL,R$ 1500.00,R$ 6000.00,100%
+
+DETALHAMENTO - FERRAMENTAS DE IA
+Ferramenta,Custo Mensal,Finalidade,Prioridade
+OpenAI API (GPT-4),R$ 350.00,"Análise de denúncias, categorização documentos, sugestões controles",Crítico
+Claude API (Anthropic),R$ 150.00,"Análise documentos longos, geração relatórios, backup OpenAI",Médio
+OpenAI Embeddings,R$ 50.00,"Busca semântica documentos, similaridade riscos",Médio
+Hugging Face,R$ 30.00,"Modelos open-source, PLN",Baixo
+Reserva técnica IA,R$ 20.00,"Testes, experimentação, novos modelos",Baixo
+SUBTOTAL,R$ 600.00,,
+
+DETALHAMENTO - INFRAESTRUTURA CLOUD
+Item,Custo Mensal,Especificação,Provider
+Servidor Backend,R$ 80.00,"2 vCPU, 4GB RAM, Container NestJS, Dev+Staging",AWS EC2 / GCP Cloud Run
+Banco de Dados,R$ 60.00,"PostgreSQL 15, 20GB SSD, Backup automático",AWS RDS / GCP Cloud SQL
+Cache Redis,R$ 30.00,"1GB RAM, Cache sessões, Rate limiting",AWS ElastiCache / Upstash
+Domínio & SSL,R$ 15.00,"Domínio .com.br, Certificado SSL",Registro.br + Cloudflare
+Serverless Functions,R$ 15.00,"Processamento assíncrono, Jobs programados",AWS Lambda / Vercel
+SUBTOTAL,R$ 200.00,,
+
+DETALHAMENTO - FERRAMENTAS DESENVOLVIMENTO
+Ferramenta,Custo Mensal,Finalidade,Essencial?
+GitHub Pro,R$ 60.00,"Repos privados, GitHub Actions CI/CD, Copilot",Sim
+Vercel Pro,R$ 100.00,"Hospedagem Next.js, Deploy automático, Edge Functions",Sim
+Figma Professional,R$ 60.00,"Design System, Protótipos, Colaboração",Sim
+Postman Team,R$ 30.00,"Documentação API, Testes, Ambientes",Recomendado
+SUBTOTAL,R$ 250.00,,
+
+DETALHAMENTO - COMUNICAÇÃO & EMAIL
+Serviço,Custo Mensal,Volume,Finalidade
+SendGrid,R$ 50.00,40.000 emails/mês,"Confirmação cadastro, Alertas compliance, Notificações, Recuperação senha"
+Twilio SMS,R$ 30.00,150 SMS/mês,"2FA, Alertas críticos, Verificação telefone"
+SUBTOTAL,R$ 80.00,,
+
+DETALHAMENTO - SEGURANÇA & MONITORAMENTO
+Ferramenta,Custo Mensal,Finalidade,Criticidade
+Sentry,R$ 50.00,"Monitoramento erros, Performance, Alertas tempo real",Crítico
+LogRocket / FullStory,R$ 40.00,"Session replay, Debugging frontend, Analytics UX",Médio
+Cloudflare Pro,R$ 30.00,"DDoS protection, WAF, Analytics, Rate limiting",Crítico
+SUBTOTAL,R$ 120.00,,
+
+DETALHAMENTO - ARMAZENAMENTO & CDN
+Serviço,Custo Mensal,Capacidade,Uso
+AWS S3,R$ 40.00,"100GB armazenamento, 50GB transferência","Documentos PDF, Políticas, Evidências denúncias, Backup"
+CloudFront CDN,R$ 20.00,"100GB distribuição, Cache global","Delivery documentos, Assets estáticos, Redução latência"
+SUBTOTAL,R$ 60.00,,
+
+DETALHAMENTO - FERRAMENTAS GESTÃO
+Ferramenta,Custo Mensal,Finalidade,Essencial?
+Notion Team,R$ 30.00,"Documentação projeto, Knowledge base, Sprint planning, Onboarding",Recomendado
+Linear,R$ 20.00,"Gestão tarefas, Bug tracking, Roadmap, Integrações Git",Recomendado
+SUBTOTAL,R$ 50.00,,
+
+DETALHAMENTO - RESERVA IMPREVISTOS
+Item,Valor Estimado,Quando Pode Ocorrer
+Overages de API,R$ 50.00,"Picos uso IA, Testes intensivos"
+Testes com usuários,R$ 30.00,"Incentivos beta testers, Brindes/vouchers"
+Integrações extras,R$ 30.00,"APIs não previstas, Webhooks adicionais"
+Upgrade emergencial,R$ 30.00,"Mais recursos servidor, Banda adicional"
+SUBTOTAL,R$ 140.00,
+
+PROJEÇÃO CUSTOS POR FASE
+Fase,Período,Custo Mensal,Custo Total,Status
+Fase 1 - MVP,Meses 1-4,R$ 1500.00,R$ 6000.00,CONFIRMADO
+Fase 2 - Crescimento,Meses 5-8,R$ 2500.00 - R$ 3500.00,R$ 10000.00 - R$ 14000.00,A DEFINIR
+Fase 3 - Consolidação,Meses 9-12,R$ 4000.00 - R$ 6000.00,R$ 16000.00 - R$ 24000.00,A DEFINIR
+
+ECONOMIA VS MERCADO
+Item,Mercado (mensal),Nossa escolha,Economia,% Economia
+Infraestrutura,R$ 1200.00,R$ 200.00,R$ 1000.00,83%
+Ferramentas,R$ 800.00,R$ 250.00,R$ 550.00,69%
+IA/ML,R$ 1500.00,R$ 600.00,R$ 900.00,60%
+Outros,R$ 500.00,R$ 450.00,R$ 50.00,10%
+TOTAL,R$ 4000.00,R$ 1500.00,R$ 2500.00,62%
+
+CUSTOS NÃO INCLUSOS (Pós-MVP)
+Item,Quando necessário,Estimativa Mensal
+Certificações de segurança,Fase 2 (clientes enterprise),R$ 500.00 - R$ 1500.00
+ClickSign/DocuSign,Fase 2 (assinatura digital),R$ 200.00 - R$ 400.00
+Vimeo Pro,Fase 3 (universidade corporativa),R$ 150.00
+APIs Governamentais,Fase 3 (Bacen/COAF/ANS),R$ 300.00 - R$ 800.00
+Suporte técnico 24/7,Pós-lançamento,R$ 500.00 - R$ 1000.00
+Infraestrutura produção,Após 10+ clientes,R$ 800.00 - R$ 2000.00
+Marketing & Vendas,Pós-MVP,Variável
+TOTAL ESTIMADO FASE 2-3,,R$ 2450.00 - R$ 5850.00
+
+OTIMIZAÇÕES POSSÍVEIS (SE NECESSÁRIO)
+Item,Custo Atual,Custo Reduzido,Economia,Impacto
+Ferramentas Dev,R$ 250.00,R$ 100.00,R$ 150.00,Usar GitHub Free e Figma Free temporariamente
+Gestão,R$ 50.00,R$ 0.00,R$ 50.00,Usar apenas GitHub Issues e Notion gratuito
+Comunicação,R$ 80.00,R$ 40.00,R$ 40.00,Reduzir tier SendGrid e menos SMS
+ECONOMIA TOTAL SE NECESSÁRIO,R$ 1500.00,R$ 1260.00,R$ 240.00,Novo total mensal: R$ 1.260
+
+NÃO RECOMENDAMOS CORTAR
+Item,Motivo
+IA (R$ 600),É o core do produto e diferencial competitivo
+Segurança (R$ 120),Compliance exige proteção adequada de dados
+Infraestrutura (R$ 200),Base para qualidade técnica do produto
+
+ROI FERRAMENTAS DE IA
+Métrica,Valor
+Investimento mensal em IA,R$ 600.00
+Economia tempo consultor,60 horas/mês
+Valor hora consultor,R$ 150.00
+Valor gerado por cliente,R$ 9000.00/mês
+ROI,15x sobre investimento
+
+ROI INFRAESTRUTURA CLOUD
+Métrica,Valor
+Investimento Cloud,R$ 200.00/mês
+Servidor dedicado tradicional,R$ 800.00/mês
+Manutenção tradicional,R$ 400.00/mês
+Economia total,R$ 1000.00/mês
+ROI,5x sobre investimento

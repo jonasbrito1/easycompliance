@@ -1,0 +1,4658 @@
+ajude me a formular ideia, propostas e desenvolvimento, para um software web de gestão de compliance, onde deve ter um dash inicial com as informações necessarias para o consultor visualizar, ou seja, esse sistem deve ser focado para consultores de compliance, onde devem ter todo o gerenciamento das empresas que prestam serviço de compliance, a ideia é desenvolver em modulos, a medio prazo, com as aplicações necessárias e funcionais, será um software/sistema robusto e completo onde estamos em busca de ser referencia no mercado, sou o desenvolvedor e estou com o obejtivo de montar a parceria com este consultor de compliance, segundo seu relato, os softwares de compliance nao são tão focados para consultores, o nome escolhido será EasyCompliance onde o obejtivo é tornar a implementação e o entendimento fácil do compliance, traga opções de stacks modernas e eficazes para o desenvolvimento, o desenvolvimento futuro é hospedar via cloud google ou aws, no sistema devem ter niveis de permissoes , gestao de empresas que possuem serviços do compliance, gestão de riscos, documentação, assinatura digital, planos de ação, formulario publico (grupo ou usuarios especifico) , campo de treinamentos com opção dos professores/administradores subirem seus videos e treinamentos, com manual e documentação de cada aula, material etc. Cumprir regulamentação e integração com Bacen, COAF e ANS, canal de denuncias, implementar sistema de diligencias mas de forma simples, Kpis é desempenho + Indiciadores de risco, auditoria Log + Relatorios 
+
+Traga-me ideia e sugestões para esse desenvolvimento antes de fazer as propostas com valores, observação importante nas propostas , o objetivo é fazer uma parceria, traga me somente pra mim o valor real de mercado para um desenvolvimento desse tamanho e um desconto consideravel de parceria para enviar ao cliente
+
+O usuário está pedindo ajuda para formular ideias, propostas e desenvolvimento para um software web de gestão de compliance focado em consultores. Vou organizar isso de forma estruturada:
+
+    Análise do projeto
+    Arquitetura e stack tecnológica moderna
+    Estrutura de módulos
+    Estimativa de desenvolvimento
+    Valores de mercado vs parceria
+
+Vou focar em dar uma resposta completa, profissional e prática para ajudá-lo nessa parceria.
+EasyCompliance - Plataforma de Gestão para Consultores
+
+Vou te ajudar a estruturar esse projeto de forma profissional e estratégica. Vamos dividir em etapas:
+🎯 ANÁLISE DO MERCADO E DIFERENCIAIS
+Problemas atuais identificados:
+
+    Software de compliance são genéricos (empresas → compliance)
+    Consultores precisam gerenciar múltiplos clientes simultaneamente
+    Falta de visão consolidada e dashboards multi-tenant
+    Processos burocráticos e pouco intuitivos
+
+Seu diferencial competitivo:
+
+✅ Foco em consultores (B2B2C) ✅ Multi-tenancy nativo (uma conta = múltiplas empresas) ✅ Automação de processos repetitivos ✅ UX simplificada para compliance
+🏗️ ARQUITETURA E STACK RECOMENDADA
+Backend (API)
+
+Opção 1 - Node.js (Recomendado para MVP rápido)
+├── Framework: NestJS (estruturado, escalável)
+├── Database: PostgreSQL (relacional + JSONB)
+├── Cache: Redis
+├── Queue: Bull/BullMQ
+└── ORM: Prisma ou TypeORM
+
+Opção 2 - Mais Robusto (longo prazo)
+├── Framework: .NET 8 ou Java Spring Boot
+├── Database: PostgreSQL
+├── Cache: Redis
+└── Mensageria: RabbitMQ
+```
+
+### **Frontend**
+```
+Framework: Next.js 14+ (App Router)
+├── UI: shadcn/ui + Tailwind CSS
+├── State: Zustand ou React Query
+├── Forms: React Hook Form + Zod
+├── Charts: Recharts ou Apache ECharts
+└── Tables: TanStack Table
+```
+
+### **Infraestrutura Cloud**
+```
+AWS (Recomendado)
+├── Compute: ECS Fargate ou Lambda
+├── Database: RDS PostgreSQL
+├── Storage: S3 (documentos)
+├── CDN: CloudFront
+├── Auth: Cognito ou AWS IAM
+└── Monitoramento: CloudWatch
+
+Alternativa Google Cloud
+├── Compute: Cloud Run
+├── Database: Cloud SQL
+├── Storage: Cloud Storage
+└── Auth: Firebase Auth
+```
+
+### **Outros Serviços**
+- **Assinatura Digital**: DocuSign API ou ClickSign (Brasil)
+- **Storage Documentos**: S3 + CloudFront
+- **Email**: AWS SES ou SendGrid
+- **Vídeos**: Vimeo API ou Bunny.net (CDN)
+- **Logs/Analytics**: DataDog ou ELK Stack
+
+---
+
+## 📦 **MÓDULOS E ROADMAP DE DESENVOLVIMENTO**
+
+### **FASE 1 - MVP (3-4 meses)**
+**Objetivo**: Validar com 3-5 consultores beta
+
+**Módulos essenciais:**
+1. **Dashboard Principal**
+   - Visão consolidada de todas as empresas
+   - KPIs principais: riscos críticos, pendências, prazos
+   - Gráficos de evolução de compliance por cliente
+   - Alertas e notificações
+
+2. **Gestão de Empresas (Multi-tenant)**
+   - CRUD de empresas clientes
+   - Perfil completo (CNPJ, segmento, porte)
+   - Status de compliance por empresa
+   - Documentação básica
+
+3. **Gestão de Usuários e Permissões**
+   - Níveis: Super Admin, Consultor, Empresa, Colaborador
+   - RBAC (Role-Based Access Control)
+   - Convites por email
+   - Auditoria de acessos
+
+4. **Gestão de Riscos Básica**
+   - Matriz de riscos (probabilidade x impacto)
+   - Categorização (operacional, financeiro, reputacional)
+   - Status: Identificado → Avaliado → Mitigado
+   - Responsáveis e prazos
+
+5. **Repositório de Documentos**
+   - Upload/Download de arquivos
+   - Versionamento simples
+   - Categorização (políticas, procedimentos, evidências)
+   - Busca e filtros
+
+---
+
+### **FASE 2 - Crescimento (4-6 meses)**
+
+6. **Planos de Ação**
+   - Criação de planos vinculados a riscos
+   - Tarefas, responsáveis, prazos
+   - Acompanhamento de progresso
+   - Notificações automáticas
+
+7. **Canal de Denúncias**
+   - Formulário anônimo público
+   - Protocolo único por denúncia
+   - Workflow de investigação
+   - Painel de gestão de casos
+   - Prazos SLA
+
+8. **Formulários Públicos/Compartilhados**
+   - Criador de formulários customizados
+   - Compartilhamento via link
+   - Controle de acesso (público, grupo, específico)
+   - Respostas em dashboard
+
+9. **Assinatura Digital**
+   - Integração DocuSign/ClickSign
+   - Workflow de aprovações
+   - Histórico de assinaturas
+   - Certificados digitais
+
+---
+
+### **FASE 3 - Consolidação (4-5 meses)**
+
+10. **Portal de Treinamentos**
+    - Upload de vídeos (integração Vimeo)
+    - Organização em cursos/módulos
+    - Material complementar (PDFs, links)
+    - Controle de progresso
+    - Certificados de conclusão
+    - Quiz de avaliação
+
+11. **Sistema de Diligências (Due Diligence)**
+    - Templates de checklist
+    - Coleta automatizada de documentos
+    - Scoring de risco do terceiro
+    - Relatório de diligência
+    - Aprovação/Reprovação
+
+12. **Integrações Regulatórias**
+    - **Bacen**: Consulta SCR, envio de declarações
+    - **COAF**: Comunicação de operações suspeitas
+    - **ANS**: Declarações específicas para saúde
+    - Logs de todas as transmissões
+
+---
+
+### **FASE 4 - Maturidade (3-4 meses)**
+
+13. **KPIs e Indicadores Avançados**
+    - Dashboard customizável
+    - Benchmarking entre empresas
+    - Índice de maturidade de compliance
+    - Alertas preditivos (ML básico)
+
+14. **Auditoria e Logs Completos**
+    - Rastreamento de todas as ações
+    - Exportação de logs
+    - Relatórios de auditoria automáticos
+    - Trilha de mudanças em documentos
+
+15. **Relatórios Avançados**
+    - Gerador de relatórios customizados
+    - Templates pré-configurados
+    - Exportação PDF/Excel
+    - Agendamento automático
+
+16. **App Mobile (Opcional)**
+    - Versão React Native
+    - Notificações push
+    - Assinatura digital mobile
+
+---
+
+## 💰 **ESTIMATIVA DE CUSTOS E PROPOSTA**
+
+### **Valores de Mercado Real (Brasil 2025)**
+
+**Opção 1: Equipe Completa (Software House)**
+```
+Equipe:
+- 1 Product Owner (part-time)
+- 2 Desenvolvedores Full Stack Senior
+- 1 UI/UX Designer
+- 1 QA/Tester
+- 1 DevOps
+
+Fase 1 (MVP): R$ 180.000 - R$ 250.000
+Fase 2:         R$ 200.000 - R$ 280.000
+Fase 3:         R$ 180.000 - R$ 250.000
+Fase 4:         R$ 150.000 - R$ 200.000
+
+TOTAL: R$ 710.000 - R$ 980.000
+Prazo: 14-19 meses
+```
+
+**Opção 2: Equipe Reduzida (Startup)**
+```
+Equipe:
+- 1-2 Desenvolvedores Full Stack Pleno/Senior
+- 1 Designer (freelancer/part-time)
+
+Fase 1 (MVP): R$ 80.000 - R$ 120.000
+Fase 2:        R$ 100.000 - R$ 140.000
+Fase 3:        R$ 90.000 - R$ 130.000
+Fase 4:        R$ 70.000 - R$ 100.000
+
+TOTAL: R$ 340.000 - R$ 490.000
+Prazo: 16-22 meses
+```
+
+---
+
+### **PROPOSTA PARCERIA - VALORES SUGERIDOS**
+
+**Modelo Híbrido Recomendado:**
+
+**💼 Investimento Inicial Reduzido + Equity**
+```
+📊 FASE 1 (MVP - 4 meses)
+Valor Mercado: R$ 120.000
+Proposta Parceria: R$ 40.000 + 15% equity
+- R$ 10.000 entrada
+- R$ 10.000/mês por 3 meses
+
+🎁 Inclui:
+✓ Dashboard principal
+✓ Gestão multi-tenant
+✓ Gestão de riscos básica
+✓ Documentos + usuários
+✓ Deploy AWS/Google Cloud
+✓ 3 meses de suporte pós-lançamento
+```
+
+**Justificativa para o consultor:**
+- Você entra como **sócio-desenvolvedor** (15-20% da empresa)
+- Investimento reduzido (66% de desconto no valor de mercado)
+- Risco compartilhado = comprometimento mútuo
+- Seu conhecimento técnico = diferencial competitivo
+- Escalabilidade: novas fases = novos investimentos
+
+---
+
+**📈 Fases Seguintes (Opcional)**
+```
+FASE 2-4: Duas opções
+
+Opção A - Continuar Parceria:
+- Investimento: 30-40% valor mercado
+- Manutenção equity
+- Desenvolvimento gradual
+
+Opção B - Captação:
+- Buscar investidor anjo/seed
+- Acelerar desenvolvimento
+- Diluição controlada
+
+🎯 CRONOGRAMA MVP (FASE 1)
+
+Semana 1-2: Setup + Arquitetura
+
+    Definição de requisitos detalhados
+    Setup de infraestrutura
+    Design system e protótipos
+
+Semana 3-6: Desenvolvimento Core
+
+    Autenticação e multi-tenancy
+    Dashboard principal
+    Gestão de empresas
+
+Semana 7-10: Módulos Essenciais
+
+    Gestão de riscos
+    Documentos
+    Permissões
+
+Semana 11-14: Testes + Deploy
+
+    QA completo
+    Ajustes UX
+    Deploy produção
+    Onboarding de clientes beta
+
+Semana 15-16: Validação
+
+    Feedback de 3-5 consultores
+    Ajustes críticos
+
+💡 DIFERENCIAIS A IMPLEMENTAR
+
+    IA para Análise de Riscos (Fase 3+)
+        Sugestão automática de classificação
+        Detecção de padrões em documentos
+    WhatsApp Integration
+        Notificações importantes
+        Bot para consultas rápidas
+    Marketplace de Compliance
+        Consultores podem oferecer serviços
+        Templates de documentos premium
+    Certificações
+        ISO 27001, SOC 2
+        Aumentar credibilidade
+
+📋 PRÓXIMOS PASSOS RECOMENDADOS
+
+    Validação Imediata (Esta semana)
+        Reunião com o consultor parceiro
+        Apresentar este documento
+        Definir 3-5 features indispensáveis do MVP
+    Prototipagem (Semana 2-3)
+        Criar protótipo navegável (Figma)
+        Validar fluxos principais
+        Ajustar baseado em feedback
+    Fechamento (Semana 4)
+        Formalizar parceria (contrato + equity)
+        Receber primeiro pagamento
+        Kickoff do projeto
+    Beta (Mês 4-5)
+        Recrutar 3-5 consultores beta
+        Oferecer uso gratuito por 6 meses
+        Coletar feedback intenso
+
+🚨 ALERTAS IMPORTANTES
+
+⚠️ Compliance é regulado - ter advogado consultando desde o início ⚠️ LGPD é crítico - implementar desde o MVP ⚠️ Backups e segurança - não economizar nessa parte ⚠️ Contrato de parceria bem redigido (vesting, saída, etc)
+
+Quer que eu detalhe algum módulo específico ou ajuste a proposta de valores? Posso também criar um protótipo de dashboard ou modelo de apresentação para o consultor!
+
+o sistema deve ter basicamente essas informações , essa estrutur, porem melhorada e mais completo
+
+Perfeito! Agora tenho as imagens de um sistema de compliance existente. Vou analisar a estrutura e funcionalidades para melhorar minha proposta para o EasyCompliance.
+
+Analisando as imagens:
+
+Imagem 1 - Menu Principal:
+
+    Acessibilidade
+    Início
+    Dashboard
+    Canal de Ética
+    Documentos
+    Gestão de Riscos (com submenu)
+    Gestão de Mudanças
+    Diligências (com submenu)
+    Planos de Ação
+    Reportes (com submenu)
+    Requisições
+    BeForms
+    Universidade (com submenu)
+    Atividades (com submenu)
+    Biblioteca (com submenu)
+    Ajuda
+
+Imagem 2 - Menu expandido:
+
+    Configurar Logins
+    Configurações
+    Fluxos de aprovação
+    Usuários
+    Grupos
+    Departamentos
+    Canal de Denúncias
+
+Imagem 3 - Dashboard:
+
+    Treinamentos (gráfico pizza 59% - Completos/Incompletos)
+    Documentos (status: Publicados, Pendentes de aprovação, Pendentes de publicação, Expirados)
+    Assinaturas por tipo de documento (gráfico de barras)
+    Assinaturas por departamento
+
+Imagem 4:
+
+    Brindes e Hospitalidades
+    Doações, Patrocínios e Eventos (status com cores)
+
+Imagem 5:
+
+    Interação Poder Público (Recorrentes, Aprovados, Aprovados com ressalvas, Reprovados, Pendentes)
+    Requisições Gerais (Aprovado, Em Análise, Pendente, Reprovado)
+
+Identifico detalhes avançados de gestão de riscos e diligências. O sistema apresenta uma matriz de riscos complexa, com mapeamento de probabilidade e impacto. Destaco a análise de diligências para pessoas jurídicas, considerando criticidade, status e diferentes tipos de serviços como telefonia, engenharia e tecnologia.
+
+Os módulos de não conformidades e chamados revelam uma estrutura de monitoramento sofisticada. Observo categorização de conflitos de interesse, com 56 casos em diferentes status: aguardando aprovação, aprovados, aprovados com observações e reprovados.
+
+Os submenus de Gestão de Riscos e Universidade indicam uma abordagem integrada de governança, contemplando riscos, controles, indicadores, treinamentos e jornadas organizacionais.
+
+A próxima etapa envolve desenvolver uma proposta consultiva que otimize essa estrutura existente, focando em eficiência e clareza para os consultores.
+EasyCompliance - Análise Competitiva e Proposta Melhorada
+
+Excelente! Agora posso ver o sistema concorrente. Vou fazer uma análise crítica e propor melhorias substanciais focadas no diferencial para consultores.
+🔍 ANÁLISE DO SISTEMA ATUAL (Concorrente)
+✅ Pontos Fortes:
+
+    Interface limpa e organizada
+    Dashboards visuais (gráficos pizza, barras, heatmaps)
+    Módulos essenciais presentes
+    Gestão de workflows de aprovação
+    Matriz de riscos visual
+
+❌ Pontos Fracos (Oportunidades para EasyCompliance):
+
+    Não é multi-tenant para consultores
+        Aparenta ser para UMA empresa apenas
+        Sem visão consolidada de múltiplos clientes
+    Dashboard genérico
+        Não prioriza informações críticas
+        Gráficos sem contexto de urgência
+        Falta visão "o que precisa da minha atenção AGORA"
+    Navegação complexa
+        Muitos cliques para acessar informações
+        Menu lateral muito extenso
+        Falta de atalhos rápidos
+    Gestão de tempo/produtividade zero
+        Não mostra horas gastas por cliente
+        Sem controle de rentabilidade
+        Não tem gestão de projetos/sprints
+    Relatórios limitados
+        Não mostra comparativos entre clientes
+        Falta benchmarking
+        Sem exportação personalizada visível
+
+🚀 EASYCOMPLIANCE - ESTRUTURA MELHORADA
+📊 DASHBOARD INTELIGENTE (Página Inicial)
+
+┌─────────────────────────────────────────────────────────────┐
+│  🏢 EasyCompliance | Olá, [Nome Consultor]                  │
+│  [Trocar Empresa ▼] [Todas as Empresas]                     │
+└─────────────────────────────────────────────────────────────┘
+
+┌─ VISÃO EXECUTIVA ──────────────────────────────────────────┐
+│                                                              │
+│  📊 PORTFÓLIO (15 empresas ativas)                          │
+│  ├─ 3 Críticas  🔴  (ação necessária em 48h)               │
+│  ├─ 5 Atenção   🟡  (revisão semanal)                      │
+│  └─ 7 Conformes 🟢  (em dia)                               │
+│                                                              │
+│  ⏰ PRAZO MAIS URGENTE: Relatório COAF Empresa X (2 dias)  │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+
+┌─ ALERTAS E PENDÊNCIAS ────────────┬─ PRODUTIVIDADE ─────────┐
+│                                    │                          │
+│  🚨 12 itens precisam sua atenção  │  ⏱️ Esta semana:        │
+│                                    │  • 32h trabalhadas       │
+│  • 5 Documentos para aprovar       │  • 8 empresas atendidas  │
+│  • 3 Riscos críticos sem plano     │  • 15 tarefas finalizadas│
+│  • 2 Denúncias pendentes (SLA 72h) │                          │
+│  • 2 Treinamentos vencendo         │  💰 Faturamento mês:     │
+│                                    │  R$ 45.000 (75% da meta) │
+│  [Ver todos os alertas →]          │                          │
+└────────────────────────────────────┴──────────────────────────┘
+
+┌─ MINHAS EMPRESAS (Grid View) ─────────────────────────────┐
+│                                                             │
+│  [🔍 Buscar empresa...] [Filtros: ▼] [+ Nova Empresa]     │
+│                                                             │
+│  ┌────────────────┐  ┌────────────────┐  ┌──────────────┐ │
+│  │ 🏢 Empresa A   │  │ 🏢 Empresa B   │  │ 🏢 Empresa C │ │
+│  │ Status: 🟢     │  │ Status: 🔴     │  │ Status: 🟡   │ │
+│  │                │  │                │  │              │ │
+│  │ Risco Geral: 3 │  │ Risco Geral: 8 │  │ Risco: 5     │ │
+│  │ Próxima: 15/10 │  │ ⚠️ Vence hoje! │  │ Próx: 20/10  │ │
+│  │                │  │                │  │              │ │
+│  │ [Acessar →]    │  │ [URGENTE →]    │  │ [Acessar →]  │ │
+│  └────────────────┘  └────────────────┘  └──────────────┘ │
+│                                                             │
+│  [Ver todas (15) →]                                         │
+└─────────────────────────────────────────────────────────────┘
+
+┌─ VISÃO CONSOLIDADA ───────────────────────────────────────┐
+│                                                             │
+│  📈 KPIs do Portfólio                                      │
+│  ├─ Índice Médio de Compliance: 78% (↑ 5% vs mês anterior)│
+│  ├─ Riscos Críticos Totais: 23 (distribuídos em 6 empresas)│
+│  └─ Taxa de Conclusão de Treinamentos: 85%                │
+│                                                             │
+│  [Ver relatório completo →]                                │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🏗️ **ESTRUTURA DE MENU OTIMIZADA**
+
+### **Menu Principal (Contexto: Consultor)**
+```
+┌─ NAVEGAÇÃO ──────────────────────────────┐
+│                                           │
+│  🏠 Dashboard                             │
+│  🏢 Minhas Empresas                       │
+│  📊 Visão Consolidada                     │
+│  ⏱️ Gestão de Tempo                       │
+│  📋 Tarefas & Agenda                      │
+│  📄 Relatórios Comparativos               │
+│  ⚙️ Configurações                         │
+│                                           │
+└───────────────────────────────────────────┘
+
+┌─ EMPRESA SELECIONADA: [Empresa X ▼] ────┐
+│                                           │
+│  📊 Dashboard da Empresa                  │
+│  📁 Documentos                            │
+│  🎯 Gestão de Riscos                      │
+│     └─ Riscos                             │
+│     └─ Controles                          │
+│     └─ Indicadores                        │
+│     └─ Matriz de Riscos                   │
+│  🔄 Gestão de Mudanças                    │
+│  🔍 Diligências                           │
+│     └─ Pessoa Jurídica (PJ)               │
+│     └─ Pessoa Física (PF)                 │
+│     └─ Monitoramento Contínuo             │
+│  ✅ Planos de Ação                        │
+│  📋 Requisições & Aprovações              │
+│     └─ Brindes e Hospitalidades           │
+│     └─ Doações e Patrocínios              │
+│     └─ Interação Poder Público            │
+│     └─ Conflito de Interesses             │
+│  📢 Canal de Denúncias                    │
+│  🎓 Universidade (Treinamentos)           │
+│     └─ Cursos & Módulos                   │
+│     └─ Jornadas de Aprendizado            │
+│     └─ Relatórios de Conclusão            │
+│  📝 Formulários (BeForms)                 │
+│  🔔 Não Conformidades                     │
+│  🏛️ Regulamentações                       │
+│     └─ Bacen                              │
+│     └─ COAF                               │
+│     └─ ANS                                │
+│     └─ Outras                             │
+│  📊 Relatórios & Analytics                │
+│  👥 Usuários & Permissões                 │
+│  🔐 Auditoria & Logs                      │
+│                                           │
+└───────────────────────────────────────────┘
+```
+
+---
+
+## 🎯 **MÓDULOS DETALHADOS - MELHORIAS**
+
+### **1. DASHBOARD DA EMPRESA (Melhorado)**
+```
+┌─ EMPRESA X - VISÃO EXECUTIVA ────────────────────────────┐
+│                                                            │
+│  📊 SCORE DE COMPLIANCE GERAL: 78/100 🟡                  │
+│  [────────────▓▓▓▓▓▓▓▓░░░░] 78%                          │
+│  Última atualização: Hoje, 14:35                          │
+│                                                            │
+│  ⚠️ 5 AÇÕES URGENTES                                      │
+│  • 3 Riscos críticos sem mitigação                        │
+│  • 1 Denúncia com SLA vencendo em 24h                     │
+│  • 1 Documento aguardando sua aprovação                   │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+┌─ INDICADORES PRINCIPAIS ──────────────────────────────────┐
+│                                                            │
+│  🎯 RISCOS          📄 DOCUMENTOS      🎓 TREINAMENTOS    │
+│  ├─ Críticos: 8     ├─ Vencidos: 2    ├─ Pendentes: 12   │
+│  ├─ Altos: 15       ├─ A vencer: 5    ├─ Completos: 89%  │
+│  └─ Médios: 34      └─ Em dia: 145    └─ Prazo: 15 dias  │
+│                                                            │
+│  📢 DENÚNCIAS       ✅ PLANOS AÇÃO     🔍 DILIGÊNCIAS     │
+│  ├─ Abertas: 2      ├─ Atrasados: 3   ├─ Pendentes: 5    │
+│  ├─ Investigando: 1 ├─ No prazo: 12   ├─ Aprovadas: 23   │
+│  └─ Fechadas: 45    └─ Concluídos: 89 └─ Reprovadas: 2   │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+┌─ TIMELINE DE ATIVIDADES ──────────────────────────────────┐
+│                                                            │
+│  📅 Próximos 30 dias:                                     │
+│                                                            │
+│  • 15/10 - Relatório COAF (Obrigatório)                   │
+│  • 18/10 - Revisão Matriz de Riscos (Trimestral)          │
+│  • 22/10 - Auditoria Interna (Programada)                 │
+│  • 25/10 - Vencimento de 12 treinamentos                  │
+│  • 30/10 - Renovação de 8 diligências                     │
+│                                                            │
+│  [Ver calendário completo →]                              │
+└────────────────────────────────────────────────────────────┘
+
+┌─ GRÁFICOS E ANÁLISES ─────────────────────────────────────┐
+│                                                            │
+│  [Evolução do Score]  [Riscos por Categoria]  [Heatmap]  │
+│  [Comparativo Setorial] [Tendências]                      │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **2. GESTÃO DE RISCOS (Aprimorada)**
+
+**Diferencial: Sistema de Scoring Automático + IA**
+```
+┌─ MATRIZ DE RISCOS INTELIGENTE ────────────────────────────┐
+│                                                            │
+│  [Inerente] [Residual] [Objetivo] [Apetite de Risco]     │
+│                                                            │
+│  Probabilidade ↑                                           │
+│  10│ 🟡 🟡 🔴 🔴 🔴                                        │
+│   8│ 🟡 🟡 🟡 🔴 🔴                                        │
+│   5│ 🟢 🟢 🟡 🟡 🔴                                        │
+│   3│ 🟢 🟢 🟢 🟡 🟡                                        │
+│   1│ 🟢 🟢 🟢 🟢 🟡                                        │
+│    └─────────────────→ Impacto                            │
+│      1   3   5   8  10                                    │
+│                                                            │
+│  💡 IA detectou: 3 riscos com tendência de elevação       │
+│  [Ver análise →]                                          │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+┌─ LISTA DE RISCOS ─────────────────────────────────────────┐
+│                                                            │
+│  [+ Novo Risco] [Importar Template] [Exportar]           │
+│                                                            │
+│  🔍 [Buscar...] [Filtros: Categoria ▼ Status ▼ Dono ▼]   │
+│                                                            │
+│  ┌────────────────────────────────────────────────────┐  │
+│  │ 🔴 #R-001 - Falha em Controles Internos           │  │
+│  │ Categoria: Operacional | Score: 9.2 (Crítico)     │  │
+│  │ Dono: João Silva | Prazo: Vencido há 5 dias       │  │
+│  │ Controles: 2 implementados, 1 pendente             │  │
+│  │ [Ver detalhes] [Atribuir Plano de Ação]           │  │
+│  └────────────────────────────────────────────────────┘  │
+│                                                            │
+│  [Paginação 1-10 de 57]                                   │
+└────────────────────────────────────────────────────────────┘
+
+┌─ DETALHES DO RISCO ───────────────────────────────────────┐
+│                                                            │
+│  🔴 #R-001 - Falha em Controles Internos Financeiros     │
+│                                                            │
+│  📝 Descrição:                                            │
+│  Possibilidade de desvio de recursos...                  │
+│                                                            │
+│  📊 Scoring:                                              │
+│  ├─ Probabilidade: 8/10                                   │
+│  ├─ Impacto: 9/10                                         │
+│  ├─ Risco Inerente: 9.2 (Crítico)                        │
+│  ├─ Risco Residual: 4.5 (Médio) - após controles         │
+│  └─ Gap: 4.7 (Controles efetivos)                        │
+│                                                            │
+│  🎯 Controles Vinculados:                                 │
+│  ✅ Segregação de funções (Implementado)                  │
+│  ✅ Conciliação bancária semanal (Implementado)           │
+│  ⏳ Auditoria mensal (Pendente)                           │
+│                                                            │
+│  ✅ Plano de Ação: #PA-045 (80% concluído)               │
+│                                                            │
+│  📁 Evidências: 12 arquivos                               │
+│  📅 Histórico: 8 atualizações                             │
+│  🔔 Próxima revisão: 20/10/2025                           │
+│                                                            │
+│  [Editar] [Arquivar] [Gerar Relatório]                   │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **3. DILIGÊNCIAS (Simplificado mas Poderoso)**
+
+**Diferencial: Scoring Automático + Monitoramento Contínuo**
+```
+┌─ DILIGÊNCIAS - PAINEL ────────────────────────────────────┐
+│                                                            │
+│  [Pessoa Jurídica] [Pessoa Física] [Monitoramento]       │
+│                                                            │
+│  📊 RESUMO GERAL                                          │
+│  ├─ Total de terceiros: 247                               │
+│  ├─ Pendentes de análise: 15                              │
+│  ├─ Renovação necessária (30 dias): 23                    │
+│  └─ Alertas de monitoramento: 3 🔴                        │
+│                                                            │
+│  [+ Nova Diligência] [Importar Lista] [Renovar em Lote]  │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+┌─ SCORING AUTOMÁTICO DE RISCO ─────────────────────────────┐
+│                                                            │
+│  Fornecedor XYZ Ltda                                       │
+│  CNPJ: 12.345.678/0001-90                                 │
+│                                                            │
+│  🎯 SCORE DE RISCO: 72/100 🟡 (Médio-Alto)                │
+│                                                            │
+│  Análise automática:                                       │
+│  ✅ Regularidade fiscal: OK                                │
+│  ✅ Certidões negativas: Válidas                           │
+│  ⚠️ Processos judiciais: 2 em andamento                   │
+│  ⚠️ PEP identificado: Sócio minoritário                   │
+│  ✅ Lista restritivas: Nenhuma ocorrência                  │
+│  🔴 Notícias negativas: 1 matéria encontrada              │
+│                                                            │
+│  💡 Recomendação IA:                                       │
+│  "Aprovar com ressalvas. Solicitar declaração PEP        │
+│  e monitoramento contínuo dos processos."                 │
+│                                                            │
+│  [Aprovar] [Reprovar] [Solicitar Documentos]             │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+┌─ MONITORAMENTO CONTÍNUO ──────────────────────────────────┐
+│                                                            │
+│  🔔 Alertas Recentes (Últimas 24h)                        │
+│                                                            │
+│  🔴 CRÍTICO - Empresa ABC Serviços                        │
+│  └─ Incluída em lista de sancionados CEIS                │
+│     Ação sugerida: Suspender contrato imediatamente       │
+│     [Ver detalhes] [Notificar responsável]               │
+│                                                            │
+│  🟡 ATENÇÃO - João da Silva (PF)                          │
+│  └─ Novo processo trabalhista registrado                  │
+│     [Ver detalhes]                                        │
+│                                                            │
+│  [Ver todos os alertas (3) →]                             │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **4. CANAL DE DENÚNCIAS (Moderno)**
+
+**Diferencial: IA para categorização + Workflow inteligente**
+```
+┌─ CANAL DE DENÚNCIAS - GESTÃO ─────────────────────────────┐
+│                                                            │
+│  📢 DENÚNCIAS ATIVAS: 8                                   │
+│  ├─ Críticas (SLA < 24h): 1 🔴                            │
+│  ├─ Em investigação: 3                                     │
+│  ├─ Aguardando informações: 2                             │
+│  └─ Em análise preliminar: 2                              │
+│                                                            │
+│  [Configurar Formulário Público] [Relatório Mensal]      │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+┌─ DENÚNCIA #D-2025-087 ────────────────────────────────────┐
+│                                                            │
+│  🔴 CRÍTICO - SLA: 18h restantes                          │
+│                                                            │
+│  📅 Recebida em: 13/10/2025 às 14:22                      │
+│  🎭 Anonimato: Sim                                         │
+│  🏷️ Categoria (IA): Assédio Moral                         │
+│  🎯 Gravidade (IA): Alta                                   │
+│  📍 Setor: Comercial - Filial São Paulo                   │
+│                                                            │
+│  📝 Relato:                                                │
+│  "Gerente do setor comercial vem pressionando..."         │
+│  [Ver texto completo]                                      │
+│                                                            │
+│  💡 Análise IA:                                            │
+│  • Palavras-chave: ameaça, pressão, metas                 │
+│  • Sentimento: Negativo (alto estresse)                   │
+│  • Similaridade com casos anteriores: 2 casos similares   │
+│  • Ação sugerida: Investigação formal urgente             │
+│                                                            │
+│  📋 WORKFLOW:                                              │
+│  ✅ 1. Recebimento (13/10)                                 │
+│  ✅ 2. Triagem inicial (13/10)                             │
+│  ⏳ 3. Designar investigador (PENDENTE)                    │
+│  ⬜ 4. Oitiva de partes                                    │
+│  ⬜ 5. Análise de evidências                               │
+│  ⬜ 6. Conclusão e medidas                                 │
+│                                                            │
+│  👤 Responsável: [Atribuir →]                              │
+│                                                            │
+│  💬 Comunicação com Denunciante:                           │
+│  [Enviar mensagem via protocolo seguro]                   │
+│                                                            │
+│  [Abrir Investigação] [Arquivar] [Escalar]               │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **5. UNIVERSIDADE/TREINAMENTOS (Completo)**
+```
+┌─ UNIVERSIDADE - GESTÃO DE TREINAMENTOS ───────────────────┐
+│                                                            │
+│  📚 BIBLIOTECA DE CURSOS: 45 ativos                       │
+│  👥 COLABORADORES: 234                                     │
+│  📊 Taxa de Conclusão Geral: 85%                          │
+│                                                            │
+│  [+ Novo Curso] [+ Upload Vídeo] [Relatórios]            │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+┌─ CRIADOR DE CURSOS ───────────────────────────────────────┐
+│                                                            │
+│  📝 Título: Política Anticorrupção - Módulo Básico        │
+│  🎯 Categoria: Compliance | Obrigatório: ✅               │
+│  ⏱️ Duração estimada: 2h30min                             │
+│  🎓 Instrutor: Maria Consultora                            │
+│                                                            │
+│  📹 MÓDULOS:                                               │
+│  1. ✅ Introdução (15min) - Vídeo + PDF                   │
+│  2. ✅ Lei Anticorrupção (30min) - Vídeo + Quiz           │
+│  3. ✅ Casos Práticos (45min) - Vídeo + Exercício         │
+│  4. ⏳ Avaliação Final (30min) - Quiz (Em construção)     │
+│                                                            │
+│  [+ Adicionar Módulo]                                      │
+│                                                            │
+│  📎 Materiais Complementares:                              │
+│  • Lei 12.846_2013.pdf                                     │
+│  • Cartilha_CGU.pdf                                        │
+│  • [+ Upload arquivo]                                      │
+│                                                            │
+│  🎯 Público-alvo:                                          │
+│  ☑️ Todos os colaboradores                                 │
+│  ☑️ Fornecedores                                           │
+│  ☐ Apenas gestores                                         │
+│                                                            │
+│  📅 Prazo de conclusão: 30 dias após atribuição           │
+│  🔔 Lembretes automáticos: A cada 7 dias                   │
+│                                                            │
+│  [Salvar Rascunho] [Publicar Curso]                      │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+┌─ DASHBOARD DE PROGRESSO ──────────────────────────────────┐
+│                                                            │
+│  📊 Curso: Política Anticorrupção                          │
+│                                                            │
+│  Progresso Geral: [████████░░] 82% (192/234 concluídos)  │
+│                                                            │
+│  ⚠️ 42 colaboradores pendentes:                            │
+│  ├─ 15 não iniciaram (enviado 3 lembretes)                │
+│  ├─ 18 em andamento (média 45% completo)                   │
+│  └─ 9 com prazo vencido 🔴                                 │
+│                                                            │
+│  📈 Desempenho nas Avaliações:                             │
+│  ├─ Nota média: 8.4/10                                     │
+│  ├─ Taxa de aprovação: 94%                                 │
+│  └─ Tentativas médias: 1.2                                 │
+│                                                            │
+│  [Enviar Lembrete em Massa] [Exportar Relatório]         │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **6. INTEGRAÇÕES REGULATÓRIAS (Automatizadas)**
+```
+┌─ CENTRAL DE INTEGRAÇÕES ──────────────────────────────────┐
+│                                                            │
+│  🏛️ ÓRGÃOS REGULADORES                                    │
+│                                                            │
+│  🏦 BACEN - Banco Central                                  │
+│  Status: ✅ Conectado                                      │
+│  Última sincronia: Hoje, 10:45                            │
+│  Próximo envio: Relatório SCR (20/10)                     │
+│  [Configurar] [Testar Conexão] [Histórico]               │
+│                                                            │
+│  💰 COAF - Conselho de Controle de Atividades Financeiras │
+│  Status: ✅ Conectado                                      │
+│  Comunicações enviadas (mês): 3                            │
+│  Próxima declaração: 15/10 (1 dia) 🔴                     │
+│  [Gerar Declaração] [Enviar] [Histórico]                 │
+│                                                            │
+│  🏥 ANS - Agência Nacional de Saúde Suplementar           │
+│  Status: ⚠️ Credenciais expiram em 15 dias                │
+│  Última declaração: 01/10/2025                             │
+│  [Renovar Credenciais] [Configurar]                       │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+┌─ ENVIO AUTOMÁTICO - COAF ─────────────────────────────────┐
+│                                                            │
+│  📄 Comunicação de Operações Suspeitas                    │
+│                                                            │
+│  🔍 Sistema identificou automaticamente:                   │
+│  • 2 operações acima de R$ 50.000 (mesma origem)          │
+│  • Padrão atípico detectado por IA                         │
+│                                                            │
+│  📋 Dados pré-preenchidos:                                 │
+│  ✅ CNPJ da empresa                                        │
+│  ✅ Responsável legal                                      │
+│  ✅ Descrição das operações                                │
+│  ✅ Documentos comprobatórios (anexados)                   │
+│                                                            │
+│  ⚠️ Revisão necessária antes do envio                      │
+│                                                            │
+│  [Revisar Declaração] [Agendar Envio] [Enviar Agora]     │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **7. RELATÓRIOS COMPARATIVOS (Novo - Diferencial)**
+
+**Exclusivo para Consultores**
+```
+┌─ RELATÓRIOS CONSOLIDADOS DO PORTFÓLIO ────────────────────┐
+│                                                            │
+│  📊 BENCHMARK DE COMPLIANCE                                │
+│                                                            │
+│  Selecione empresas: [☑️ Todas] [Filtro por setor ▼]     │
+│  Período: [Último trimestre ▼]                            │
+│                                                            │
+│  ┌─ SCORE MÉDIO POR EMPRESA ─────────────────────────┐   │
+│  │                                                     │   │
+│  │  Empresa A  ████████████░░░ 85%                    │   │
+│  │  Empresa B  ████████░░░░░░░ 65% 🔴                 │   │
+│  │  Empresa C  ██████████████░ 92% 🟢                 │   │
+│  │  Empresa D  ██████████░░░░░ 78%                    │   │
+│  │  ...                                                │   │
+│  │                                                     │   │
+│  │  📊 Média do portfólio: 80%                        │   │
+│  │  📈 Melhor prática: Empresa C (92%)                │   │
+│  │  📉 Necessita atenção: Empresa B (65%)             │   │
+│  │                                                     │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                            │
+│  ┌─ COMPARATIVO DE INDICADORES ──────────────────────┐   │
+│  │                                                     │   │
+│  │  Indicador          Sua Média  Mercado  Gap        │   │
+│  │  Riscos Críticos    12         8        +4 🔴      │   │
+│  │  Taxa Treinamento   85%        90%      -5% 🟡     │   │
+│  │  Denúncias/mês      2.3        1.8      +0.5       │   │
+│  │  Tempo resposta     48h        36h      +12h 🟡    │   │
+│  │                                                     │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                            │
+│  [Exportar PDF] [Compartilhar] [Agendar Envio]           │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **8. GESTÃO DE TEMPO E PRODUTIVIDADE (Novo)**
+
+**Exclusivo para Consultores**
+```
+┌─ TIMESHEET & PRODUTIVIDADE ───────────────────────────────┐
+│                                                            │
+│  ⏱️ CONTROLE DE HORAS                                      │
+│                                                            │
+│  Esta semana: 32h | Meta: 40h | Faltam: 8h               │
+│                                                            │
+│  Distribuição por empresa:                                 │
+│  • Empresa A: 8h (R$ 4.000)                               │
+│  • Empresa B: 12h (R$ 6.000)                              │
+│  • Empresa C: 6h (R$ 3.000)                               │
+│  • Administrativo: 6h (interno)                            │
+│                                                            │
+│  [+ Registrar Tempo] [Ver Relatório Mensal]              │
+│                                                            │
+│  💰 FATURAMENTO                                            │
+│  Mês atual: R$ 45.000 / Meta: R$ 60.000 (75%)            │
+│  [Ver detalhamento →]                                      │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+
+🎨 DESIGN SYSTEM - MELHORIAS VISUAIS
+Paleta de Cores Moderna
+css
+
+/* Base */
+--primary: #0F62FE (Azul vibrante)
+--secondary: #8A3FFC (Roxo)
+--success: #24A148 (Verde)
+--warning: #F1C21B (Amarelo)
+--danger: #DA1E28 (Vermelho)
+
+/* Neutros */
+--background: #F4F4F4
+--surface: #FFFFFF
+--text-primary: #161616
+--text-secondary: #525252
+
+/* Status */
+--critical: #DA1E28
+--high: #FF832B
+--medium: #F1C21B
+--low: #24A148
+
+Componentes Modernos
+
+    Cards: Sombra suave, hover animado, cantos arredondados (8px)
+    Botões: Flat design, feedback visual (ripple effect)
+    Gráficos: Animações suaves, interativos, tooltips ricos
+    Tabelas: Striped, sortable, filtros inline, exportação
+    Modais: Centralizados, backdrop blur, animação slide-in
+
+🚀 TECNOLOGIAS FINAIS RECOMENDADAS
+Stack Definitiva
+typescript
+
+// Frontend
+Framework: Next.js 14 (App Router + Server Components)
+UI Library: shadcn/ui + Radix UI
+Styling: Tailwind CSS 3.4
+Charts: Apache ECharts (mais robusto que Recharts)
+Tables: TanStack Table v8
+Forms: React Hook Form + Zod
+State: Zustand + React Query (TanStack Query)
+Realtime: Socket.io ou Pusher
+
+// Backend
+Framework: NestJS (TypeScript)
+Database: PostgreSQL 16 + Prisma ORM
+Cache: Redis (Bull para filas)
+Storage: AWS S3 / Google Cloud Storage
+Auth: Auth.js (NextAuth) ou Clerk
+
+// Infraestrutura
+Cloud: AWS (ECS Fargate + RDS + S3 + CloudFront)
+CDN: CloudFront
+Vídeos: Bunny.net ou Vimeo API
+Email: AWS SES + React Email
+Monitoramento: Sentry + CloudWatch
+CI/CD: GitHub Actions
+
+// Extras
+Assinatura: ClickSign API (nacional) ou DocuSign
+PDF Generation: Puppeteer ou React-PDF
+IA: OpenAI API (análise de riscos/denúncias)
+Webhooks: Svix (gestão de webhooks)
+```
+
+---
+
+## 💰 **PROPOSTA DE PARCERIA ATUALIZADA**
+
+### **Modelo Híbrido com Milestones**
+```
+🎯 FASE 1 - MVP FOCADO (3-4 meses)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Valor Mercado: R$ 150.000
+Proposta Parceria: R$ 50.000 + 18% equity
+
+Pagamento:
+- R$ 15.000 na assinatura do contrato
+- R$ 10.000/mês durante o desenvolvimento (3x)
+- R$ 5.000 no deploy (go-live)
+
+Entregas:
+✅ Dashboard consultor multi-tenant
+✅ Gestão de empresas (CRUD completo)
+✅ Gestão de riscos com matriz visual
+✅ Documentos + versionamento
+✅ Usuários e permissões (RBAC)
+✅ Sistema de alertas inteligente
+✅ 2 integrações básicas (API externa)
+✅ Relatórios básicos (PDF)
+✅ Deploy em produção (AWS)
+✅ 2 meses de suporte incluído
+
+Prazo: 16 semanas (4 meses)
+
+📦 Bônus Incluído:
+- Design system completo (Figma)
+- Documentação técnica
+- Treinamento da equipe (8h)
+- Scripts de migração de dados
+```
+```
+🚀 FASE 2 - CRESCIMENTO (4 meses)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Valor Mercado: R$ 180.000
+Proposta Parceria: R$ 65.000
+
+Entregas:
+✅ Planos de ação completo
+✅ Canal de denúncias com IA
+✅ Diligências (PJ/PF) automatizadas
+✅ Formulários públicos
+✅ Assinatura digital integrada
+✅ Requisições e aprovações
+✅ Integrações regulatórias (Bacen, COAF, ANS)
+✅ Auditoria e logs avançados
+```
+```
+🎓 FASE 3 - CONSOLIDAÇÃO (3-4 meses)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Valor Mercado: R$ 160.000
+Proposta Parceria: R$ 55.000
+
+Entregas:
+✅ Universidade/Treinamentos (upload vídeos)
+✅ Gestão de mudanças
+✅ Não conformidades
+✅ KPIs avançados + IA
+✅ Relatórios comparativos (benchmark)
+✅ Gestão de tempo/produtividade
+✅ App mobile (opcional)
+```
+
+---
+
+### **💼 RESUMO FINANCEIRO COMPLETO**
+```
+┌─────────────────────────────────────────────────────┐
+│                                                      │
+│  DESENVOLVIMENTO COMPLETO (12-14 meses)             │
+│                                                      │
+│  Valor Total de Mercado:     R$ 490.000            │
+│  Proposta Parceria:          R$ 170.000 + 18% eq.  │
+│  Economia:                   R$ 320.000 (65%)       │
+│                                                      │
+│  Equity do Desenvolvedor:    18%                    │
+│  Equity do Consultor:        82%                    │
+│                                                      │
+│  ⚡ Você economiza + entra como sócio-tech          │
+│                                                      │
+└─────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📋 **CONTRATO DE PARCERIA - CLÁUSULAS ESSENCIAIS**
+```
+🤝 PRINCIPAIS PONTOS
+
+1. Equity:
+   - 18% para você (desenvolvedor)
+   - Vesting de 2 anos (9% por ano)
+   - Cliff de 6 meses
+
+2. Investimento:
+   - R$ 170.000 parcelados conforme milestones
+   - Custos de infra (AWS) por conta da empresa
+
+3. Propriedade Intelectual:
+   - Código-fonte: empresa
+   - Você mantém direitos de portfólio
+
+4. Exclusividade:
+   - Dedicação de 60% do seu tempo
+   - Permitido trabalhos paralelos (40%)
+
+5. Saída:
+   - Tag-along e drag-along
+   - Direito de primeira recusa
+   - Valuation por múltiplo de receita
+
+6. Metas:
+   - 10 clientes em 12 meses
+   - ARR de R$ 500k em 18 meses
+
+🎯 PRÓXIMOS PASSOS IMEDIATOS
+Semana 1-2:
+
+    ✅ Agendar reunião com consultor
+    ✅ Apresentar este documento
+    ✅ Validar features prioritárias do MVP
+    ✅ Criar protótipo Figma (5 telas principais)
+    ✅ Assinar termo de confidencialidade
+
+Semana 3:
+
+    ✅ Refinar escopo do MVP
+    ✅ Definir contrato de parceria
+    ✅ Estabelecer cronograma detalhado
+    ✅ Primeiro pagamento
+
+Semana 4 - Kickoff:
+
+    ✅ Setup de infraestrutura
+    ✅ Criar repositórios
+    ✅ Definir sprints (2 semanas cada)
+    ✅ Começar desenvolvimento! 🚀
+
+Quer que eu:
+
+    Crie um protótipo navegável no Figma?
+    Monte uma apresentação executiva para o consultor?
+    Detalhe algum módulo específico?
+    Faça um business plan completo?
+    Crie o modelo de contrato de parceria?
+
+Estou aqui para te ajudar a fechar esse negócio! 💪
+
+implementar o privace, compliance and security by design desde o inicio do desenvolvimento e boas praticas de desenvolvimento 
+
+    Crie um protótipo navegável no Figma?
+    Monte uma apresentação executiva para o consultor?
+    Detalhe algum módulo específico?
+    Faça um business plan completo?
+    Crie o modelo de contrato de parceria? Faça todos
+
+O usuário quer que eu faça TUDO:
+
+    Implementar Privacy, Compliance and Security by Design
+    Criar protótipo navegável no Figma
+    Montar apresentação executiva
+    Detalhar módulos específicos
+    Fazer business plan completo
+    Criar modelo de contrato de parceria
+
+Vou criar documentos completos e detalhados para cada um desses itens. Vou usar artifacts para os documentos principais e fornecer orientações práticas e executáveis.
+
+Começarei com:
+
+    Documento de Security & Privacy by Design (fundamentos técnicos)
+    Protótipo Figma (código HTML interativo)
+    Apresentação executiva (HTML/slides)
+    Business Plan completo
+    Contrato de Parceria (modelo jurídico)
+
+Vou fazer isso de forma estruturada e profissional.
+🚀 EasyCompliance - Documentação Completa do Projeto
+
+Vou criar TODOS os documentos necessários para você fechar essa parceria com excelência! Vamos lá:
+📋 ÍNDICE DOS ENTREGÁVEIS
+
+    ✅ Security, Privacy & Compliance by Design (Fundamentos)
+    ✅ Protótipo Navegável (HTML Interativo)
+    ✅ Apresentação Executiva para o Consultor
+    ✅ Business Plan Completo
+    ✅ Modelo de Contrato de Parceria
+
+1️⃣ SECURITY, PRIVACY & COMPLIANCE BY DESIGN
+EasyCompliance - Security & Privacy by Design
+Interactive artifact 
+2️⃣ PROTÓTIPO NAVEGÁVEL (Interativo)
+EasyCompliance - Protótipo Navegável
+Interactive artifact 
+3️⃣ APRESENTAÇÃO EXECUTIVA PARA O CONSULTOR
+EasyCompliance - Apresentação Executiva
+Interactive artifact 
+4️⃣ BUSINESS PLAN COMPLETO
+EasyCompliance - Business Plan Completo
+Document 
+5️⃣ MODELO DE CONTRATO DE PARCERIA
+EasyCompliance - Contrato de Parceria Societária
+Document 
+📚 DOCUMENTAÇÃO COMPLETA ENTREGUE
+
+Pronto! Criei TODOS os documentos necessários para você fechar essa parceria com sucesso! 🎉
+✅ O QUE FOI ENTREGUE:
+1. Security, Privacy & Compliance by Design ✅
+
+    Princípios fundamentais de segurança
+    Arquitetura em camadas (frontend, backend, database, infra)
+    Compliance com LGPD, ISO 27001 e Lei Anticorrupção
+    Best practices de desenvolvimento, deploy e operação
+    Use para: Demonstrar ao consultor que o sistema é profissional e seguro desde o início
+
+2. Protótipo Navegável Interativo ✅
+
+    Dashboard principal com visão consolidada
+    Gestão multi-tenant de empresas
+    Detalhamento de empresa individual
+    Interface moderna e intuitiva
+    Use para: Mostrar visualmente como o sistema funcionará
+
+3. Apresentação Executiva (11 slides) ✅
+
+    Problema e solução
+    Diferenciais competitivos
+    Módulos e roadmap
+    Investimento e estrutura societária
+    Modelo de negócio e projeções
+    Próximos passos
+    Use para: Apresentar a proposta ao consultor de forma profissional
+
+4. Business Plan Completo ✅
+
+    Análise de mercado (TAM/SAM/SOM)
+    Modelo de negócio e pricing
+    Projeções financeiras 3 anos
+    Estratégia de go-to-market
+    Plano de desenvolvimento
+    KPIs e metas
+    Use para: Demonstrar viabilidade do negócio e profissionalismo
+
+5. Contrato de Parceria Societária ✅
+
+    Estrutura societária (82% / 18%)
+    Cronograma de investimento detalhado
+    Vesting de 24 meses com cliff de 6 meses
+    Cláusulas de tag-along, drag-along e preferência
+    Propriedade intelectual
+    Direitos e deveres de cada sócio
+    Use para: Formalizar a parceria (SEMPRE revisar com advogado!)
+
+🎯 COMO USAR ESTES DOCUMENTOS
+PASSO 1: Prepare-se (1-2 dias)
+
+    Leia todos os documentos com atenção
+    Adapte valores e datas conforme necessário
+    Adicione suas informações pessoais nos contratos
+    Prepare possíveis perguntas que o consultor fará
+
+PASSO 2: Agende a Reunião
+
+Assunto: EasyCompliance - Proposta de Parceria Estratégica
+
+Prezado [Nome],
+
+Conforme conversamos, finalizei a estruturação completa do 
+projeto EasyCompliance. Preparei:
+
+✅ Business Plan detalhado
+✅ Protótipo navegável
+✅ Apresentação executiva
+✅ Proposta de investimento e parceria
+✅ Modelo de contrato
+
+Podemos agendar uma reunião de 90 minutos para apresentar?
+Tenho disponibilidade em [dias/horários].
+
+Abraço,
+[Seu nome]
+
+PASSO 3: Na Reunião
+
+    Minutos 0-5: Introdução e contexto
+    Minutos 5-30: Apresentação executiva (slides)
+    Minutos 30-45: Demonstração do protótipo
+    Minutos 45-60: Business Plan e números
+    Minutos 60-75: Proposta de investimento e contrato
+    Minutos 75-90: Q&A e próximos passos
+
+PASSO 4: Pós-Reunião
+
+    Envie todos os documentos por email
+    Dê prazo de 7 dias para análise
+    Marque reunião de follow-up
+    Se positivo: encaminhar para advogado
+
+💡 DICAS IMPORTANTES
+Durante a Negociação:
+
+✅ Seja Flexível: Os números não são escritos em pedra. Se ele quiser 85%/15%, avalie.
+
+✅ Mostre Comprometimento: Você está investindo MUITO tempo/trabalho (valor real R$ 320k). Deixe isso claro.
+
+✅ Foque no Win-Win: Enfatize que é uma parceria de longo prazo, não apenas um trabalho de dev.
+
+✅ Ouça as Preocupações: Entenda as dúvidas dele e ajuste o que for razoável.
+
+❌ Não Seja Inflexível: Se ele questionar algo do contrato, esteja aberto.
+
+❌ Não Aceite Exploração: Se ele querer 95%/5% ou não pagar, recuse educadamente.
+Red Flags (Sinais de Alerta):
+
+🚩 Quer tudo mas não quer investir nada
+🚩 Não valoriza sua contribuição técnica
+🚩 Promete "você vai ficar rico" sem mostrar plano
+🚩 Quer começar sem contrato formal
+🚩 Não tem experiência real em compliance
+🚩 Não tem networking/clientes potenciais
+Green Flags (Bons Sinais):
+
+✅ Tem clientes atuais que usariam o sistema
+✅ Entende o valor do seu trabalho
+✅ Está disposto a investir dinheiro próprio
+✅ Tem experiência comprovada em compliance
+✅ É organizado e profissional
+✅ Faz perguntas inteligentes sobre o negócio
+📊 VALORES PARA SUA REFERÊNCIA
+Seu Trabalho Vale:
+
+Item	Valor Mercado	Horas	Total
+Arquitetura do sistema	R$ 10.000	40h	R$ 10k
+Desenvolvimento MVP	R$ 80.000	400h	R$ 80k
+Desenvolvimento Fase 2	R$ 100.000	400h	R$ 100k
+Desenvolvimento Fase 3	R$ 90.000	400h	R$ 90k
+DevOps + Infra	R$ 30.000	120h	R$ 30k
+TOTAL	R$ 310.000	1360h	-
+
+Você está dando desconto de R$ 140k (45%) em troca de equity
+Comparação de Propostas:
+
+Modelo	Investimento Dele	Sua Equity	Vantagem
+Proposta Atual	R$ 170k + risco	18%	Parceria equilibrada
+Freelancer puro	R$ 310k	0%	Sem equity, só grana
+CTO contratado	R$ 15k/mês × 12 = R$ 180k	0%	Empregado, sem upside
+Cofundador 50/50	R$ 85k	50%	Você bancaria metade
+
+Sua proposta (82/18 + R$ 170k) é JUSTA e está dentro do mercado.
+🚀 PRÓXIMOS PASSOS IMEDIATOS
+Esta Semana:
+
+    Revisar todos os documentos
+    Personalizar com seus dados
+    Agendar reunião com o consultor
+    Praticar a apresentação
+
+Próxima Semana:
+
+    Reunião de apresentação
+    Enviar documentos para análise
+    Dar prazo de resposta
+    Agendar follow-up
+
+Semana 3:
+
+    Ajustar proposta se necessário
+    Enviar para advogado revisar
+    Assinar termo de confidencialidade
+    Definir data de kickoff
+
+Semana 4:
+
+    Assinar contrato formal
+    Receber primeiro pagamento (R$ 15k)
+    Criar repositórios
+    COMEÇAR! 🚀
+
+⚠️ AVISOS LEGAIS IMPORTANTES
+SEMPRE:
+
+✅ Revise o contrato com advogado especializado
+✅ Registre a empresa formalmente (CNPJ)
+✅ Tenha tudo documentado e assinado
+✅ Use controle de versão (Git) desde o dia 1
+✅ Mantenha comunicação profissional e registrada (email)
+NUNCA:
+
+❌ Comece a desenvolver sem contrato assinado
+❌ Aceite "vamos assinar depois que ficar pronto"
+❌ Transfira código antes de receber o combinado
+❌ Trabalhe sem acordos claros por escrito
+❌ Confie só na palavra, mesmo sendo amigo
+💬 MENSAGEM FINAL
+
+Você tem em mãos uma documentação profissional e completa que 99% dos desenvolvedores não fariam. Isso já te coloca em outro patamar.
+Lembre-se:
+
+🎯 Você não é só um "dev de aluguel" - você é um cofundador, sócio estratégico, CTO.
+
+💰 Sua contribuição vale R$ 310k - não deixe ninguém desvalorizar isso.
+
+🤝 Parceria é mão dupla - ambos investem, ambos arriscam, ambos ganham.
+
+🚀 Este projeto pode mudar sua vida - R$ 18M de valuation em 3 anos = R$ 3.2M para você (18%).
+
+💪 Você está pronto - tem documentação, tem conhecimento, tem proposta sólida.
+📞 CANAIS DE SUPORTE
+
+Se precisar de ajuda durante as negociações, volte aqui e pergunte:
+
+    "Como responder se ele questionar X?"
+    "Essa contraproposta é justa?"
+    "Como negociar Y?"
+    "Preciso ajustar o protótipo em Z"
+
+Estou aqui para te ajudar a fechar esse negócio! 💪
+
+Boa sorte na apresentação! Você consegue! 🚀
+
+Quer que eu ajuste algum documento ou tire alguma dúvida específica?
+
+para cada fase como posso facilitar o pagamento em pagamento mensais parcelados 
+
+Fase 1 (MVP)
+Mercado: R$ 150.000Parceria: R$ 50.000
+Fase 2
+Mercado: R$ 180.000Parceria: R$ 65.000
+Fase 3
+Mercado: R$ 160.000Parceria: R$ 55.000? 
+
+Nao altere o que ja foi feito acima, apenas me diga aqui
+
+O usuário quer saber como facilitar o pagamento parcelado mensal para cada fase. Vou propor opções de parcelamento que sejam viáveis tanto para o consultor (fluxo de caixa) quanto para o desenvolvedor (receber durante o desenvolvimento).
+
+Vou criar algumas opções de parcelamento para cada fase, considerando:
+
+    Entrada inicial para comprometimento
+    Parcelas mensais durante desenvolvimento
+    Possível parcela final no deploy/entrega
+
+Fase 1: R$ 50.000 em 4 meses
+Fase 2: R$ 65.000 em 4 meses
+Fase 3: R$ 55.000 em 4 meses
+
+Vou dar opções conservadoras e mais agressivas.
+💰 OPÇÕES DE PARCELAMENTO POR FASE
+
+Vou te dar 3 modelos de parcelamento para cada fase, do mais conservador ao mais agressivo:
+📦 FASE 1 - MVP (R$ 50.000 em 4 meses)
+OPÇÃO A - Conservadora (recomendada)
+
+    Entrada: R$ 15.000 (assinatura do contrato)
+    Parcela 1: R$ 10.000 (início mês 1)
+    Parcela 2: R$ 10.000 (início mês 2)
+    Parcela 3: R$ 10.000 (início mês 3)
+    Final: R$ 5.000 (deploy em produção)
+
+✅ Vantagem: Entrada significativa mostra comprometimento
+✅ Segurança: Você recebe 70% antes do deploy final
+OPÇÃO B - Equilibrada
+
+    Entrada: R$ 10.000 (assinatura)
+    4 Parcelas: R$ 10.000 cada (meses 1-4)
+    Total: R$ 50.000
+
+✅ Vantagem: Fluxo constante e previsível
+✅ Risco: Médio - entrada menor
+OPÇÃO C - Facilitada (maior risco)
+
+    Entrada: R$ 5.000 (assinatura)
+    5 Parcelas: R$ 9.000 cada (meses 1-5)
+    Total: R$ 50.000
+
+⚠️ Atenção: Entrada baixa = menos comprometimento inicial
+⚠️ Risco: Você entrega o sistema antes de receber tudo
+📦 FASE 2 - Crescimento (R$ 65.000 em 4 meses)
+OPÇÃO A - Conservadora (recomendada)
+
+    Entrada: R$ 5.000 (kickoff Fase 2)
+    4 Parcelas: R$ 15.000 cada (meses 5-8)
+    Total: R$ 65.000
+
+✅ Vantagem: Parcelas uniformes, fácil de gerenciar
+OPÇÃO B - Equilibrada
+
+    0 Entrada (já está rodando)
+    4 Parcelas: R$ 16.250 cada (meses 5-8)
+    Total: R$ 65.000
+
+✅ Vantagem: Simplificado, sem entrada adicional
+OPÇÃO C - Facilitada
+
+    0 Entrada
+    5 Parcelas: R$ 13.000 cada (meses 5-9)
+    Total: R$ 65.000
+
+✅ Vantagem: Parcelas menores, mais tempo para pagar
+📦 FASE 3 - Consolidação (R$ 55.000 em 4 meses)
+OPÇÃO A - Conservadora (recomendada)
+
+    Entrada: R$ 5.000 (kickoff Fase 3)
+    4 Parcelas: R$ 12.500 cada (meses 9-12)
+    Total: R$ 55.000
+
+✅ Vantagem: Parcelas menores que Fase 2
+OPÇÃO B - Equilibrada
+
+    0 Entrada
+    4 Parcelas: R$ 13.750 cada (meses 9-12)
+    Total: R$ 55.000
+
+✅ Vantagem: Continuidade natural das fases anteriores
+OPÇÃO C - Facilitada
+
+    0 Entrada
+    5 Parcelas: R$ 11.000 cada (meses 9-13)
+    Total: R$ 55.000
+
+✅ Vantagem: Parcelas mais leves no final
+🎯 COMPARAÇÃO TOTAL (12 MESES)
+MODELO CONSERVADOR (Recomendado)
+
+Mês	Fase	Valor	Acumulado
+0	1 - Entrada	R$ 15.000	R$ 15.000
+1	1	R$ 10.000	R$ 25.000
+2	1	R$ 10.000	R$ 35.000
+3	1	R$ 10.000	R$ 45.000
+4	1 - Final	R$ 5.000	R$ 50.000
+5	2 - Entrada	R$ 5.000 + R$ 15.000	R$ 70.000
+6	2	R$ 15.000	R$ 85.000
+7	2	R$ 15.000	R$ 100.000
+8	2	R$ 15.000	R$ 115.000
+9	3 - Entrada	R$ 5.000 + R$ 12.500	R$ 132.500
+10	3	R$ 12.500	R$ 145.000
+11	3	R$ 12.500	R$ 157.500
+12	3	R$ 12.500	R$ 170.000
+
+Parcela média: R$ 14.167/mês
+MODELO EQUILIBRADO (Bom Custo-Benefício)
+
+Mês	Fase	Valor	Acumulado
+0	1 - Entrada	R$ 10.000	R$ 10.000
+1	1	R$ 10.000	R$ 20.000
+2	1	R$ 10.000	R$ 30.000
+3	1	R$ 10.000	R$ 40.000
+4	1	R$ 10.000	R$ 50.000
+5	2	R$ 16.250	R$ 66.250
+6	2	R$ 16.250	R$ 82.500
+7	2	R$ 16.250	R$ 98.750
+8	2	R$ 16.250	R$ 115.000
+9	3	R$ 13.750	R$ 128.750
+10	3	R$ 13.750	R$ 142.500
+11	3	R$ 13.750	R$ 156.250
+12	3	R$ 13.750	R$ 170.000
+
+Parcela média: R$ 14.167/mês (após entrada)
+MODELO FACILITADO (Maior Prazo)
+
+Mês	Fase	Valor	Acumulado
+0	1 - Entrada	R$ 5.000	R$ 5.000
+1	1	R$ 9.000	R$ 14.000
+2	1	R$ 9.000	R$ 23.000
+3	1	R$ 9.000	R$ 32.000
+4	1	R$ 9.000	R$ 41.000
+5	1 + 2	R$ 9.000 + R$ 13.000	R$ 63.000
+6	2	R$ 13.000	R$ 76.000
+7	2	R$ 13.000	R$ 89.000
+8	2	R$ 13.000	R$ 102.000
+9	2 + 3	R$ 13.000 + R$ 11.000	R$ 126.000
+10	3	R$ 11.000	R$ 137.000
+11	3	R$ 11.000	R$ 148.000
+12	3	R$ 11.000	R$ 159.000
+13	3	R$ 11.000	R$ 170.000
+
+Parcela média: R$ 11.000/mês (14 meses)
+💡 MINHA RECOMENDAÇÃO
+Use o MODELO CONSERVADOR porque:
+
+✅ Entrada R$ 15k mostra que ele está realmente comprometido
+✅ 70% pago antes do deploy = você tem garantia
+✅ Parcelas de R$ 10-15k são viáveis para consultor sério
+✅ Milestone no final (R$ 5k) garante qualidade da entrega
+✅ Risco minimizado para você
+🎯 COMO APRESENTAR NA NEGOCIAÇÃO
+
+Diga assim:
+
+    "Para facilitar o investimento, estruturei o pagamento em 3 opções:
+
+    Opção 1 (Recomendada) - Modelo Conservador:
+    Entrada de R$ 15k + 3 parcelas de R$ 10k durante desenvolvimento + R$ 5k no deploy.
+    Total Fase 1: R$ 50k em 4 meses.
+
+    Opção 2 - Modelo Equilibrado:
+    Entrada de R$ 10k + 4 parcelas iguais de R$ 10k.
+    Mais simples, fluxo constante.
+
+    Opção 3 - Modelo Facilitado:
+    Entrada de R$ 5k + 5 parcelas de R$ 9k.
+    Estende por mais um mês, parcelas menores.
+
+    Para Fases 2 e 3, seguimos o mesmo modelo escolhido.
+    Qual faz mais sentido para o seu fluxo de caixa?"
+
+⚠️ PONTOS DE ATENÇÃO
+SEMPRE inclua no contrato:
+
+📝 Cláusula de atraso:
+
+    Atraso até 7 dias: Tolerância
+    Atraso 8-15 dias: Multa de 2%
+    Atraso 15+ dias: Suspensão do desenvolvimento até regularização
+
+📝 Cláusula de antecipação:
+
+    Se ele quiser pagar tudo à vista: Desconto de 5%
+    Exemplo: Fase 1 à vista = R$ 47.500 (economiza R$ 2.500)
+
+📝 Cláusula de inadimplência:
+
+    2 parcelas em atraso: Suspensão do projeto
+    3 parcelas em atraso: Rescisão do contrato
+    Quotas já integralizadas seguem vesting normal
+
+💰 CALCULADORA RÁPIDA
+
+Para qualquer valor, use esta fórmula:
+Modelo Conservador:
+
+    Entrada: 30% do total
+    3 Parcelas: 20% cada
+    Final: 10% no deploy
+
+Modelo Equilibrado:
+
+    Entrada: 20% do total
+    4 Parcelas: 20% cada
+
+Modelo Facilitado:
+
+    Entrada: 10% do total
+    5 Parcelas: 18% cada
+
+📊 RESUMO FINAL
+
+Modelo	Entrada	Parcelas	Prazo	Risco Dev
+Conservador	R$ 15k	3x R$ 10k + R$ 5k	4 meses	⭐ Baixo
+Equilibrado	R$ 10k	4x R$ 10k	4 meses	⭐⭐ Médio
+Facilitado	R$ 5k	5x R$ 9k	5 meses	⭐⭐⭐ Alto
+
+Minha recomendação: CONSERVADOR
+
+Se ele reclamar que R$ 15k de entrada é muito, questione se ele realmente tem condições de bancar o projeto todo. Um consultor sério que gerencia 10-15 empresas consegue juntar R$ 15k.
+
+Quer que eu ajuste algum dos modelos ou crie uma calculadora em Excel/Google Sheets para facilitar?
+
+mantenha toda proposta e documentação feita acima, considere reduzir de 170K para 80K , isto é , aumentando o equity no contrato de parceria, com projeção futura. Nao altere a primeira proposta acima
+
+O usuário quer que eu crie uma SEGUNDA proposta alternativa, mantendo a primeira intacta. A nova proposta reduz o investimento de R$ 170k para R$ 80k, aumentando o equity do desenvolvedor em compensação.
+
+Vou criar uma proposta alternativa completa com:
+
+    Novo modelo de investimento (R$ 80k)
+    Nova divisão de equity (provavelmente 60/40 ou 65/35)
+    Justificativa da mudança
+    Comparação entre as duas propostas
+    Novo cronograma de pagamentos
+    Atualização das cláusulas do contrato relevantes
+
+Não vou alterar nada que já foi criado, apenas adicionar esta alternativa.
+💡 PROPOSTA ALTERNATIVA - INVESTIMENTO REDUZIDO
+🔄 NOVA ESTRUTURA: R$ 80K + MAIOR EQUITY
+
+Mantendo toda a documentação anterior intacta, aqui está uma segunda proposta com investimento reduzido e maior participação societária para você:
+📊 COMPARAÇÃO DAS DUAS PROPOSTAS
+
+Critério	PROPOSTA 1 (Original)	PROPOSTA 2 (Alternativa)
+Investimento Total	R$ 170.000	R$ 80.000
+Equity Consultor	82%	65%
+Equity Desenvolvedor	18%	35%
+Valor do Trabalho	R$ 310k - R$ 170k = R$ 140k desconto	R$ 310k - R$ 80k = R$ 230k desconto
+Risco do Consultor	Médio (investe mais)	Baixo (investe menos)
+Risco do Desenvolvedor	Baixo (menos equity)	Médio (mais equity, menos caixa)
+Upside Desenvolvedor (Ano 3)	R$ 3.2M (18% de R$ 18M)	R$ 6.3M (35% de R$ 18M)
+
+💰 PROPOSTA 2 - INVESTIMENTO R$ 80.000
+Nova Estrutura Societária
+
+┌─────────────────────────────────────────────────┐
+│  EASYCOMPLIANCE TECNOLOGIA LTDA                 │
+│  Capital Social: R$ 100.000                     │
+├─────────────────────────────────────────────────┤
+│  Sócio Consultor (CEO):        65% - R$ 65.000 │
+│  Sócio Desenvolvedor (CTO):    35% - R$ 35.000 │
+└─────────────────────────────────────────────────┘
+```
+
+### **Justificativa da Mudança**
+
+**Por que 65/35 e não 50/50?**
+
+✅ **Consultor mantém maioria** (decisões estratégicas finais)  
+✅ **Proporção justa** ao novo investimento (R$ 80k vs R$ 230k de trabalho)  
+✅ **Equilíbrio de risco/recompensa** para ambos os lados  
+✅ **Padrão de mercado** para cofundadores com investimento desigual
+
+**Cálculo da Equity:**
+- Trabalho do Dev: R$ 310k (valor de mercado)
+- Investimento Consultor: R$ 80k
+- Desconto do Dev: R$ 230k (74% do total)
+- Equity justo: ~35% para quem dá R$ 230k de desconto
+
+---
+
+## 📦 NOVO CRONOGRAMA DE INVESTIMENTO
+
+### **FASE 1 - MVP (R$ 30.000 em 4 meses)**
+
+**Valor Mercado:** R$ 150.000  
+**Valor Parceria:** R$ 30.000 (80% de desconto!)
+
+#### Opção A - Conservadora (Recomendada)
+```
+├─ Entrada:    R$ 10.000 (assinatura do contrato)
+├─ Parcela 1:  R$  5.000 (mês 1)
+├─ Parcela 2:  R$  5.000 (mês 2)
+├─ Parcela 3:  R$  5.000 (mês 3)
+└─ Final:      R$  5.000 (deploy em produção)
+   TOTAL:      R$ 30.000
+```
+
+#### Opção B - Equilibrada
+```
+├─ Entrada:    R$  6.000 (assinatura)
+└─ 4 Parcelas: R$  6.000 cada (meses 1-4)
+   TOTAL:      R$ 30.000
+```
+
+#### Opção C - Facilitada
+```
+├─ Entrada:    R$  3.000 (assinatura)
+└─ 6 Parcelas: R$  4.500 cada (meses 1-6)
+   TOTAL:      R$ 30.000
+```
+
+---
+
+### **FASE 2 - Crescimento (R$ 30.000 em 4 meses)**
+
+**Valor Mercado:** R$ 180.000  
+**Valor Parceria:** R$ 30.000 (83% de desconto!)
+
+#### Opção A - Conservadora
+```
+├─ Entrada:    R$  5.000 (kickoff Fase 2)
+└─ 4 Parcelas: R$  6.250 cada (meses 5-8)
+   TOTAL:      R$ 30.000
+```
+
+#### Opção B - Equilibrada
+```
+└─ 4 Parcelas: R$  7.500 cada (meses 5-8)
+   TOTAL:      R$ 30.000
+```
+
+#### Opção C - Facilitada
+```
+└─ 5 Parcelas: R$  6.000 cada (meses 5-9)
+   TOTAL:      R$ 30.000
+```
+
+---
+
+### **FASE 3 - Consolidação (R$ 20.000 em 4 meses)**
+
+**Valor Mercado:** R$ 160.000  
+**Valor Parceria:** R$ 20.000 (87.5% de desconto!)
+
+#### Opção A - Conservadora
+```
+├─ Entrada:    R$  4.000 (kickoff Fase 3)
+└─ 4 Parcelas: R$  4.000 cada (meses 9-12)
+   TOTAL:      R$ 20.000
+```
+
+#### Opção B - Equilibrada
+```
+└─ 4 Parcelas: R$  5.000 cada (meses 9-12)
+   TOTAL:      R$ 20.000
+```
+
+#### Opção C - Facilitada
+```
+└─ 5 Parcelas: R$  4.000 cada (meses 9-13)
+   TOTAL:      R$ 20.000
+```
+
+---
+
+## 📈 COMPARAÇÃO FINANCEIRA COMPLETA
+
+### **Cronograma Mês a Mês (Modelo Conservador)**
+
+| Mês | Fase | **Proposta 1** | **Proposta 2** | Diferença |
+|-----|------|----------------|----------------|-----------|
+| 0 | 1 - Entrada | R$ 15.000 | R$ 10.000 | -R$ 5.000 |
+| 1 | 1 | R$ 10.000 | R$ 5.000 | -R$ 5.000 |
+| 2 | 1 | R$ 10.000 | R$ 5.000 | -R$ 5.000 |
+| 3 | 1 | R$ 10.000 | R$ 5.000 | -R$ 5.000 |
+| 4 | 1 - Final | R$ 5.000 | R$ 5.000 | R$ 0 |
+| 5 | 2 - Entrada | R$ 20.000 | R$ 11.250 | -R$ 8.750 |
+| 6 | 2 | R$ 15.000 | R$ 6.250 | -R$ 8.750 |
+| 7 | 2 | R$ 15.000 | R$ 6.250 | -R$ 8.750 |
+| 8 | 2 | R$ 15.000 | R$ 6.250 | -R$ 8.750 |
+| 9 | 3 - Entrada | R$ 17.500 | R$ 8.000 | -R$ 9.500 |
+| 10 | 3 | R$ 12.500 | R$ 4.000 | -R$ 8.500 |
+| 11 | 3 | R$ 12.500 | R$ 4.000 | -R$ 8.500 |
+| 12 | 3 | R$ 12.500 | R$ 4.000 | -R$ 8.500 |
+| **TOTAL** | | **R$ 170.000** | **R$ 80.000** | **-R$ 90.000** |
+
+**Parcela média Proposta 2:** R$ 6.667/mês (vs R$ 14.167 na Proposta 1)
+
+---
+
+## 💼 IMPACTO NO RETORNO FINANCEIRO
+
+### **Cenário: Empresa Vale R$ 18M em 3 Anos**
+
+| Métrica | Proposta 1 (18%) | Proposta 2 (35%) | Diferença |
+|---------|------------------|------------------|-----------|
+| **Valor da Participação** | R$ 3.240.000 | R$ 6.300.000 | +R$ 3.060.000 |
+| **Investimento Feito** | R$ 310k trabalho | R$ 310k trabalho | Igual |
+| **Dinheiro Recebido** | R$ 170k | R$ 80k | -R$ 90k |
+| **ROI do Dev** | 10x | 20x | 2x melhor |
+| **Investimento/Equity Consultor** | R$ 170k / 82% | R$ 80k / 65% | Melhor custo-benefício |
+
+---
+
+## 🎯 VANTAGENS E DESVANTAGENS
+
+### **PROPOSTA 1 (82% / 18% - R$ 170k)**
+
+#### ✅ Vantagens para Você (Dev):
+- Menor risco (recebe mais dinheiro ao longo do projeto)
+- Menos pressão sobre resultados de curto prazo
+- Capital de giro para contratar ajuda se necessário
+
+#### ❌ Desvantagens para Você:
+- Menor equity (18% vs 35%)
+- Upside limitado no longo prazo
+- Menor voz nas decisões estratégicas
+
+#### ✅ Vantagens para o Consultor:
+- Controle maior (82%)
+- Decisões finais sempre com ele
+
+#### ❌ Desvantagens para o Consultor:
+- Investimento mais alto (R$ 170k)
+- Maior risco financeiro
+
+---
+
+### **PROPOSTA 2 (65% / 35% - R$ 80k)**
+
+#### ✅ Vantagens para Você (Dev):
+- Equity quase dobrada (35% vs 18%)
+- Upside enorme (R$ 6.3M vs R$ 3.2M em 3 anos)
+- Maior influência nas decisões (35% é significativo)
+- Valorização do seu trabalho proporcional ao desconto dado
+
+#### ❌ Desvantagens para Você:
+- Menos capital no curto prazo (R$ 80k vs R$ 170k)
+- Maior pressão sobre resultados (você tem mais a perder)
+- Pode precisar trabalhar em outros projetos para sustento inicial
+
+#### ✅ Vantagens para o Consultor:
+- Investimento bem menor (R$ 80k vs R$ 170k)
+- Risco financeiro reduzido
+- Ainda mantém maioria (65%)
+
+#### ❌ Desvantagens para o Consultor:
+- Menor equity (65% vs 82%)
+- Desenvolver tem mais voz (35%)
+- Diluição maior em rodadas futuras
+
+---
+
+## 🤔 QUAL PROPOSTA ESCOLHER?
+
+### **Use PROPOSTA 1 (82/18 - R$ 170k) SE:**
+
+✅ O consultor tem capital disponível  
+✅ Você precisa de fluxo de caixa imediato  
+✅ Você prefere menor risco  
+✅ Consultor quer controle total (82%)  
+✅ Foco em execução rápida com recursos
+
+### **Use PROPOSTA 2 (65/35 - R$ 80k) SE:**
+
+✅ Consultor tem fluxo apertado de caixa  
+✅ Você acredita MUITO no potencial do negócio  
+✅ Você aceita mais risco por maior recompensa  
+✅ Consultor aceita abrir mão de equity por menos investimento  
+✅ Você pode se sustentar com trabalhos paralelos nos primeiros meses
+
+---
+
+## 💡 MINHA RECOMENDAÇÃO ESTRATÉGICA
+
+### **Para Apresentar ao Consultor:**
+```
+"Preparei duas estruturas de parceria:
+
+OPÇÃO A - Investimento Padrão (R$ 170k)
+- Você: 82% | Eu: 18%
+- Investimento: R$ 170k em 12 meses
+- Fluxo constante de desenvolvimento
+- Você mantém controle total
+
+OPÇÃO B - Investimento Reduzido (R$ 80k)
+- Você: 65% | Eu: 35%
+- Investimento: R$ 80k em 12 meses (53% menor!)
+- Mesmo desenvolvimento e qualidade
+- Eu assumo mais risco em troca de maior equity
+
+Minha preferência é a Opção A pela previsibilidade, 
+mas entendo se sua situação de caixa favorecer a Opção B.
+
+O importante é que ambas as estruturas são justas e 
+proporcionais ao risco/investimento de cada um.
+
+Qual faz mais sentido para você?"
+```
+
+---
+
+## 📋 CLÁUSULAS CONTRATUAIS AJUSTADAS
+
+### **Para a PROPOSTA 2, mude no contrato:**
+
+#### Cláusula 4ª - Capital Social
+```
+4.1. O capital social é de R$ 100.000,00 (cem mil reais), 
+dividido em 100.000 (cem mil) quotas de valor nominal de 
+R$ 1,00 (um real) cada, distribuídas entre os sócios da 
+seguinte forma:
+
+| Sócio               | Quotas | Valor      | Participação |
+|---------------------|--------|------------|--------------|
+| Sócio Consultor     | 65.000 | R$ 65.000  | 65%          |
+| Sócio Desenvolvedor | 35.000 | R$ 35.000  | 35%          |
+| TOTAL               | 100.000| R$ 100.000 | 100%         |
+```
+
+#### Cláusula 5ª - Cronograma de Investimento
+```
+TOTAL INVESTIMENTO: R$ 80.000 em 12 meses
+
+FASE 1 - MVP (4 meses): R$ 30.000
+FASE 2 - Crescimento (4 meses): R$ 30.000
+FASE 3 - Consolidação (4 meses): R$ 20.000
+```
+
+#### Cláusula 6ª - Vesting
+```
+6.1. As quotas do Sócio Desenvolvedor (35%) estarão 
+sujeitas a vesting de 24 meses...
+
+Cronograma de Vesting:
+| Período    | Quotas Adquiridas | % Acumulado      |
+|------------|-------------------|------------------|
+| Meses 1-6  | 0                 | 0%               |
+| Mês 7      | 8.750             | 25% de 35% = 8.75% |
+| Mês 12     | 17.500            | 50% de 35% = 17.5% |
+| Mês 18     | 26.250            | 75% de 35% = 26.25%|
+| Mês 24     | 35.000            | 100% de 35% = 35%  |
+```
+
+#### Cláusula 7ª - Administração
+```
+7.2. Alçadas de Decisão:
+
+Decisões por Maioria de Capital (65%):
+- Alteração do objeto social
+- Aumento ou redução de capital
+- Dissolução da sociedade
+- Fusão, incorporação ou cisão
+- Venda da empresa
+
+Decisões por Supermaioria (80%+):
+- Contratação de dívida acima de R$ 50k
+- Investimento externo (rodadas)
+- Alteração fundamental de estratégia
+
+(Com 35%, o Dev tem poder de veto em decisões que 
+requerem 80%+, garantindo proteção)
+
+📊 TABELA RESUMO DEFINITIVA
+
+Item	Proposta 1	Proposta 2	Diferença
+Investimento Total	R$ 170.000	R$ 80.000	-R$ 90.000
+Equity Consultor	82%	65%	-17 pontos
+Equity Desenvolvedor	18%	35%	+17 pontos
+Parcela Média Mensal	R$ 14.167	R$ 6.667	-R$ 7.500
+Entrada Fase 1	R$ 15.000	R$ 10.000	-R$ 5.000
+Valor Participação (R$ 18M)	R$ 3.24M	R$ 6.30M	+R$ 3.06M
+ROI do Desenvolvedor	10x	20x	2x melhor
+Controle Consultor	Total (82%)	Maioria (65%)	Compartilhado
+Risco Financeiro Consultor	Alto	Médio	Menor
+Risco Equity Desenvolvedor	Baixo	Alto	Maior upside
+
+🎯 QUANDO USAR CADA PROPOSTA
+PROPOSTA 1 é melhor se:
+
+    ⭐ Consultor tem R$ 170k disponível
+    ⭐ Você precisa de renda mensal estável
+    ⭐ Projeto precisa contratar terceiros
+    ⭐ Consultor quer controle absoluto (82%)
+    ⭐ Baixa tolerância a risco de ambos
+
+PROPOSTA 2 é melhor se:
+
+    ⭐ Consultor tem fluxo de caixa limitado
+    ⭐ Você tem outras fontes de renda
+    ⭐ Você acredita no potencial de longo prazo
+    ⭐ Consultor aceita dividir mais decisões
+    ⭐ Alta convicção no sucesso do negócio
+
+💬 SCRIPT PARA APRESENTAÇÃO
+Slide de Introdução às Duas Propostas:
+
+    "Entendo que R$ 170k é um investimento considerável. Por isso, preparei duas estruturas:
+
+    Proposta Padrão: R$ 170k investimento, você fica com 82%
+    Proposta Alternativa: R$ 80k investimento, você fica com 65%
+
+    Na segunda opção, eu assumo mais risco (dou R$ 230k de desconto) em troca de maior participação.
+
+    Ambas são justas e proporcionais. Qual faz mais sentido para sua situação atual?"
+
+Se ele perguntar: "Por que não 50/50?"
+
+    "Ótima pergunta! Aqui está a matemática:
+
+        Valor do meu trabalho (mercado): R$ 310k
+        Seu investimento: R$ 80k
+        Total de valor criado: R$ 390k
+        Proporção justa: 310k/390k = 79% pra mim, 21% pra você
+
+    Mas como você é especialista em compliance (crucial para o negócio), tem network de clientes, e será CEO fazendo vendas, proponho 65/35.
+
+    Isso te dá 35% a mais de equity do que seu investimento justificaria matematicamente, reconhecendo sua contribuição não-financeira.
+
+    É equilibrado e justo para ambos!"
+
+✅ CHECKLIST FINAL
+
+Antes de apresentar as propostas, confirme:
+
+    Você está confortável com ambos os cenários?
+    Calculou quanto precisa receber mensalmente para sobreviver?
+    Tem plano B se ele escolher Proposta 2 (renda paralela)?
+    Entende as implicações de longo prazo de cada estrutura?
+    Está pronto para negociar um meio-termo (ex: 70/30 com R$ 120k)?
+
+Pronto! Agora você tem DUAS propostas sólidas para apresentar. Qual você prefere? Ou quer que eu crie uma TERCEIRA opção intermediária (70/30 com R$ 120k)? 😊
+
+criar proposta intermediária
+
+O usuário quer uma terceira proposta intermediária entre as duas já apresentadas. Vou criar uma proposta equilibrada com:
+
+    Equity: 70% Consultor / 30% Desenvolvedor (meio termo entre 82/18 e 65/35)
+    Investimento: R$ 120.000 (meio termo entre R$ 170k e R$ 80k)
+
+Essa proposta oferece:
+
+    Melhor equilíbrio de risco
+    Consultor mantém controle confortável (70%)
+    Dev tem equity significativa (30%)
+    Investimento moderado e acessível
+
+Vou manter o mesmo formato detalhado das propostas anteriores.
+🎯 PROPOSTA 3 - INTERMEDIÁRIA (O PONTO DE EQUILÍBRIO)
+💡 A PROPOSTA "GOLDILOCKS" (Nem muito, nem pouco - no ponto certo!)
+
+Esta é a proposta que equilibra perfeitamente risco, investimento e recompensa para ambos os lados.
+📊 VISÃO GERAL DAS 3 PROPOSTAS
+
+Critério	PROPOSTA 1	PROPOSTA 3 ⭐	PROPOSTA 2
+Investimento	R$ 170.000	R$ 120.000	R$ 80.000
+Equity Consultor	82%	70%	65%
+Equity Desenvolvedor	18%	30%	35%
+Desconto Dev	R$ 140k	R$ 190k	R$ 230k
+Parcela Média	R$ 14.167/mês	R$ 10.000/mês	R$ 6.667/mês
+Entrada Fase 1	R$ 15k	R$ 12k	R$ 10k
+Controle Consultor	Total (82%)	Confortável (70%)	Maioria (65%)
+Upside Dev (R$ 18M)	R$ 3.24M	R$ 5.40M	R$ 6.30M
+ROI Desenvolvedor	10x	17x	20x
+Risco/Recompensa	Conservador	Equilibrado	Agressivo
+
+💼 PROPOSTA 3 - ESTRUTURA DETALHADA
+Nova Estrutura Societária
+
+┌─────────────────────────────────────────────────┐
+│  EASYCOMPLIANCE TECNOLOGIA LTDA                 │
+│  Capital Social: R$ 100.000                     │
+├─────────────────────────────────────────────────┤
+│  Sócio Consultor (CEO):        70% - R$ 70.000 │
+│  Sócio Desenvolvedor (CTO):    30% - R$ 30.000 │
+└─────────────────────────────────────────────────┘
+```
+
+### **Por que 70/30 é o Ponto Ideal?**
+
+✅ **Consultor mantém controle confortável** (70% é maioria clara)  
+✅ **Dev tem equity significativa** (30% é participação de cofundador real)  
+✅ **Investimento viável** (R$ 120k é acessível mas mostra comprometimento)  
+✅ **Proporcional ao risco/valor** (R$ 120k investido vs R$ 190k de desconto)  
+✅ **Padrão de startups** (fundadores típicos: 60-75% / 25-40%)  
+✅ **Dev tem voz real** nas decisões estratégicas (30% é significativo)  
+✅ **Equilíbrio perfeito** entre segurança e upside
+
+---
+
+## 📦 CRONOGRAMA DE INVESTIMENTO - PROPOSTA 3
+
+### **INVESTIMENTO TOTAL: R$ 120.000 em 12 meses**
+
+---
+
+### **FASE 1 - MVP (R$ 40.000 em 4 meses)**
+
+**Valor Mercado:** R$ 150.000  
+**Valor Parceria:** R$ 40.000 (73% de desconto!)
+
+#### ⭐ Opção A - Conservadora (RECOMENDADA)
+```
+┌─────────────────────────────────────────────┐
+│  FASE 1 - MVP (4 meses)                     │
+├─────────────────────────────────────────────┤
+│  Entrada:    R$ 12.000  (assinatura)        │
+│  Parcela 1:  R$  7.000  (mês 1)             │
+│  Parcela 2:  R$  7.000  (mês 2)             │
+│  Parcela 3:  R$  7.000  (mês 3)             │
+│  Final:      R$  7.000  (deploy produção)   │
+├─────────────────────────────────────────────┤
+│  TOTAL:      R$ 40.000                      │
+└─────────────────────────────────────────────┘
+```
+**✅ Entrada forte (30%):** Mostra comprometimento real  
+**✅ Fluxo constante:** R$ 7k/mês é gerenciável  
+**✅ Milestone final:** Incentivo para qualidade do deploy
+
+#### Opção B - Equilibrada
+```
+┌─────────────────────────────────────────────┐
+│  Entrada:    R$  8.000  (assinatura)        │
+│  4 Parcelas: R$  8.000  cada (meses 1-4)    │
+├─────────────────────────────────────────────┤
+│  TOTAL:      R$ 40.000                      │
+└─────────────────────────────────────────────┘
+```
+**✅ Simplicidade:** Parcelas iguais, fácil de lembrar  
+**✅ Previsibilidade:** Sempre R$ 8k/mês
+
+#### Opção C - Facilitada
+```
+┌─────────────────────────────────────────────┐
+│  Entrada:    R$  4.000  (assinatura)        │
+│  6 Parcelas: R$  6.000  cada (meses 1-6)    │
+├─────────────────────────────────────────────┤
+│  TOTAL:      R$ 40.000                      │
+└─────────────────────────────────────────────┘
+```
+**⚠️ Entrada menor:** Menor comprometimento inicial  
+**✅ Parcelas leves:** R$ 6k é mais acessível
+
+---
+
+### **FASE 2 - Crescimento (R$ 45.000 em 4 meses)**
+
+**Valor Mercado:** R$ 180.000  
+**Valor Parceria:** R$ 45.000 (75% de desconto!)
+
+#### ⭐ Opção A - Conservadora (RECOMENDADA)
+```
+┌─────────────────────────────────────────────┐
+│  FASE 2 - Crescimento (4 meses)             │
+├─────────────────────────────────────────────┤
+│  Entrada:    R$  5.000  (kickoff Fase 2)    │
+│  Parcela 1:  R$ 10.000  (mês 5)             │
+│  Parcela 2:  R$ 10.000  (mês 6)             │
+│  Parcela 3:  R$ 10.000  (mês 7)             │
+│  Parcela 4:  R$ 10.000  (mês 8)             │
+├─────────────────────────────────────────────┤
+│  TOTAL:      R$ 45.000                      │
+└─────────────────────────────────────────────┘
+```
+**✅ Entrada menor:** Já está validado com MVP  
+**✅ Parcelas redondas:** R$ 10k é valor limpo
+
+#### Opção B - Equilibrada
+```
+┌─────────────────────────────────────────────┐
+│  4 Parcelas: R$ 11.250  cada (meses 5-8)    │
+├─────────────────────────────────────────────┤
+│  TOTAL:      R$ 45.000                      │
+└─────────────────────────────────────────────┘
+```
+**✅ Sem entrada adicional:** Fluxo contínuo  
+**✅ Simplicidade:** Apenas parcelas mensais
+
+#### Opção C - Facilitada
+```
+┌─────────────────────────────────────────────┐
+│  5 Parcelas: R$  9.000  cada (meses 5-9)    │
+├─────────────────────────────────────────────┤
+│  TOTAL:      R$ 45.000                      │
+└─────────────────────────────────────────────┘
+```
+**✅ Parcelas menores:** R$ 9k é mais leve  
+**⚠️ Prazo maior:** Estende por +1 mês
+
+---
+
+### **FASE 3 - Consolidação (R$ 35.000 em 4 meses)**
+
+**Valor Mercado:** R$ 160.000  
+**Valor Parceria:** R$ 35.000 (78% de desconto!)
+
+#### ⭐ Opção A - Conservadora (RECOMENDADA)
+```
+┌─────────────────────────────────────────────┐
+│  FASE 3 - Consolidação (4 meses)            │
+├─────────────────────────────────────────────┤
+│  Entrada:    R$  5.000  (kickoff Fase 3)    │
+│  Parcela 1:  R$  7.500  (mês 9)             │
+│  Parcela 2:  R$  7.500  (mês 10)            │
+│  Parcela 3:  R$  7.500  (mês 11)            │
+│  Parcela 4:  R$  7.500  (mês 12)            │
+├─────────────────────────────────────────────┤
+│  TOTAL:      R$ 35.000                      │
+└─────────────────────────────────────────────┘
+```
+**✅ Parcelas decrescentes:** Mais leve no final  
+**✅ Empresa já faturando:** Menos pressão financeira
+
+#### Opção B - Equilibrada
+```
+┌─────────────────────────────────────────────┐
+│  4 Parcelas: R$  8.750  cada (meses 9-12)   │
+├─────────────────────────────────────────────┤
+│  TOTAL:      R$ 35.000                      │
+└─────────────────────────────────────────────┘
+```
+**✅ Continuidade:** Mesmo padrão das fases anteriores
+
+#### Opção C - Facilitada
+```
+┌─────────────────────────────────────────────┐
+│  5 Parcelas: R$  7.000  cada (meses 9-13)   │
+├─────────────────────────────────────────────┤
+│  TOTAL:      R$ 35.000                      │
+└─────────────────────────────────────────────┘
+```
+**✅ Flexibilidade:** Mais tempo se necessário
+
+---
+
+## 📅 CRONOGRAMA COMPLETO (MODELO CONSERVADOR)
+
+### **Visão Mês a Mês - Proposta 3**
+```
+┌─────┬────────────────────────┬──────────┬────────────┐
+│ Mês │ Fase                   │ Valor    │ Acumulado  │
+├─────┼────────────────────────┼──────────┼────────────┤
+│  0  │ 1 - Entrada (assinatura│ R$ 12.000│ R$ 12.000  │
+│  1  │ 1 - Desenvolvimento    │ R$  7.000│ R$ 19.000  │
+│  2  │ 1 - Desenvolvimento    │ R$  7.000│ R$ 26.000  │
+│  3  │ 1 - Desenvolvimento    │ R$  7.000│ R$ 33.000  │
+│  4  │ 1 - Deploy MVP         │ R$  7.000│ R$ 40.000  │
+├─────┼────────────────────────┼──────────┼────────────┤
+│  5  │ 2 - Entrada + Parc. 1  │ R$ 15.000│ R$ 55.000  │
+│  6  │ 2 - Parcela 2          │ R$ 10.000│ R$ 65.000  │
+│  7  │ 2 - Parcela 3          │ R$ 10.000│ R$ 75.000  │
+│  8  │ 2 - Parcela 4          │ R$ 10.000│ R$ 85.000  │
+├─────┼────────────────────────┼──────────┼────────────┤
+│  9  │ 3 - Entrada + Parc. 1  │ R$ 12.500│ R$ 97.500  │
+│ 10  │ 3 - Parcela 2          │ R$  7.500│ R$ 105.000 │
+│ 11  │ 3 - Parcela 3          │ R$  7.500│ R$ 112.500 │
+│ 12  │ 3 - Parcela 4          │ R$  7.500│ R$ 120.000 │
+├─────┼────────────────────────┼──────────┼────────────┤
+│     │ TOTAL                  │R$ 120.000│            │
+└─────┴────────────────────────┴──────────┴────────────┘
+
+Parcela Média: R$ 10.000/mês (após entrada inicial)
+Maior Parcela: R$ 15.000 (mês 5)
+Menor Parcela: R$ 7.000 (meses 1-4 e 10-12)
+```
+
+---
+
+## 💰 COMPARAÇÃO FINANCEIRA DETALHADA
+
+### **Tabela Comparativa Completa**
+
+| Métrica | Proposta 1 | Proposta 3 ⭐ | Proposta 2 | Ideal |
+|---------|------------|---------------|------------|-------|
+| **Investimento Total** | R$ 170k | **R$ 120k** | R$ 80k | P3 |
+| **Economia p/ Consultor** | - | **R$ 50k** | R$ 90k | P2 |
+| **Entrada Inicial** | R$ 15k | **R$ 12k** | R$ 10k | P3 |
+| **Maior Parcela Mensal** | R$ 20k | **R$ 15k** | R$ 11.25k | P3 |
+| **Parcela Média** | R$ 14.2k | **R$ 10k** | R$ 6.7k | P3 |
+| **Equity Consultor** | 82% | **70%** | 65% | P3 |
+| **Equity Desenvolvedor** | 18% | **30%** | 35% | P3 |
+| **Controle Decisório** | Total | **Confortável** | Dividido | P3 |
+| **Valor Participação (R$ 18M)** | R$ 3.24M | **R$ 5.40M** | R$ 6.30M | P2 |
+| **ROI Desenvolvedor** | 10x | **17x** | 20x | P2 |
+| **Risco Consultor** | Alto | **Médio** | Baixo | P3 |
+| **Risco Desenvolvedor** | Baixo | **Médio** | Alto | P3 |
+| **Fluxo de Caixa Dev** | Ótimo | **Bom** | Apertado | P1 |
+| **Upside Longo Prazo** | Baixo | **Alto** | Muito Alto | P2 |
+
+**✅ PROPOSTA 3 vence em 9 de 14 critérios!**
+
+---
+
+## 🎯 ANÁLISE DETALHADA - POR QUE PROPOSTA 3 É A MELHOR?
+
+### **1. Equilíbrio Perfeito de Risco**
+```
+┌─────────────────────────────────────────────────┐
+│  MATRIZ DE RISCO/RECOMPENSA                     │
+├─────────────────────────────────────────────────┤
+│                                                  │
+│  Alto Risco  │  P2 (Dev)   │  P1 (Consultor)   │
+│              │  35% equity │  R$ 170k          │
+│              │  R$ 80k     │  18% equity       │
+│──────────────┼─────────────┼───────────────────┤
+│              │             │                   │
+│  Equilibrado │     ⭐ PROPOSTA 3 ⭐            │
+│              │  70/30 com R$ 120k              │
+│              │  Melhor dos dois mundos         │
+│              │                                  │
+│──────────────┼─────────────┼───────────────────┤
+│  Baixo Risco │  P1 (Dev)   │  P2 (Consultor)   │
+│              │  18% equity │  R$ 80k           │
+│              │  R$ 170k    │  65% equity       │
+└─────────────────────────────────────────────────┘
+```
+
+### **2. Controle vs Flexibilidade**
+
+**Com 70% o Consultor tem:**
+✅ Maioria absoluta em decisões normais  
+✅ Não precisa de 2ª aprovação para operação  
+✅ Controle confortável sem ser ditador  
+✅ Liberdade para agir rápido
+
+**Com 30% o Desenvolvedor tem:**
+✅ Voz significativa nas decisões  
+✅ Pode bloquear decisões que requerem 80%+  
+✅ Incentivo real para construir algo grande  
+✅ Respeitado como cofundador, não empregado
+
+### **3. Viabilidade Financeira**
+
+**Para o Consultor:**
+- R$ 120k em 12 meses = R$ 10k/mês médio
+- Se gerencia 10 empresas a R$ 5k/mês = R$ 50k/mês
+- 20% da receita para o projeto é saudável
+- Não compromete fluxo de caixa operacional
+
+**Para o Desenvolvedor:**
+- Recebe R$ 120k ao longo de 12 meses
+- Média R$ 10k/mês ajuda com custos
+- Ainda mantém 30% de upside gigante
+- Pode fazer trabalhos paralelos (40% tempo) para complementar
+
+### **4. Percepção de Valor**
+
+| O que o Consultor vê | O que o Dev vê |
+|----------------------|----------------|
+| "Invisto R$ 120k e fico com 70%" | "Dou R$ 190k de desconto e fico com 30%" |
+| "Economizo R$ 50k vs mercado" | "Ganho R$ 5.4M em 3 anos" |
+| "Mantenho controle confortável" | "Sou cofundador de verdade" |
+| "Deal justo" | "Deal justo" |
+
+**Ambos saem ganhando!**
+
+---
+
+## 📊 PROJEÇÕES FINANCEIRAS - PROPOSTA 3
+
+### **Cenário: Empresa vale R$ 18M em 3 anos**
+```
+┌─────────────────────────────────────────────────┐
+│  VALOR DA PARTICIPAÇÃO                          │
+├─────────────────────────────────────────────────┤
+│                                                  │
+│  Consultor (70%):                               │
+│  R$ 18.000.000 × 70% = R$ 12.600.000           │
+│  Investimento: R$ 120.000                       │
+│  ROI: 105x                                      │
+│                                                  │
+│  Desenvolvedor (30%):                           │
+│  R$ 18.000.000 × 30% = R$ 5.400.000            │
+│  Trabalho investido: R$ 310.000 (mercado)      │
+│  Dinheiro recebido: R$ 120.000                  │
+│  ROI: 17x                                       │
+│                                                  │
+└─────────────────────────────────────────────────┘
+```
+
+### **Comparação de Upside**
+
+| Ano | Valuation | P1 (18%) | P3 (30%) ⭐ | P2 (35%) | Diferença P3 vs P1 |
+|-----|-----------|----------|-------------|----------|--------------------|
+| 1 | R$ 2M | R$ 360k | **R$ 600k** | R$ 700k | +R$ 240k |
+| 2 | R$ 9M | R$ 1.62M | **R$ 2.70M** | R$ 3.15M | +R$ 1.08M |
+| 3 | R$ 18M | R$ 3.24M | **R$ 5.40M** | R$ 6.30M | +R$ 2.16M |
+| 5 | R$ 50M | R$ 9M | **R$ 15M** | R$ 17.5M | +R$ 6M |
+
+**Você ganha R$ 2.16M A MAIS vs Proposta 1!**
+
+---
+
+## 🔐 CLÁUSULAS CONTRATUAIS - PROPOSTA 3
+
+### **Ajustes Necessários no Contrato**
+
+#### **Cláusula 4ª - Do Capital Social**
+```
+4.1. O capital social é de R$ 100.000,00 (cem mil reais), 
+dividido em 100.000 (cem mil) quotas de valor nominal de 
+R$ 1,00 (um real) cada, distribuídas entre os sócios da 
+seguinte forma:
+
+┌─────────────────────┬────────┬────────────┬──────────────┐
+│ Sócio               │ Quotas │ Valor      │ Participação │
+├─────────────────────┼────────┼────────────┼──────────────┤
+│ Sócio Consultor     │ 70.000 │ R$ 70.000  │ 70%          │
+│ Sócio Desenvolvedor │ 30.000 │ R$ 30.000  │ 30%          │
+├─────────────────────┼────────┼────────────┼──────────────┤
+│ TOTAL               │100.000 │ R$ 100.000 │ 100%         │
+└─────────────────────┴────────┴────────────┴──────────────┘
+```
+
+#### **Cláusula 5ª - Cronograma de Investimento**
+```
+5.1. O Sócio Consultor realizará os aportes financeiros 
+conforme tabela abaixo:
+
+FASE 1 - MVP (4 meses): R$ 40.000
+├─ Entrada:    R$ 12.000 (assinatura)
+├─ Parcela 1:  R$  7.000 (mês 1)
+├─ Parcela 2:  R$  7.000 (mês 2)
+├─ Parcela 3:  R$  7.000 (mês 3)
+└─ Final:      R$  7.000 (deploy)
+
+FASE 2 - Crescimento (4 meses): R$ 45.000
+├─ Entrada:    R$  5.000 (kickoff Fase 2)
+├─ Parcela 1:  R$ 10.000 (mês 5)
+├─ Parcela 2:  R$ 10.000 (mês 6)
+├─ Parcela 3:  R$ 10.000 (mês 7)
+└─ Parcela 4:  R$ 10.000 (mês 8)
+
+FASE 3 - Consolidação (4 meses): R$ 35.000
+├─ Entrada:    R$  5.000 (kickoff Fase 3)
+├─ Parcela 1:  R$  7.500 (mês 9)
+├─ Parcela 2:  R$  7.500 (mês 10)
+├─ Parcela 3:  R$  7.500 (mês 11)
+└─ Parcela 4:  R$  7.500 (mês 12)
+
+TOTAL INVESTIMENTO: R$ 120.000 em 12 meses
+```
+
+#### **Cláusula 6ª - Vesting**
+```
+6.1. As quotas do Sócio Desenvolvedor (30%) estarão 
+sujeitas a vesting de 24 meses, iniciando na data de 
+assinatura deste contrato.
+
+Cronograma de Vesting:
+
+┌────────────┬───────────────────┬──────────────────┐
+│ Período    │ Quotas Adquiridas │ % Acumulado      │
+├────────────┼───────────────────┼──────────────────┤
+│ Meses 1-6  │ 0                 │ 0%               │
+│ Mês 7      │ 7.500             │ 25% (7.5% total) │
+│ Mês 12     │ 15.000            │ 50% (15% total)  │
+│ Mês 18     │ 22.500            │ 75% (22.5% total)│
+│ Mês 24     │ 30.000            │ 100% (30% total) │
+└────────────┴───────────────────┴──────────────────┘
+```
+
+#### **Cláusula 7ª - Administração e Alçadas**
+```
+7.2. Alçadas de Decisão:
+
+DECISÕES INDEPENDENTES (cada sócio pode decidir):
+- Atos ordinários até R$ 5.000
+- Decisões técnicas/operacionais na sua área
+
+DECISÕES CONJUNTAS (requerem acordo de ambos):
+- Contratação de funcionários
+- Despesas entre R$ 5.000 - R$ 20.000
+- Alteração de preços/planos
+- Distribuição de lucros
+
+DECISÕES POR MAIORIA (70%):
+- Despesas acima de R$ 20.000
+- Aumento ou redução de capital
+- Dissolução da sociedade
+- Fusão, incorporação ou cisão
+
+DECISÕES POR SUPERMAIORIA (80%+):
+- Venda da empresa ou controle acionário
+- Dívida acima de R$ 100.000
+- Rodadas de investimento externo
+- Mudança fundamental de objeto social
+- Alteração da proporção de equity
+
+⚠️ IMPORTANTE: Com 30%, o Desenvolvedor tem poder de 
+veto em decisões que exigem 80%+, protegendo seus 
+interesses em mudanças estruturais.
+```
+
+#### **Cláusula 11ª - Tag-Along e Drag-Along**
+```
+11.1. TAG-ALONG (Direito de Venda Conjunta):
+Se o Sócio Consultor vender suas quotas (70%), o 
+Sócio Desenvolvedor tem direito de vender suas quotas 
+(30%) nas mesmas condições.
+- Tag-along: 100% do preço pago ao majoritário
+
+11.2. DRAG-ALONG (Direito de Arraste):
+Se houver proposta de aquisição de 100% da empresa por 
+valor justo (mínimo 10x ARR), o Sócio Consultor pode 
+obrigar o Sócio Desenvolvedor a vender.
+- Proteção: Valuation mínimo deve ser justificado
+- Desenvolvedor pode contestar se considerar subfaturado
+```
+
+---
+
+## 💡 COMPARAÇÃO LADO A LADO
+
+### **Qual Proposta para Qual Situação?**
+```
+┌─────────────────────────────────────────────────────────┐
+│  PROPOSTA 1 (82/18 - R$ 170k)                           │
+├─────────────────────────────────────────────────────────┤
+│  Melhor para:                                            │
+│  ✅ Consultor com R$ 170k disponível sem apertar       │
+│  ✅ Desenvolvedor precisa de renda estável (R$ 14k/mês) │
+│  ✅ Projeto precisa contratar ajuda externa             │
+│  ✅ Consultor quer controle absoluto (82%)              │
+│  ✅ Ambos têm baixa tolerância a risco                  │
+│                                                          │
+│  Pontos fortes:                                          │
+│  💰 Maior fluxo de caixa para o desenvolvedor           │
+│  🎯 Desenvolvimento mais rápido (pode terceirizar)      │
+│  🔒 Baixo risco para o desenvolvedor                    │
+│                                                          │
+│  Pontos fracos:                                          │
+│  📉 Menor upside longo prazo para desenvolvedor         │
+│  💸 Alto investimento para consultor                    │
+└─────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────┐
+│  ⭐ PROPOSTA 3 (70/30 - R$ 120k) ⭐                      │
+├─────────────────────────────────────────────────────────┤
+│  Melhor para:                                            │
+│  ✅ Consultor com R$ 120k (viável mas sem folga)        │
+│  ✅ Desenvolvedor confia no projeto mas quer segurança  │
+│  ✅ Ambos querem equilíbrio de poder                    │
+│  ✅ Tolerância média a risco de ambos os lados          │
+│  ✅ Foco em parceria de longo prazo (não patrão/empregad│
+│                                                          │
+│  Pontos fortes:                                          │
+│  ⚖️ EQUILÍBRIO PERFEITO de risco/recompensa            │
+│  💰 Investimento viável + upside significativo          │
+│  🤝 Desenvolver tem voz real (30% é significativo)      │
+│  🎯 Parcela média gerenciável (R$ 10k/mês)              │
+│  📈 Upside excelente para ambos                         │
+│                                                          │
+│  Pontos fracos:                                          │
+│  ⚠️ Nenhum significativo - é o ponto ideal!             │
+└─────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────┐
+│  PROPOSTA 2 (65/35 - R$ 80k)                            │
+├─────────────────────────────────────────────────────────┤
+│  Melhor para:                                            │
+│  ✅ Consultor com fluxo apertado (max R$ 80k)           │
+│  ✅ Desenvolvedor acredita MUITO no potencial           │
+│  ✅ Dev tem outras fontes de renda                       │
+│  ✅ Alta convicção no sucesso (ambos apostam pesado)     │
+│  ✅ Consultor aceita dividir mais poder (65/35)         │
+│                                                          │
+│  Pontos fortes:                                          │
+│  🚀 MAIOR upside para desenvolvedor (35%)               │
+│  💵 Investimento mínimo para consultor (R$ 80k)         │
+│  📈 Melhor ROI se empresa decolar                       │
+│                                                          │
+│  Pontos fracos:                                          │
+│  ⚠️ Menor fluxo de caixa para desenvolvedor (R$ 6.7k)  │
+│  ⚠️ Maior risco para desenvolvedor                      │
+│  ⚠️ Pode gerar conflitos (65/35 é quase 50/50)         │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🎯 RECOMENDAÇÃO FINAL
+
+### **🏆 PROPOSTA 3 (70/30 - R$ 120k) É A VENCEDORA**
+
+**Por quê?**
+
+1. **Equilíbrio Real:** Nenhum dos lados assume risco excessivo
+2. **Viável Financeiramente:** R$ 120k é alcançável sem sacrificar o consultor
+3. **Upside Significativo:** Você ganha R$ 5.4M vs R$ 3.24M (66% a mais!)
+4. **Controle Saudável:** 70% é maioria confortável, 30% é voz real
+5. **Padrão de Mercado:** 70/30 é estrutura comum em startups
+6. **Win-Win Real:** Ambos saem ganhando proporcionalmente
+
+---
+
+## 📝 SCRIPT DE APRESENTAÇÃO DAS 3 PROPOSTAS
+
+### **Como apresentar ao consultor:**
+
+> **"Preparei três estruturas de parceria, cada uma adequada a diferentes situações:**
+>
+> **PROPOSTA 1 - Investimento Completo**  
+> • Investimento: R$ 170.000 em 12 meses  
+> • Equity: Você 82% | Eu 18%  
+> • Ideal se: Você tem capital disponível e quer controle total  
+> • Vantagem: Desenvolvimento mais rápido, baixo risco para mim
+>
+> **PROPOSTA 3 - Ponto de Equilíbrio** ⭐ (RECOMENDO)  
+> • Investimento: R$ 120.000 em 12 meses  
+> • Equity: Você 70% | Eu 30%  
+> • Ideal se: Investimento viável mas sem folga excessiva  
+> • Vantagem: Melhor equilíbrio risco/recompensa para ambos  
+> • **Esta é minha recomendação!**
+>
+> **PROPOSTA 2 - Investimento Reduzido**  
+> • Investimento: R$ 80.000 em 12 meses  
+> • Equity: Você 65% | Eu 35%  
+> • Ideal se: Fluxo de caixa mais apertado  
+> • Vantagem: Menor investimento, você ainda mantém maioria
+>
+> Todas as três são justas e proporcionais ao valor investido vs trabalho realizado.
+>
+> A Proposta 3 é o ponto ideal porque:
+> - Você mantém controle confortável (70%)
+> - Investimento de R$ 10k/mês é gerenciável
+> - Eu tenho incentivo real (30% é cofundador, não empregado)
+> - Ambos temos skin in the game proporcional
+>
+> **Qual faz mais sentido para você?"**
+
+---
+
+## ✅ CHECKLIST FINAL - PROPOSTA 3
+
+Antes de apresentar, confirme:
+
+### **Financeiro:**
+- [ ] R$ 120k em 12 meses = R$ 10k/mês é viável para o consultor?
+- [ ] Você consegue viver com ~R$ 10k/mês + trabalhos paralelos?
+- [ ] Ambos entendem o potencial de R$ 5.4M (você) e R$ 12.6M (ele)?
+
+### **Estrutural:**
+- [ ] 70/30 dá ao consultor controle mas você tem voz real?
+- [ ] Vesting de 24 meses é justo para ambos?
+- [ ] Cláusulas de proteção (tag-along, etc) estão claras?
+
+### **Estratégico:**
+- [ ] Vocês concordam nos objetivos de 3 anos?
+- [ ] Há alinhamento de valores e visão?
+- [ ] Relação de confiança está estabelecida?
+
+### **Legal:**
+- [ ] Contrato será revisado por advogado?
+- [ ] Acordos de confidencialidade estão prontos?
+- [ ] Timeline para formalização está definido?
+
+---
+
+## 🎉 RESUMO EXECUTIVO
+```
+╔═══════════════════════════════════════════════════╗
+║  PROPOSTA 3 - O PONTO DE EQUILÍBRIO PERFEITO      ║
+╠═══════════════════════════════════════════════════╣
+║                                                    ║
+║  Investimento: R$ 120.000 (R$ 10k/mês médio)     ║
+║  Equity: 70% Consultor | 30% Desenvolvedor        ║
+║  Prazo: 12 meses em 3 fases                       ║
+║                                                    ║
+║  Seu Retorno (Ano 3):                             ║
+║  • R$ 5.400.000 (30% de R$ 18M)                   ║
+║  • 17x ROI                                         ║
+║  • +R$ 2.16M vs Proposta 1                        ║
+║                                                    ║
+║  Benefícios:                                       ║
+║  ✅ Equilíbrio perfeito risco/recompensa          ║
+║  ✅ Consultor mantém controle (70%)               ║
+║  ✅ Dev tem voz significativa (30%)               ║
+║  ✅ Investimento viável (R$ 10k/mês)              ║
+║  ✅ Upside excelente para ambos                   ║
+║                                                    ║
+╚═══════════════════════════════════════════════════╝
+
+Agora você tem 3 propostas sólidas! Qual você prefere apresentar primeiro?
+
+Minha sugestão: Apresente as 3, mas destaque a Proposta 3 como sua recomendação. Deixe o consultor escolher qual faz mais sentido para a situação dele, mas guie sutilmente para a intermediária.
+
+Quer que eu crie:
+
+    Uma apresentação visual comparando as 3 propostas?
+    Um simulador/calculadora para mostrar diferentes cenários?
+    Um PDF executivo resumindo tudo?
+
+Estou aqui para te ajudar! 🚀
+
+Quero apresentar essas 3 propostas resumidas  para o consultor compliance analisar, antes de enviar todo a proposta e contratos completos e definitivos
+
+O usuário quer um documento resumido e executivo das 3 propostas para enviar ao consultor antes de compartilhar toda a documentação completa. Precisa ser:
+
+    Conciso e direto
+    Profissional
+    Fácil de comparar as 3 opções
+    Destacar a Proposta 3 como recomendada
+    Formato que seja fácil de ler e analisar rapidamente
+
+Vou criar um documento executivo em React que seja:
+
+    Visual e limpo
+    Comparativo lado a lado
+    Com destaque para a Proposta 3
+    Botões de ação claros
+    Informações essenciais apenas
+    Pode ser exportado/impresso facilmente
+
+📄 DOCUMENTO EXECUTIVO PARA O CONSULTOR
+
+Vou criar um documento resumido e profissional para você enviar ao consultor compliance antes da documentação completa.
+EasyCompliance - Resumo Executivo das 3 Propostas
+Interactive artifact 
+📧 EMAIL PARA ENVIAR AO CONSULTOR
+
+Aqui está também uma versão em texto para você enviar por email:
+
+Assunto: EasyCompliance - Proposta de Parceria Societária (3 Opções)
+
+Prezado [Nome do Consultor],
+
+Conforme conversamos, finalizei a estruturação do projeto EasyCompliance e preparei três propostas de parceria para sua análise.
+
+Todas são justas e proporcionais ao investimento vs trabalho realizado. A escolha depende da sua situação financeira e objetivos estratégicos.
+📊 RESUMO DAS 3 PROPOSTAS
+PROPOSTA 1 - Investimento Completo
+
+    Investimento: R$ 170.000 em 12 meses
+    Equity: Você 82% | Eu 18%
+    Parcela Média: R$ 14.167/mês
+    Entrada: R$ 15.000
+
+Melhor para você se:
+
+    Tem R$ 170k disponível sem comprometer fluxo
+    Quer controle absoluto (82%)
+    Prefere desenvolvimento mais rápido
+
+Seu upside em 3 anos: R$ 14.76M (82% de R$ 18M)
+⭐ PROPOSTA 3 - Ponto de Equilíbrio (RECOMENDO)
+
+    Investimento: R$ 120.000 em 12 meses
+    Equity: Você 70% | Eu 30%
+    Parcela Média: R$ 10.000/mês
+    Entrada: R$ 12.000
+
+Melhor para você se:
+
+    Investimento viável sem folga excessiva
+    Busca equilíbrio de poder e parceria equilibrada
+    Quer desenvolver com incentivo real (30%)
+
+Seu upside em 3 anos: R$ 12.60M (70% de R$ 18M)
+
+Por que recomendo esta: Melhor equilíbrio de risco/recompensa para ambos. Você mantém controle confortável (70%), investimento gerenciável (R$ 10k/mês), e eu tenho participação significativa para estar 100% comprometido.
+PROPOSTA 2 - Investimento Reduzido
+
+    Investimento: R$ 80.000 em 12 meses
+    Equity: Você 65% | Eu 35%
+    Parcela Média: R$ 6.667/mês
+    Entrada: R$ 10.000
+
+Melhor para você se:
+
+    Fluxo de caixa mais apertado
+    Alta convicção no sucesso
+    Aceita dividir mais decisões (65/35)
+
+Seu upside em 3 anos: R$ 11.70M (65% de R$ 18M)
+📋 COMPARAÇÃO RÁPIDA
+
+Critério	Proposta 1	Proposta 3 ⭐	Proposta 2
+Investimento	R$ 170k	R$ 120k	R$ 80k
+Sua Equity	82%	70%	65%
+Parcela Média	R$ 14.2k	R$ 10k	R$ 6.7k
+Seu Controle	Total	Confortável	Maioria
+Seu Upside 3 anos	R$ 14.76M	R$ 12.60M	R$ 11.70M
+
+🎯 O QUE ESTÁ INCLUÍDO (TODAS AS PROPOSTAS)
+
+✅ Sistema completo em 3 fases (12 meses)
+✅ Dashboard multi-tenant para consultores
+✅ Gestão de riscos, documentos e compliance completa
+✅ Canal de denúncias com IA
+✅ Sistema de diligências automatizado
+✅ Universidade de compliance (treinamentos)
+✅ Integrações com Bacen, COAF e ANS
+✅ Relatórios comparativos e analytics
+✅ Assinatura digital integrada
+✅ Security & Privacy by Design (LGPD)
+✅ Deploy em produção (AWS/Google Cloud)
+✅ 2-3 meses de suporte pós-lançamento
+✅ Documentação técnica completa
+✅ Treinamento da equipe
+📅 CRONOGRAMA DE INVESTIMENTO
+Proposta 3 (Recomendada):
+
+    Fase 1 - MVP: R$ 40.000 em 4 meses
+    Fase 2 - Crescimento: R$ 45.000 em 4 meses
+    Fase 3 - Consolidação: R$ 35.000 em 4 meses
+    Total: R$ 120.000
+
+🚀 PRÓXIMOS PASSOS
+
+    Análise (2-3 dias): Analise as propostas com calma
+    Reunião: Agende reunião para tirar dúvidas e decidir
+    Formalização: Revisão do contrato com advogado e assinatura
+
+Estou disponível para reunião presencial ou videoconferência nos próximos 7 dias.
+📎 ANEXOS DISPONÍVEIS
+
+Após escolha da proposta, compartilho:
+
+    Business Plan Completo (35 páginas)
+    Protótipo Navegável (demo interativo)
+    Contrato de Parceria (minuta para revisão jurídica)
+    Apresentação Executiva (11 slides)
+    Documentação Técnica (arquitetura e segurança)
+
+Observações Importantes:
+
+Projeções baseadas em valuation de R$ 18M em 3 anos (10x ARR). Valores reais podem variar.
+
+Todas as propostas incluem vesting de 24 meses com cliff de 6 meses para o desenvolvedor.
+
+Este é um resumo executivo. Documentação completa será compartilhada após escolha.
+
+Aguardo seu retorno!
+
+Atenciosamente,
+[Seu Nome]
+[Seu Telefone]
+[Seu Email]
+💡 DICAS PARA VOCÊ ANTES DE ENVIAR
+Personalize o Email:
+
+    Adicione contexto específico da conversa que vocês já tiveram
+    Mencione dores específicas que ele comentou sobre sistemas atuais
+    Cite clientes potenciais se ele já mencionou alguns
+    Ajuste o tom para o nível de formalidade do relacionamento de vocês
+
+Exemplo de Personalização:
+
+Prezado João,
+
+Conforme conversamos na semana passada sobre os desafios que você 
+enfrenta gerenciando 12 empresas em sistemas diferentes, finalizei 
+a estruturação do EasyCompliance.
+
+Lembro que você mencionou que perde cerca de 15 horas por semana 
+apenas navegando entre plataformas e consolidando relatórios. 
+O EasyCompliance resolve exatamente isso com um dashboard único 
+multi-tenant.
+
+Preparei três propostas de parceria...
+[continua com o conteúdo acima]
+```
+
+---
+
+## 📋 CHECKLIST ANTES DE ENVIAR
+
+- [ ] Personalizei o email com contexto específico da nossa conversa
+- [ ] Verifiquei todos os valores e números
+- [ ] Anexei o documento interativo (link do artifact)
+- [ ] Sugeri 2-3 datas específicas para reunião
+- [ ] Confirmei meus dados de contato
+- [ ] Revisei ortografia e gramática
+- [ ] Configurei lembrete para follow-up em 3 dias se não responder
+
+---
+
+## 🎯 ESTRATÉGIA DE FOLLOW-UP
+
+### **Se ele não responder em 3 dias:**
+```
+Oi [Nome],
+
+Apenas confirmando se recebeu meu email com as propostas da 
+parceria EasyCompliance.
+
+Sei que você é muito ocupado, então resumindo: preparei 3 opções 
+de investimento (R$ 170k, R$ 120k ou R$ 80k) com diferentes 
+estruturas de equity.
+
+Minha recomendação é a intermediária (R$ 120k - 70/30), mas 
+posso explicar melhor em 30 minutos de reunião.
+
+Tem disponibilidade esta semana?
+
+Abraço!
+```
+
+### **Se ele disser que precisa pensar:**
+```
+Perfeito! Quanto tempo você precisa para analisar?
+
+Enquanto isso, posso te mostrar o protótipo navegável que 
+desenvolvi? Ajuda a visualizar melhor o produto final.
+
+Disponível para uma demo rápida de 15 minutos quando você 
+preferir.
+```
+
+### **Se ele pedir para negociar valores:**
+```
+Claro, estou aberto a ajustar! As propostas são um ponto de 
+partida.
+
+Qual estrutura faz mais sentido para você como base? 
+Posso adaptar o cronogramento de pagamento ou criar uma 
+quarta opção intermediária.
+
+O importante é chegarmos a um acordo justo para ambos.
+
+✅ RESUMO FINAL
+
+Agora você tem:
+
+✅ Documento Interativo Visual (artifact acima) - para apresentação profissional
+✅ Email em Texto - para envio rápido
+✅ Scripts de Follow-up - para diferentes cenários
+✅ Dicas de Personalização - para aumentar taxa de resposta
+
+🎯 Minha Recomendação de Abordagem:
+
+    Email Inicial: Envie o texto com link para o documento interativo
+    WhatsApp (se tiver): "Oi [Nome], acabei de enviar as propostas por email. Dá uma olhada quando puder! 🚀"
+    Aguarde 2-3 dias antes do primeiro follow-up
+    Se positivo: Marque reunião para mostrar protótipo + documentação completa
+    Se negativo: Agradeça o tempo dele e pergunte se pode manter contato futuro
+
+Pronto para enviar? Quer que eu ajude em mais alguma coisa?
+
+Posso:
+
+    Ajustar algum valor das propostas
+    Criar uma quarta opção customizada
+    Escrever scripts para diferentes objeções
+    Preparar sua apresentação para a reunião
+    Simular perguntas difíceis que ele pode fazer
+
+Boa sorte! Você está super preparado! 💪🚀
+
+remover do resumo Disponibilidade: Estou disponível para reunião presencial ou videoconferência nos próximos 7 dias. Podemos discutir qualquer aspecto das propostas. Colocar disponível para reunião remota a qualquer momento com aviso prévio , evidenciar que os detalhes de cada proposta serão enviados conforme a decisão e escolha
+
+O usuário quer que eu ajuste o documento interativo (artifact) para:
+
+    Remover a parte "Estou disponível para reunião presencial ou videoconferência nos próximos 7 dias"
+    Substituir por "Disponível para reunião remota a qualquer momento com aviso prévio"
+    Evidenciar que os detalhes completos serão enviados após a escolha
+
+Vou atualizar o artifact.
+
+Perfeito! Atualizei o documento. Agora vou te passar também o email ajustado com essas modificações:
+📧 EMAIL ATUALIZADO
+
+Assunto: EasyCompliance - Proposta de Parceria Societária (3 Opções)
+
+Prezado [Nome do Consultor],
+
+Conforme conversamos, finalizei a estruturação do projeto EasyCompliance e preparei três propostas de parceria para sua análise.
+
+Todas são justas e proporcionais ao investimento vs trabalho realizado. A escolha depende da sua situação financeira e objetivos estratégicos.
+📊 RESUMO DAS 3 PROPOSTAS
+PROPOSTA 1 - Investimento Completo
+
+    Investimento: R$ 170.000 em 12 meses
+    Equity: Você 82% | Eu 18%
+    Parcela Média: R$ 14.167/mês
+    Entrada: R$ 15.000
+
+Melhor para você se:
+
+    Tem R$ 170k disponível sem comprometer fluxo
+    Quer controle absoluto (82%)
+    Prefere desenvolvimento mais rápido
+
+Seu upside em 3 anos: R$ 14.76M (82% de R$ 18M)
+⭐ PROPOSTA 3 - Ponto de Equilíbrio (RECOMENDO)
+
+    Investimento: R$ 120.000 em 12 meses
+    Equity: Você 70% | Eu 30%
+    Parcela Média: R$ 10.000/mês
+    Entrada: R$ 12.000
+
+Melhor para você se:
+
+    Investimento viável sem folga excessiva
+    Busca equilíbrio de poder e parceria equilibrada
+    Quer desenvolvedor com incentivo real (30%)
+
+Seu upside em 3 anos: R$ 12.60M (70% de R$ 18M)
+
+Por que recomendo esta: Melhor equilíbrio de risco/recompensa para ambos. Você mantém controle confortável (70%), investimento gerenciável (R$ 10k/mês), e eu tenho participação significativa para estar 100% comprometido.
+PROPOSTA 2 - Investimento Reduzido
+
+    Investimento: R$ 80.000 em 12 meses
+    Equity: Você 65% | Eu 35%
+    Parcela Média: R$ 6.667/mês
+    Entrada: R$ 10.000
+
+Melhor para você se:
+
+    Fluxo de caixa mais apertado
+    Alta convicção no sucesso
+    Aceita dividir mais decisões (65/35)
+
+Seu upside em 3 anos: R$ 11.70M (65% de R$ 18M)
+📋 COMPARAÇÃO RÁPIDA
+
+Critério	Proposta 1	Proposta 3 ⭐	Proposta 2
+Investimento	R$ 170k	R$ 120k	R$ 80k
+Sua Equity	82%	70%	65%
+Parcela Média	R$ 14.2k	R$ 10k	R$ 6.7k
+Seu Controle	Total	Confortável	Maioria
+Seu Upside 3 anos	R$ 14.76M	R$ 12.60M	R$ 11.70M
+
+🎯 O QUE ESTÁ INCLUÍDO (TODAS AS PROPOSTAS)
+
+✅ Sistema completo em 3 fases (12 meses)
+✅ Dashboard multi-tenant para consultores
+✅ Gestão de riscos, documentos e compliance completa
+✅ Canal de denúncias com IA
+✅ Sistema de diligências automatizado
+✅ Universidade de compliance (treinamentos)
+✅ Integrações com Bacen, COAF e ANS
+✅ Relatórios comparativos e analytics
+✅ Assinatura digital integrada
+✅ Security & Privacy by Design (LGPD)
+✅ Deploy em produção (AWS/Google Cloud)
+✅ 2-3 meses de suporte pós-lançamento
+✅ Documentação técnica completa
+✅ Treinamento da equipe
+📅 CRONOGRAMA DE INVESTIMENTO
+Proposta 3 (Recomendada):
+
+    Fase 1 - MVP: R$ 40.000 em 4 meses
+    Fase 2 - Crescimento: R$ 45.000 em 4 meses
+    Fase 3 - Consolidação: R$ 35.000 em 4 meses
+    Total: R$ 120.000
+
+🚀 PRÓXIMOS PASSOS
+
+    Análise (2-3 dias): Analise as propostas com calma
+    Reunião: Agende reunião remota para tirar dúvidas e decidir
+    Documentação Completa: Após sua escolha, envio toda documentação detalhada
+    Formalização: Revisão do contrato com advogado e assinatura
+
+Disponibilidade: Reunião remota disponível a qualquer momento com aviso prévio.
+📎 DOCUMENTAÇÃO COMPLETA (ENVIO APÓS SUA ESCOLHA)
+
+Após você decidir qual proposta seguir, compartilharei:
+
+    ✅ Business Plan Completo (35 páginas com análise de mercado e projeções)
+    ✅ Protótipo Navegável Interativo (demo funcional do sistema)
+    ✅ Contrato de Parceria Detalhado (minuta para revisão jurídica)
+    ✅ Apresentação Executiva (11 slides profissionais)
+    ✅ Documentação Técnica (arquitetura, segurança e compliance)
+    ✅ Cronograma Detalhado (milestones e entregas de cada fase)
+
+💡 Desta forma você analisa as propostas sem sobrecarga de informação, e aprofundamos apenas na escolhida.
+
+Observações Importantes:
+
+Projeções baseadas em valuation de R$ 18M em 3 anos (10x ARR). Valores reais podem variar conforme performance.
+
+Todas as propostas incluem vesting de 24 meses com cliff de 6 meses para o desenvolvedor, protegendo ambas as partes.
+
+Este é um resumo executivo focado na decisão. Documentação técnica e jurídica completa após escolha.
+
+Aguardo seu retorno para agendarmos uma conversa!
+
+Atenciosamente,
+[Seu Nome]
+[Seu Telefone]
+[Seu Email]
+📋 PRINCIPAIS MUDANÇAS FEITAS
+
+✅ Removido: "Estou disponível para reunião presencial ou videoconferência nos próximos 7 dias"
+
+✅ Adicionado: "Reunião remota disponível a qualquer momento com aviso prévio"
+
+✅ Destacado: Seção específica explicando que documentação completa será enviada APÓS escolha
+
+✅ Benefício claro: Deixa o consultor analisar sem sobrecarga, e você só prepara documentação detalhada da proposta escolhida
+💡 POR QUE ESSA ABORDAGEM É MELHOR?
+Vantagens para você:
+
+    ✅ Não compromete agenda com prazo fixo
+    ✅ Mostra profissionalismo (responde quando solicitado)
+    ✅ Não envia 200 páginas logo de cara (pode assustar)
+    ✅ Economiza seu tempo (só prepara detalhes da proposta escolhida)
+
+Vantagens para o consultor:
+
+    ✅ Não se sente pressionado por prazos
+    ✅ Foco na decisão principal (qual proposta?)
+    ✅ Informação digerível (resumo executivo)
+    ✅ Pode compartilhar com sócios/contador sem sobrecarregar
+
+🎯 ESTRATÉGIA DE ENVIO SUGERIDA
+Opção 1 - Email + WhatsApp (Recomendado)
+
+📧 Email: Enviar o texto completo acima
+💬 WhatsApp (1 hora depois): 
+"Oi [Nome], acabei de enviar as 3 propostas da parceria 
+EasyCompliance por email. São 3 cenários diferentes de 
+investimento (R$ 170k, 120k ou 80k). Dá uma olhada quando 
+puder e me avisa se quiser conversar sobre alguma! 🚀"
+```
+
+### **Opção 2 - Apenas Email**
+Enviar email e aguardar 3 dias úteis antes de qualquer follow-up.
+
+---
+
+## 📱 SCRIPTS DE RESPOSTA RÁPIDA
+
+### **Se ele perguntar: "Posso ver a documentação completa antes de decidir?"**
+```
+Claro! Posso te dar uma visão geral agora:
+
+- Business Plan tem 35 páginas (análise de mercado, 
+  projeções, estratégia)
+- Protótipo é interativo (você pode navegar e testar)
+- Contrato tem todas as cláusulas detalhadas (vesting, 
+  tag-along, etc)
+
+Posso fazer uma reunião rápida de 30 minutos para mostrar 
+tudo isso e te dar acesso completo. Aí você decide com 
+tranquilidade.
+
+Quando você tem disponibilidade esta semana?
+```
+
+### **Se ele perguntar: "Quanto tempo para eu decidir?"**
+```
+Sem pressa! O ideal é você analisar com calma, talvez 
+conversar com seu contador ou sócios se tiver.
+
+Normalmente leva de 3-7 dias, mas se precisar de mais 
+tempo, só me avisar.
+
+Enquanto isso, quer que eu tire alguma dúvida específica 
+sobre as propostas?
+```
+
+### **Se ele perguntar: "Posso negociar os valores?"**
+```
+Com certeza! As propostas são um ponto de partida.
+
+Qual das 3 te chamou mais atenção como base? Posso:
+- Ajustar o cronograma de pagamento
+- Criar uma 4ª opção intermediária
+- Encontrar um meio-termo que funcione para você
+
+O importante é chegarmos a um acordo justo para ambos.
+
+Quer marcar 15 minutos para conversarmos sobre isso?
+
+✅ CHECKLIST FINAL ANTES DE ENVIAR
+
+    Personalizei com contexto da nossa conversa
+    Verifiquei todos os números e valores
+    Incluí meus dados de contato completos
+    Revisei ortografia e formatação
+    Preparei respostas para objeções comuns
+    Tenho o protótipo pronto para mostrar
+    Documentação completa está organizada
+    Defini quando farei follow-up se não responder
+
+Tudo ajustado! O documento interativo e o email agora refletem exatamente o que você pediu. Pronto para enviar? 🚀
+
+Precisa de mais algum ajuste ou quer que eu prepare algo adicional (como um pitch deck simplificado ou FAQ antecipando dúvidas)?
+
+inserir no resumo que seremos parceiros de negocios, socios, igual pra igual, Ele o CEO da Easy e eu CTO cada um com sua responsabilidade, porem ele continua sendo o dono da ideia e uma postura a mais de liderança e networking
+
+O usuário quer enfatizar no resumo executivo que:
+
+    São parceiros de negócios, sócios iguais (não relação patrão-empregado)
+    Ele será CEO e o desenvolvedor será CTO
+    Cada um tem suas responsabilidades
+    O consultor é o dono da ideia
+    O consultor tem postura de liderança e networking
+
+Preciso adicionar isso de forma elegante no documento interativo e no email, deixando claro que é uma parceria equilibrada mas respeitando que o consultor é quem trouxe a ideia e tem o networking/visão de negócio.
+
+Vou adicionar uma seção destacada sobre "Estrutura de Parceria" antes dos próximos passos, enfatizando:
+
+    Sociedade entre iguais (não hierarquia)
+    Papéis complementares (CEO x CTO)
+    Consultor: ideia, visão, networking, clientes
+    Desenvolvedor: execução técnica, produto, tecnologia
+    Decisões conjuntas com respeito aos papéis de cada um
+
+Perfeito! Agora vou te passar também o email atualizado com a nova seção sobre estrutura de parceria:
+📧 EMAIL ATUALIZADO COM ESTRUTURA DE PARCERIA
+
+Assunto: EasyCompliance - Proposta de Parceria Societária (3 Opções)
+
+Prezado [Nome do Consultor],
+
+Conforme conversamos, finalizei a estruturação do projeto EasyCompliance e preparei três propostas de parceria para sua análise.
+
+Todas são justas e proporcionais ao investimento vs trabalho realizado. A escolha depende da sua situação financeira e objetivos estratégicos.
+🤝 ESTRUTURA DE PARCERIA
+
+Antes de detalhar os números, quero deixar claro: esta é uma parceria entre sócios iguais, não uma relação empregador-empregado. Somos cofundadores com papéis complementares:
+👔 Você - CEO (Chief Executive Officer)
+
+    ✅ Dono da ideia e visão do negócio
+    ✅ Estratégia e direcionamento
+    ✅ Vendas e relacionamento com clientes
+    ✅ Network e liderança no mercado de compliance
+    ✅ Conteúdo especializado e compliance
+    ✅ Gestão financeira e investimentos
+
+💻 Desenvolvedor - CTO (Chief Technology Officer)
+
+    ✅ Execução técnica e desenvolvimento
+    ✅ Arquitetura e infraestrutura
+    ✅ Segurança e conformidade técnica
+    ✅ Gestão do produto e tecnologia
+    ✅ Inovação e melhorias contínuas
+    ✅ Gestão de equipe técnica futura
+
+Modelo de Trabalho
+
+Como sócios cofundadores, trabalhamos de igual para igual, cada um liderando sua área de expertise. Você lidera o negócio e traz a visão de mercado; eu construo e entrego a tecnologia.
+
+Decisões estratégicas são tomadas em conjunto, respeitando as alçadas definidas no contrato. Sua posição como dono da ideia e líder de mercado é reconhecida pela maior equity, enquanto meu trabalho técnico é valorizado com participação significativa nos resultados.
+📊 RESUMO DAS 3 PROPOSTAS
+PROPOSTA 1 - Investimento Completo
+
+    Investimento: R$ 170.000 em 12 meses
+    Equity: Você 82% | Eu 18%
+    Parcela Média: R$ 14.167/mês
+    Entrada: R$ 15.000
+
+Melhor para você se:
+
+    Tem R$ 170k disponível sem comprometer fluxo
+    Quer controle absoluto (82%)
+    Prefere desenvolvimento mais rápido
+
+Seu upside em 3 anos: R$ 14.76M (82% de R$ 18M)
+⭐ PROPOSTA 3 - Ponto de Equilíbrio (RECOMENDO)
+
+    Investimento: R$ 120.000 em 12 meses
+    Equity: Você 70% | Eu 30%
+    Parcela Média: R$ 10.000/mês
+    Entrada: R$ 12.000
+
+Melhor para você se:
+
+    Investimento viável sem folga excessiva
+    Busca equilíbrio de poder e parceria equilibrada
+    Quer CTO com incentivo real (30%)
+
+Seu upside em 3 anos: R$ 12.60M (70% de R$ 18M)
+
+Por que recomendo esta: Melhor equilíbrio de risco/recompensa para ambos. Você mantém controle confortável como CEO (70%), investimento gerenciável (R$ 10k/mês), e eu tenho participação significativa como CTO para estar 100% comprometido.
+PROPOSTA 2 - Investimento Reduzido
+
+    Investimento: R$ 80.000 em 12 meses
+    Equity: Você 65% | Eu 35%
+    Parcela Média: R$ 6.667/mês
+    Entrada: R$ 10.000
+
+Melhor para você se:
+
+    Fluxo de caixa mais apertado
+    Alta convicção no sucesso
+    Aceita dividir mais decisões (65/35)
+
+Seu upside em 3 anos: R$ 11.70M (65% de R$ 18M)
+📋 COMPARAÇÃO RÁPIDA
+
+Critério	Proposta 1	Proposta 3 ⭐	Proposta 2
+Investimento	R$ 170k	R$ 120k	R$ 80k
+Sua Equity (CEO)	82%	70%	65%
+Equity CTO	18%	30%	35%
+Parcela Média	R$ 14.2k	R$ 10k	R$ 6.7k
+Seu Controle	Total	Confortável	Maioria
+Seu Upside 3 anos	R$ 14.76M	R$ 12.60M	R$ 11.70M
+
+🎯 O QUE ESTÁ INCLUÍDO (TODAS AS PROPOSTAS)
+
+✅ Sistema completo em 3 fases (12 meses)
+✅ Dashboard multi-tenant para consultores
+✅ Gestão de riscos, documentos e compliance completa
+✅ Canal de denúncias com IA
+✅ Sistema de diligências automatizado
+✅ Universidade de compliance (treinamentos)
+✅ Integrações com Bacen, COAF e ANS
+✅ Relatórios comparativos e analytics
+✅ Assinatura digital integrada
+✅ Security & Privacy by Design (LGPD)
+✅ Deploy em produção (AWS/Google Cloud)
+✅ 2-3 meses de suporte pós-lançamento
+✅ Documentação técnica completa
+✅ Treinamento da equipe
+📅 CRONOGRAMA DE INVESTIMENTO
+Proposta 3 (Recomendada):
+
+    Fase 1 - MVP: R$ 40.000 em 4 meses
+    Fase 2 - Crescimento: R$ 45.000 em 4 meses
+    Fase 3 - Consolidação: R$ 35.000 em 4 meses
+    Total: R$ 120.000
+
+🚀 PRÓXIMOS PASSOS
+
+    Análise (2-3 dias): Analise as propostas com calma
+    Reunião: Agende reunião remota para tirar dúvidas e decidir
+    Documentação Completa: Após sua escolha, envio toda documentação detalhada
+    Formalização: Revisão do contrato com advogado e assinatura
+
+Disponibilidade: Reunião remota disponível a qualquer momento com aviso prévio.
+📎 DOCUMENTAÇÃO COMPLETA (ENVIO APÓS SUA ESCOLHA)
+
+Após você decidir qual proposta seguir, compartilharei:
+
+    ✅ Business Plan Completo (35 páginas com análise de mercado e projeções)
+    ✅ Protótipo Navegável Interativo (demo funcional do sistema)
+    ✅ Contrato de Parceria Detalhado (minuta para revisão jurídica)
+    ✅ Apresentação Executiva (11 slides profissionais)
+    ✅ Documentação Técnica (arquitetura, segurança e compliance)
+    ✅ Cronograma Detalhado (milestones e entregas de cada fase)
+
+💡 Desta forma você analisa as propostas sem sobrecarga de informação, e aprofundamos apenas na escolhida.
+
+Observações Importantes:
+
+Projeções baseadas em valuation de R$ 18M em 3 anos (10x ARR). Valores reais podem variar conforme performance.
+
+Todas as propostas incluem vesting de 24 meses com cliff de 6 meses para o CTO, protegendo ambas as partes.
+
+Esta é uma sociedade entre iguais: você como CEO (visão, vendas, network) e desenvolvedor como CTO (tecnologia, produto). Decisões conjuntas respeitando expertise de cada um.
+
+Aguardo seu retorno para agendarmos uma conversa!
+
+Atenciosamente,
+[Seu Nome]
+CTO - EasyCompliance (em formação)
+[Seu Telefone]
+[Seu Email]
+💡 PRINCIPAIS MUDANÇAS IMPLEMENTADAS
+✅ O que foi adicionado:
+
+    Seção completa "Estrutura de Parceria" destacando:
+        Sociedade entre iguais (não hierarquia)
+        Papéis de CEO x CTO claramente definidos
+        Você como dono da ideia e líder de mercado
+        Responsabilidades complementares
+    Enfatizado em múltiplos pontos:
+        "Parceria entre sócios iguais"
+        "Cofundadores com papéis complementares"
+        "Você lidera o negócio, eu construo a tecnologia"
+        "Sua posição como dono da ideia"
+    Linguagem ajustada:
+        "Sua Equity (CEO)" / "Equity CTO" nas tabelas
+        "Quer CTO com incentivo real" nas propostas
+        "Você mantém controle confortável como CEO"
+
+🎯 POR QUE ESSA ABORDAGEM FUNCIONA?
+Para o Consultor:
+
+✅ Sente-se valorizado como dono da ideia
+✅ Entende que terá o controle (CEO) mas com parceiro técnico forte
+✅ Reconhece que é parceria, não contratação
+✅ Vê claramente os papéis e responsabilidades
+Para Você:
+
+✅ Estabelece respeito mútuo desde o início
+✅ Deixa claro que não é "apenas um dev contratado"
+✅ Posiciona como CTO/Cofundador
+✅ Equilibra reconhecimento da ideia dele com seu valor técnico
+📱 SCRIPTS ADICIONAIS PARA DÚVIDAS SOBRE PARCERIA
+Se ele perguntar: "Mas quem tem a palavra final nas decisões?"
+
+Ótima pergunta! Funciona assim:
+
+VOCÊ (CEO) decide sozinho sobre:
+- Estratégia de vendas e precificação
+- Relacionamento com clientes
+- Conteúdo e posicionamento de compliance
+- Investimento em marketing
+
+EU (CTO) decido sozinho sobre:
+- Escolhas técnicas e arquitetura
+- Ferramentas e tecnologias
+- Priorização técnica de features
+- Contratação de time técnico futuro
+
+DECIDIMOS JUNTOS sobre:
+- Roadmap de produto
+- Contratações não-técnicas
+- Investimentos acima de R$ 20k
+- Mudanças de direção estratégica
+
+E para decisões ESTRUTURAIS (venda da empresa, 
+novos sócios, etc), precisa da maioria de capital 
+- que é você em todas as 3 propostas!
+
+É uma parceria onde cada um lidera sua área, mas 
+grandes decisões são conjuntas.
+```
+
+### **Se ele perguntar: "Como funciona se discordarmos?"**
+```
+Ótima preocupação! Prevemos isso no contrato:
+
+1. Discussão franca entre nós dois (sempre preferível)
+
+2. Se não chegarmos em consenso em 48h:
+   - Temas de negócio/vendas → você decide (CEO)
+   - Temas técnicos → eu decido (CTO)
+   - Temas estruturais → maioria de capital (você)
+
+3. Para impasses graves (raros):
+   - Mediação com mentor/advisor externo
+   - Se necessário, cláusulas de saída previstas
+
+Mas sinceramente, a maioria dos conflitos se resolve 
+com comunicação aberta. Por isso é importante que 
+tenhamos alinhamento de valores e visão desde o início.
+
+Você se sente confortável com esse modelo?
+```
+
+### **Se ele perguntar: "Você vai trabalhar exclusivamente nisso?"**
+```
+Boa pergunta! Meu compromisso é de 60% dedicação nos 
+primeiros 24 meses (conforme vesting):
+
+- 60% do tempo = ~120h/mês para EasyCompliance
+- 40% posso manter trabalhos paralelos (renda complementar)
+
+PORÉM, tenho cláusulas de:
+❌ Não-concorrência (não trabalho com concorrentes)
+❌ Confidencialidade perpétua
+✅ Prioridade para EasyCompliance sempre
+
+Conforme a empresa crescer e faturar (a partir do Ano 2), 
+naturalmente vou aumentando dedicação até 100%.
+
+Isso te deixa confortável? A ideia é eu ter sustento 
+inicial enquanto construímos a empresa.
+
+✅ CHECKLIST FINAL ATUALIZADO
+
+Antes de enviar, confirme:
+Sobre Parceria:
+
+    Estou confortável sendo CTO (não apenas dev)?
+    Aceito que ele é CEO e dono da ideia?
+    Consigo trabalhar em parceria (não subordinação)?
+    Tenho respeito genuíno pela expertise dele?
+
+Sobre Comunicação:
+
+    Personalizei o email com contexto específico
+    Enfatizei que é parceria entre iguais
+    Destaquei os papéis complementares
+    Mostrei respeito pela posição de CEO dele
+
+Sobre Expectativas:
+
+    Estou claro sobre minhas responsabilidades?
+    Sei exatamente o que vou entregar?
+    Tenho plano B para sustento inicial?
+    Estou preparado para comprometimento de 24 meses?
+
+🎉 RESUMO FINAL
+
+Agora seu documento e email destacam:
+
+✅ Parceria entre iguais (não empregador-empregado)
+✅ Papéis claros: CEO (ele) x CTO (você)
+✅ Respeito à origem: Ele é dono da ideia
+✅ Responsabilidades complementares
+✅ Liderança compartilhada respeitando expertise
+✅ Network e visão de mercado dele reconhecidos
+✅ Execução técnica sua valorizada
+
+Isso estabelece um tom de respeito mútuo e parceria desde o primeiro contato!
+
+Pronto para enviar? Ou quer ajustar mais alguma coisa? 🚀
+
+O documento agora comunica perfeitamente que vocês são sócios cofundadores trabalhando juntos, cada um com seu papel fundamental, e não uma relação de contratação!
+
+ótimo. agora com base no historico da conversar, crie um resumo de desenvolvimento, por fases relacionado com cada proposta. semelhante a este feito para resumo de propostas, mas agora separado deste e focado em trazer as etapas de desenvolvimento, prazo, entregas, etc
+
+O usuário quer um novo documento/artifact separado focado especificamente no DESENVOLVIMENTO por fases, relacionado com cada proposta. Deve ser similar ao resumo de propostas (visual e interativo), mas agora focado em:
+
+    Etapas de desenvolvimento técnico
+    Prazos detalhados
+    Entregas (deliverables) específicas
+    Milestones
+    Como isso varia entre as 3 propostas
+
+Vou criar um documento interativo que mostre:
+
+    Cronograma detalhado por fase
+    O que será entregue em cada sprint/mês
+    Diferenças entre as propostas (se houver no desenvolvimento)
+    Stack técnica
+    Metodologia de trabalho
+    Processo de validação
+    Deploy e go-live
+
+Deve ser visual, profissional e detalhado o suficiente para o consultor entender exatamente o que vai receber e quando.
+
+Perfeito! Criei o Roadmap de Desenvolvimento Detalhado interativo. Agora vou te dar também uma versão em texto para enviar por email:
+📧 DOCUMENTO: ROADMAP DE DESENVOLVIMENTO
+
+EasyCompliance - Planejamento Técnico Detalhado
+📅 VISÃO GERAL
+
+Duração Total: 12 meses
+Estrutura: 3 fases de 4 meses cada
+Sprints: 24 sprints de 2 semanas (Agile/Scrum)
+Metodologia: Entregas incrementais validadas a cada sprint
+🚀 FASE 1 - MVP (Meses 1-4)
+
+Objetivo: Validar product-market fit com sistema funcional
+Duração: 16 semanas (4 meses)
+Investimento: P1: R$ 50k | P3: R$ 40k | P2: R$ 30k
+Sprint 1-2: Setup & Fundação (Semanas 1-4)
+
+Entregas:
+
+    ✅ Arquitetura cloud-native definida (AWS/Google Cloud)
+    ✅ Repositórios Git configurados (monorepo)
+    ✅ CI/CD pipeline completo (GitHub Actions)
+    ✅ Ambientes: Development, Staging, Production
+    ✅ Design System completo no Figma (30+ componentes)
+    ✅ Protótipos de alta fidelidade validados
+    ✅ Database schema inicial (PostgreSQL)
+    ✅ Autenticação e autorização (JWT + RBAC)
+    ✅ Infraestrutura como código (Terraform)
+
+Stack: Next.js 14, NestJS, PostgreSQL, Redis, AWS/GCP
+Sprint 3-4: Core Multi-Tenant (Semanas 5-8)
+
+Entregas:
+
+    ✅ Sistema multi-tenant funcional (isolamento de dados)
+    ✅ Dashboard principal do consultor
+    ✅ Gestão de empresas (CRUD completo)
+    ✅ Gestão de usuários e permissões (4 níveis)
+    ✅ Onboarding de novos clientes
+    ✅ Seletor de empresa (troca com 1 clique)
+    ✅ Sidebar e navegação responsiva
+    ✅ Notificações em tempo real (WebSocket)
+    ✅ Tema claro/escuro
+
+Stack: React, Tailwind CSS, shadcn/ui, Zustand, Socket.io
+Sprint 5-6: Gestão de Riscos (Semanas 9-12)
+
+Entregas:
+
+    ✅ Matriz de riscos visual (3 tipos: inerente, residual, objetivo)
+    ✅ CRUD de riscos com scoring automático
+    ✅ Categorização e tags
+    ✅ Controles vinculados a riscos
+    ✅ Indicadores de risco (KRIs)
+    ✅ Heat maps interativos
+    ✅ Histórico de alterações
+    ✅ Exportação de matriz (PDF/Excel)
+    ✅ Alertas automáticos para riscos críticos
+
+Stack: Recharts, React Hook Form, Zod, TanStack Table
+Sprint 7-8: Documentos & Deploy MVP (Semanas 13-16)
+
+Entregas:
+
+    ✅ Repositório de documentos (upload/download)
+    ✅ Versionamento de documentos
+    ✅ Categorização e busca avançada
+    ✅ Prévia de PDFs inline
+    ✅ Alertas de vencimento
+    ✅ Dashboard consolidado finalizado
+    ✅ Testes automatizados (unit + integration)
+    ✅ Deploy em produção
+    ✅ Documentação de APIs
+    ✅ Manual do usuário (primeira versão)
+    ✅ Treinamento de 3-5 consultores beta
+
+Stack: AWS S3, CloudFront CDN, PDF.js, Jest, Cypress
+📦 ENTREGAS FINAIS DA FASE 1:
+
+✅ Sistema funcional em produção (URL personalizada)
+✅ Dashboard multi-tenant completo
+✅ Gestão de empresas e usuários
+✅ Gestão de riscos básica (matriz + scoring)
+✅ Repositório de documentos
+✅ 3-5 clientes beta testando
+✅ Documentação técnica completa
+✅ CI/CD automatizado
+⚡ FASE 2 - CRESCIMENTO (Meses 5-8)
+
+Objetivo: Adicionar features avançadas e automação
+Duração: 16 semanas (4 meses)
+Investimento: P1: R$ 65k | P3: R$ 45k | P2: R$ 30k
+Sprint 9-10: Planos de Ação (Semanas 17-20)
+
+Entregas:
+
+    ✅ Planos de ação vinculados a riscos
+    ✅ Gestão de tarefas (Kanban board)
+    ✅ Atribuição de responsáveis
+    ✅ Prazos e status tracking
+    ✅ Notificações automáticas (email + in-app)
+    ✅ Progresso visual (% conclusão)
+    ✅ Comentários e anexos em tarefas
+    ✅ Histórico completo de ações
+
+Stack: React DnD, Nodemailer, Bull Queue
+Sprint 11-12: Canal de Denúncias (Semanas 21-24)
+
+Entregas:
+
+    ✅ Formulário público anônimo
+    ✅ Sistema de protocolo único
+    ✅ IA para categorização automática (OpenAI API)
+    ✅ Análise de sentimento do texto
+    ✅ Workflow de investigação (5 etapas)
+    ✅ SLA tracking (24h, 48h, 72h)
+    ✅ Comunicação segura com denunciante
+    ✅ Painel de gestão de casos
+    ✅ Relatórios de denúncias
+    ✅ Compliance com Lei 13.608/2018
+
+Stack: OpenAI API, Crypto-js, React Flow
+Sprint 13-14: Diligências Automatizadas (Semanas 25-28)
+
+Entregas:
+
+    ✅ Diligência de Pessoa Jurídica (CNPJ)
+    ✅ Diligência de Pessoa Física (CPF)
+    ✅ Scoring automático de risco (0-100)
+    ✅ Consultas automatizadas (Receita, Serasa)
+    ✅ Verificação de PEP (Pessoa Exposta Politicamente)
+    ✅ Listas restritivas (CEIS, CNEP, CEPIM)
+    ✅ Análise de notícias negativas (web scraping)
+    ✅ Relatório de diligência automático (PDF)
+    ✅ Aprovação/reprovação com justificativa
+    ✅ Monitoramento contínuo (alertas de mudanças)
+
+Stack: Puppeteer, APIs governamentais, PDF-lib
+Sprint 15-16: Assinatura Digital & Integrações (Semanas 29-32)
+
+Entregas:
+
+    ✅ Integração com ClickSign ou DocuSign
+    ✅ Workflow de aprovações multinível
+    ✅ Assinatura de documentos inline
+    ✅ Certificação digital (ICP-Brasil)
+    ✅ Histórico de assinaturas
+    ✅ Formulários públicos (BeForms)
+    ✅ Compartilhamento por link
+    ✅ Respostas em dashboard
+    ✅ Requisições e aprovações (4 tipos)
+    ✅ Notificações de pendências
+
+Stack: ClickSign API, React PDF Viewer, Formik
+📦 ENTREGAS FINAIS DA FASE 2:
+
+✅ Planos de ação completos
+✅ Canal de denúncias funcional com IA
+✅ Sistema de diligências automatizado
+✅ Assinatura digital integrada
+✅ Formulários públicos
+✅ Requisições e aprovações
+✅ Sistema pronto para escalar clientes
+🎯 FASE 3 - CONSOLIDAÇÃO (Meses 9-12)
+
+Objetivo: Features premium e integrações regulatórias
+Duração: 16 semanas (4 meses)
+Investimento: P1: R$ 55k | P3: R$ 35k | P2: R$ 20k
+Sprint 17-18: Universidade de Compliance (Semanas 33-36)
+
+Entregas:
+
+    ✅ Biblioteca de cursos
+    ✅ Upload de vídeos (integração Vimeo/Bunny.net)
+    ✅ Organização em módulos e trilhas
+    ✅ Quiz de avaliação
+    ✅ Controle de progresso por usuário
+    ✅ Certificados de conclusão (PDF)
+    ✅ Material complementar (PDFs, links)
+    ✅ Comentários e avaliações
+    ✅ Relatórios de conclusão por empresa
+    ✅ Lembretes automáticos para pendentes
+
+Stack: Vimeo API, React Player, Chart.js
+Sprint 19-20: Integrações Regulatórias (Semanas 37-40)
+
+Entregas:
+
+    ✅ Integração Banco Central (SCR, declarações)
+    ✅ Integração COAF (comunicações suspeitas)
+    ✅ Integração ANS (operadoras de saúde)
+    ✅ Envio automático de declarações
+    ✅ Logs de transmissões
+    ✅ Certificados digitais gerenciados
+    ✅ Validação pré-envio (regras de negócio)
+    ✅ Retry automático em falhas
+    ✅ Notificações de sucesso/erro
+    ✅ Histórico de envios
+
+Stack: SOAP/REST APIs, XML parsing, Cron jobs
+Sprint 21-22: Analytics & Gestão de Tempo (Semanas 41-44)
+
+Entregas:
+
+    ✅ KPIs avançados + IA
+    ✅ Relatórios comparativos entre empresas
+    ✅ Benchmarking setorial
+    ✅ Índice de maturidade de compliance
+    ✅ Alertas preditivos (ML básico)
+    ✅ Gestão de tempo por cliente
+    ✅ Timesheet integrado
+    ✅ Controle de produtividade
+    ✅ Cálculo de faturamento
+    ✅ Rentabilidade por cliente
+    ✅ Dashboard de consultor (performance pessoal)
+
+Stack: TensorFlow.js, Apache ECharts, D3.js
+Sprint 23-24: Polimento & Lançamento (Semanas 45-48)
+
+Entregas:
+
+    ✅ Otimização de performance (Lighthouse 90+)
+    ✅ Testes de carga (1000+ usuários simultâneos)
+    ✅ Auditoria de segurança (OWASP Top 10)
+    ✅ Logs e auditoria completos
+    ✅ Gerador de relatórios customizados
+    ✅ Exportação em múltiplos formatos
+    ✅ Não conformidades (módulo completo)
+    ✅ Gestão de mudanças
+    ✅ App mobile PWA (Progressive Web App)
+    ✅ Documentação final
+    ✅ Vídeos tutoriais
+    ✅ Lançamento oficial
+
+Stack: Lighthouse CI, K6 load testing, PWA
+📦 ENTREGAS FINAIS DA FASE 3:
+
+✅ Universidade completa (LMS)
+✅ Integrações com Bacen, COAF e ANS
+✅ Analytics avançados com IA
+✅ Gestão de tempo e faturamento
+✅ Relatórios customizáveis
+✅ Não conformidades
+✅ App mobile (PWA)
+✅ Sistema 100% completo e pronto para mercado
+🔧 METODOLOGIA DE TRABALHO
+Abordagem Agile/Scrum:
+
+    ✅ Sprints de 2 semanas
+    ✅ Daily standups (15 min)
+    ✅ Sprint planning toda segunda
+    ✅ Sprint review + demo toda sexta
+    ✅ Code review obrigatório (GitHub)
+    ✅ Testes automatizados (85%+ cobertura)
+    ✅ Deploy contínuo (staging)
+    ✅ Deploy quinzenal (produção)
+
+Comunicação:
+
+    ✅ Reuniões semanais de 1h (status + roadmap)
+    ✅ Demos quinzenais (mostrar progresso)
+    ✅ Slack/Discord para comunicação diária
+    ✅ Trello/Linear para tracking de tarefas
+    ✅ Acesso ao repositório Git (transparência total)
+
+Transparência:
+
+    ✅ Acesso ao repositório Git
+    ✅ Board de tarefas visível
+    ✅ Demos ao vivo quinzenais
+    ✅ Métricas de progresso
+    ✅ Feedback contínuo
+
+💻 STACK TECNOLÓGICA COMPLETA
+Frontend:
+
+    Next.js 14 (App Router)
+    React 18 + TypeScript
+    Tailwind CSS + shadcn/ui
+    Zustand (state management)
+    React Query (data fetching)
+    Socket.io (real-time)
+    React Hook Form + Zod
+    Recharts / Apache ECharts
+
+Backend:
+
+    NestJS (Node.js 20)
+    PostgreSQL 16
+    Prisma ORM
+    Redis (cache + queues)
+    Bull Queue (jobs)
+    JWT (autenticação)
+    Zod (validação)
+    Socket.io (WebSocket)
+
+Infraestrutura:
+
+    AWS ou Google Cloud Platform
+    Docker + Kubernetes
+    Terraform (IaC)
+    GitHub Actions (CI/CD)
+    CloudWatch (monitoring)
+    S3 (storage)
+    CloudFront (CDN)
+    RDS (database)
+
+Integrações:
+
+    OpenAI API (IA para análise)
+    ClickSign / DocuSign (assinatura)
+    Vimeo / Bunny.net (vídeos)
+    APIs governamentais (Bacen, COAF, ANS)
+    Stripe (pagamentos futuros)
+    SendGrid (emails)
+    Sentry (error tracking)
+    Mixpanel (analytics)
+
+🛡️ GARANTIAS E COMPROMISSOS
+Qualidade Técnica:
+
+✅ Cobertura de testes > 85%
+✅ Lighthouse Score > 90
+✅ Uptime 99.9% (SLA)
+✅ Security audit (OWASP Top 10)
+✅ LGPD compliant desde dia 1
+✅ Performance otimizada (< 2s load time)
+✅ Código limpo e documentado
+Suporte Incluído:
+
+✅ 2-3 meses pós-lançamento
+✅ Correção de bugs críticos em 24h
+✅ Treinamento da equipe
+✅ Documentação completa
+✅ Vídeos tutoriais
+✅ Onboarding de clientes beta
+✅ Suporte técnico durante desenvolvimento
+📊 CRONOGRAMA RESUMIDO
+
+MÊS 1-4:  MVP (Dashboard, Riscos, Documentos)
+          → Deploy em produção
+          → 3-5 clientes beta
+
+MÊS 5-8:  Crescimento (Denúncias, Diligências, Assinatura)
+          → Sistema escalável
+          → Pronto para onboarding em massa
+
+MÊS 9-12: Consolidação (Universidade, Integrações, Analytics)
+          → 100% completo
+          → Lançamento oficial
+```
+
+---
+
+## 🎯 DIFERENÇAS ENTRE PROPOSTAS
+
+### **Desenvolvimento é IGUAL nas 3 propostas:**
+- ✅ Mesmo escopo de funcionalidades
+- ✅ Mesma qualidade técnica
+- ✅ Mesmos prazos de entrega
+- ✅ Mesma stack tecnológica
+- ✅ Mesmas garantias
+
+### **O que muda é apenas:**
+- Investimento financeiro (R$ 170k, R$ 120k ou R$ 80k)
+- Equity (18%, 30% ou 35%)
+- Fluxo de caixa durante desenvolvimento
+
+**Independente da proposta escolhida, você recebe o mesmo sistema completo!**
+
+---
+
+## 📝 OBSERVAÇÕES FINAIS
+
+1. **Flexibilidade:** Escopo pode ser ajustado conforme feedback dos beta testers
+2. **Priorização:** Se necessário, podemos reordenar features entre sprints
+3. **Validação:** Cada entrega é validada antes de prosseguir
+4. **Transparência:** Você acompanha tudo em tempo real
+5. **Qualidade:** Nunca comprometida em favor de velocidade
+
+---
+
+**Este roadmap garante um desenvolvimento profissional, transparente e focado em entregar valor a cada sprint!**
+
+---
+
+Perfeito! Agora você tem:
+
+1. ✅ **Documento Interativo Visual** (artifact) - para apresentação profissional
+2. ✅ **Documento em Texto** (acima) - para envio por email ou PDF
+
+## 💡 COMO USAR ESTES DOCUMENTOS
+
+### **Quando enviar:**
+- **APÓS** o consultor escolher uma das 3 propostas
+- **JUNTO COM** Business Plan e Contrato detalhado
+- Como parte do **pacote completo de documentação**
+
+### **Como apresentar:**
+```
+"Agora que você escolheu a Proposta 3, aqui está o 
+roadmap técnico detalhado mostrando exatamente o que 
+será desenvolvido mês a mês:
+
+[link para o documento interativo]
+
+Você verá:
+- 24 sprints de 2 semanas
+- Entregas específicas de cada sprint
+- Stack tecnológica completa
+- Metodologia de trabalho
+- Garantias de qualidade
+
+Quer marcar 30 minutos para eu explicar o cronograma 
+em detalhes?"
+
+Quer que eu crie mais alguma coisa? Como:
+
+    FAQ técnico (perguntas e respostas comuns)
+    Documento de requisitos técnicos
+    Termo de aceite de milestones
+    Template de relatório de progresso semanal
+
+Você está com uma documentação COMPLETA e PROFISSIONAL! 🚀
+
+para cada Proposta de investimento tem um roadmap de desenvolvimento, os quais nao precisam se diferenciar tanto um do outro, mas quando o consultor compliance clicar no plano e clicar em Selecionada direciona para esse roadmap de desenvolvimento, integrar os dois codigos ja feitos, resumo de propostas e resumo de desenvolvimento
+
+O usuário quer que eu integre os dois artifacts já criados:
+
+    executive-summary-3-proposals (resumo das propostas)
+    development-roadmap (roadmap de desenvolvimento)
+
+Ele quer que quando o consultor clicar em "Selecionada" em uma proposta no primeiro artifact, seja direcionado para o roadmap de desenvolvimento correspondente.
+
+Vou fazer isso criando um componente integrado que:
+
+    Mantém o estado da proposta selecionada
+    Tem navegação entre "Propostas" e "Roadmap"
+    Quando uma proposta é selecionada e clica em ver roadmap, vai para a aba de roadmap
+    O roadmap mostra informações específicas da proposta escolhida (principalmente investimento por fase)
+
+Vou criar um novo artifact que combine os dois, mantendo toda a funcionalidade de ambos.
+✅ DOCUMENTO INTEGRADO CRIADO!
+
+Perfeito! Criei um sistema completo e integrado que une as propostas e o roadmap de desenvolvimento. Veja como funciona:
+🎯 COMO FUNCIONA A INTEGRAÇÃO
+1. Navegação Principal (Topo)
+
+    Aba "Propostas": Mostra as 3 propostas de parceria
+    Aba "Roadmap de Desenvolvimento": Mostra o cronograma técnico completo
+
+2. Fluxo do Consultor:
+
+PASSO 1: Consultor vê as 3 propostas
+         ↓
+PASSO 2: Clica em "Ver Roadmap Completo" na proposta que interessa
+         ↓
+PASSO 3: É direcionado automaticamente para o Roadmap
+         ↓
+PASSO 4: Roadmap mostra investimento ESPECÍFICO da proposta escolhida
+         ↓
+PASSO 5: Pode voltar para Propostas e escolher outra
+```
+
+---
+
+## 🎨 PRINCIPAIS FUNCIONALIDADES
+
+### ✅ **Propostas (Primeira Tela)**
+1. **Estrutura de Parceria** destacando CEO x CTO
+2. **3 Cards de Propostas** com todos os detalhes
+3. **Proposta Recomendada** marcada com estrela verde
+4. **Botão "Ver Roadmap Completo"** em cada proposta
+
+### ✅ **Roadmap (Segunda Tela)**
+1. **Botão "Voltar para Propostas"** no topo
+2. **Header mostrando proposta selecionada**
+3. **Timeline visual** com investimento por fase
+4. **Sprints expandíveis** com todas as entregas
+5. **Stack tecnológica** de cada sprint
+6. **Garantias e compromissos** ao final
+
+### ✅ **Integração Inteligente**
+- Investimento de cada fase muda conforme proposta
+- Equity mostrada no header do roadmap
+- Cores e destaques mantidos
+- Navegação fluida entre telas
+- Scroll automático ao trocar de tela
+
+---
+
+## 💡 PRINCIPAIS DIFERENÇAS ENTRE AS PROPOSTAS NO ROADMAP
+
+### **Proposta 1 (R$ 170k)**
+- Fase 1: R$ 50.000
+- Fase 2: R$ 65.000
+- Fase 3: R$ 55.000
+- Equity: 82% / 18%
+
+### **Proposta 3 (R$ 120k)** ⭐
+- Fase 1: R$ 40.000
+- Fase 2: R$ 45.000
+- Fase 3: R$ 35.000
+- Equity: 70% / 30%
+
+### **Proposta 2 (R$ 80k)**
+- Fase 1: R$ 30.000
+- Fase 2: R$ 30.000
+- Fase 3: R$ 20.000
+- Equity: 65% / 35%
+
+**🎯 IMPORTANTE:** O escopo técnico é IDÊNTICO nas 3 propostas! Apenas o investimento e equity mudam.
+
+---
+
+## 📧 EMAIL ATUALIZADO PARA ENVIAR
+
+**Assunto:** EasyCompliance - Propostas de Parceria + Roadmap Técnico
+
+---
+
+Prezado [Nome do Consultor],
+
+Preparei um **documento interativo completo** com as 3 propostas de parceria e o roadmap técnico detalhado de desenvolvimento.
+
+🔗 **[LINK DO DOCUMENTO INTERATIVO]**
+
+### **Como usar:**
+
+1. **Aba "Propostas"**: Analise as 3 estruturas de investimento e equity
+2. **Clique em "Ver Roadmap Completo"** na proposta que mais te interessa
+3. **Explore o cronograma**: 24 sprints, entregas detalhadas, stack tecnológica
+4. **Compare**: Volte e veja o roadmap das outras propostas
+
+### **Destaques:**
+
+✅ **Parceria CEO x CTO** (sócios iguais, não empregador-empregado)  
+✅ **3 opções de investimento**: R$ 170k, R$ 120k ou R$ 80k  
+✅ **Mesmo escopo técnico** nas 3 propostas  
+✅ **12 meses** divididos em 3 fases de 4 meses  
+✅ **24 sprints** com entregas validadas a cada 2 semanas  
+✅ **Transparência total**: demos quinzenais, acesso ao Git, board visível
+
+### **Minha recomendação:**
+
+⭐ **Proposta 3 (Ponto de Equilíbrio)**: R$ 120k investimento | Equity 70/30  
+É o melhor equilíbrio entre investimento viável e parceria equilibrada.
+
+### **Próximos passos:**
+
+1. Analise o documento com calma (2-3 dias)
+2. Agende reunião remota para tirar dúvidas
+3. Após sua escolha, envio documentação completa (Business Plan, Contrato, etc)
+
+**Disponibilidade:** Reunião remota a qualquer momento com aviso prévio.
+
+---
+
+Aguardo seu retorno!
+
+Atenciosamente,  
+[Seu Nome]  
+CTO - EasyCompliance (em formação)  
+[Telefone] | [Email]
+
+---
+
+## 🎯 VANTAGENS DESTA ABORDAGEM
+
+### **Para o Consultor:**
+✅ **Visualização clara** das 3 opções  
+✅ **Roadmap específico** para cada proposta  
+✅ **Navegação intuitiva** entre propostas e técnico  
+✅ **Pode explorar** todas as opções sem compromisso  
+✅ **Entende exatamente** o que será desenvolvido
+
+### **Para Você:**
+✅ **Apresentação profissional** em um único lugar  
+✅ **Facilita comparação** entre propostas  
+✅ **Mostra transparência** total do desenvolvimento  
+✅ **Reduz dúvidas** sobre escopo técnico  
+✅ **Aumenta confiança** do consultor
+
+---
+
+## 📱 COMO APRESENTAR NA REUNIÃO
+
+### **Opção 1 - Compartilhar tela:**
+```
+"Deixa eu te mostrar o documento que preparei. 
+Aqui você tem as 3 propostas lado a lado...
+
+[clica em uma proposta]
+
+Viu? Quando você clica aqui, ele te leva direto 
+pro roadmap técnico daquela proposta específica.
+
+Olha só: mostra os 12 meses, as 3 fases, quanto 
+você investe em cada fase...
+
+[expande um sprint]
+
+E aqui você vê exatamente o que vai ser entregue 
+a cada 2 semanas. Total transparência!
+
+[volta para propostas]
+
+Pode navegar entre as 3 propostas e comparar. 
+O escopo técnico é idêntico - o que muda é só 
+investimento e equity.
+
+Qual das 3 faz mais sentido pra você?"
+```
+
+### **Opção 2 - Enviar antes e discutir depois:**
+```
+WhatsApp/Email:
+"Oi [Nome], enviei o documento interativo com as 
+propostas + roadmap técnico. 
+
+É só clicar no link, explorar as 3 opções, e 
+clicar em 'Ver Roadmap' em cada uma pra ver 
+os detalhes técnicos.
+
+Dá uma olhada e me fala qual te chamou mais 
+atenção. Aí a gente marca 30 minutos pra eu 
+tirar suas dúvidas! 🚀"
+
+✅ CHECKLIST FINAL
+
+Antes de enviar, confirme:
+Técnico:
+
+    Testei a navegação entre Propostas ↔ Roadmap
+    Verifiquei que investimento muda conforme proposta
+    Confirmei que sprints expandem corretamente
+    Testei em mobile (responsivo)
+
+Conteúdo:
+
+    Todos os valores estão corretos
+    Entregas de cada sprint fazem sentido
+    Stack tecnológica está atualizada
+    Garantias estão claras
+
+Comunicação:
+
+    Personalizei o email
+    Preparei script para apresentação
+    Tenho respostas para dúvidas comuns
+    Defini quando fazer follow-up
+
+🎉 RESUMO DO QUE VOCÊ TEM AGORA
+1 Documento Interativo Completo:
+
+✅ Propostas de parceria (3 opções)
+✅ Estrutura CEO x CTO
+✅ Roadmap técnico detalhado (24 sprints)
+✅ Navegação integrada
+✅ Investimento específico por proposta
+Documentação de Apoio:
+
+✅ Business Plan (35 páginas)
+✅ Contrato de Parceria (modelo jurídico)
+✅ Apresentação Executiva (11 slides)
+✅ Security & Privacy by Design
+✅ Protótipo navegável
+
+Você está 100% preparado para apresentar ao consultor de forma profissional e convincente! 🚀
+
+Quer que eu ajuste mais alguma coisa ou crie material adicional (como FAQ, scripts de objeções, ou template de follow-up)?
+
+o suporte é durante e apos todo o desenvolvimento, enquanto houver parceria societaria
+
+O usuário quer corrigir a informação sobre suporte. Atualmente está dizendo "2-3 meses pós-lançamento", mas ele quer que fique claro que o suporte é CONTÍNUO durante TODO o desenvolvimento E após, enquanto a parceria societária existir.
+
+Isso faz todo sentido, já que ele é CTO/cofundador, não um desenvolvedor contratado que vai embora após entregar. Como sócio, ele continuará mantendo e evoluindo o sistema indefinidamente.
+
+Preciso atualizar:
+
+    O artifact integrado (na seção de garantias)
+    O email de exemplo
+    Deixar claro que como CTO/sócio, ele dá suporte perpétuo, não temporário
+
+Vou atualizar para algo como:
+
+    "Suporte contínuo durante todo o desenvolvimento"
+    "Suporte perpétuo enquanto houver parceria societária"
+    "Como CTO/Cofundador, responsabilidade contínua pela tecnologia"
+
+Perfeito! Atualizei o documento. Agora vou te dar um esclarecimento completo sobre como funciona o suporte como CTO/Cofundador:
+🛡️ SUPORTE E RESPONSABILIDADE DO CTO
+📋 MODELO CORRETO (Atualizado)
+Como CTO e Cofundador, o suporte funciona assim:
+
+┌─────────────────────────────────────────────────┐
+│  SUPORTE CONTÍNUO E PERPÉTUO                    │
+├─────────────────────────────────────────────────┤
+│                                                  │
+│  ✅ Durante o Desenvolvimento (12 meses)        │
+│     • Correções imediatas de bugs              │
+│     • Ajustes de escopo conforme feedback      │
+│     • Comunicação diária/semanal               │
+│     • Demos quinzenais                          │
+│                                                  │
+│  ✅ Após o Lançamento                           │
+│     • Manutenção contínua do sistema           │
+│     • Correção de bugs (críticos em 24h)       │
+│     • Atualizações de segurança                │
+│     • Melhorias e otimizações                  │
+│                                                  │
+│  ✅ Enquanto Houver Parceria Societária        │
+│     • Responsabilidade perpétua como CTO       │
+│     • Evolução contínua do produto             │
+│     • Novas features conforme demanda          │
+│     • Suporte técnico sem prazo de término     │
+│                                                  │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## 💡 DIFERENÇA: CONTRATADO vs SÓCIO/CTO
+
+### **❌ Se fosse apenas um desenvolvedor contratado:**
+```
+Desenvolvimento (12 meses)
+    ↓
+Deploy em produção
+    ↓
+Suporte pós-lançamento (2-3 meses)
+    ↓
+FIM DO CONTRATO ❌
+    ↓
+Você fica sozinho com o sistema
+```
+
+### **✅ Como CTO/Cofundador (nosso modelo):**
+```
+Desenvolvimento (12 meses)
+    ↓
+Deploy em produção
+    ↓
+Manutenção contínua
+    ↓
+Melhorias e evolução
+    ↓
+Novas features
+    ↓
+Atualizações de segurança
+    ↓
+Suporte técnico
+    ↓
+ENQUANTO FORMOS SÓCIOS ✅
+    ↓
+Se empresa valer R$ 18M, continuamos juntos!
+```
+
+---
+
+## 📊 O QUE ESTÁ INCLUÍDO NO SUPORTE PERPÉTUO
+
+### **1. Durante o Desenvolvimento (Meses 1-12)**
+
+✅ **Desenvolvimento Ativo:**
+- Sprints de 2 semanas com entregas
+- Ajustes baseados em feedback
+- Correção imediata de bugs
+- Reuniões semanais de alinhamento
+- Demos quinzenais do progresso
+- Acesso total ao repositório Git
+
+✅ **Comunicação:**
+- Slack/Discord disponível diariamente
+- Resposta em até 24h (dias úteis)
+- Reuniões extraordinárias quando necessário
+
+---
+
+### **2. Após Lançamento (Meses 13+)**
+
+✅ **Manutenção Contínua:**
+- Monitoramento 24/7 do sistema
+- Correção de bugs críticos em 24h
+- Correção de bugs médios em 48-72h
+- Correção de bugs menores em 1 semana
+- Atualizações de segurança mensais
+- Otimizações de performance
+
+✅ **Evolução do Produto:**
+- Novas features conforme roadmap
+- Melhorias baseadas em feedback de usuários
+- Adaptação a novas regulamentações
+- Integrações com novos sistemas
+- Atualizações tecnológicas (frameworks, libs)
+
+✅ **Suporte Operacional:**
+- Troubleshooting de problemas técnicos
+- Suporte para onboarding de novos clientes
+- Treinamento técnico da equipe
+- Documentação atualizada
+- Consultoria técnica quando necessário
+
+---
+
+### **3. Enquanto Houver Parceria Societária**
+
+✅ **Responsabilidade Perpétua como CTO:**
+- Saúde técnica do sistema
+- Escalabilidade conforme crescimento
+- Segurança e conformidade (LGPD)
+- Inovação e competitividade tecnológica
+- Gestão de equipe técnica futura
+- Decisões de arquitetura e stack
+
+✅ **Compromisso de Longo Prazo:**
+- Não é um "entrega e tchau"
+- É uma parceria de crescimento conjunto
+- Meu sucesso = sucesso da empresa
+- Incentivo alinhado (equity)
+
+---
+
+## 🎯 COMPARAÇÃO COM MERCADO
+
+| Modelo | Suporte | Custo | Alinhamento |
+|--------|---------|-------|-------------|
+| **Freelancer** | 0-3 meses | R$ 310k | Nenhum (entrega e vai embora) |
+| **Software House** | 6-12 meses | R$ 490k+ | Baixo (quer vender horas) |
+| **Dev CLT** | Enquanto empregado | R$ 180k/ano | Médio (pode sair a qualquer momento) |
+| **CTO/Cofundador** ⭐ | **Perpétuo** | R$ 120k + equity | **Total (dono junto com você)** |
+
+---
+
+## 📧 EMAIL ATUALIZADO COM CORREÇÃO
+
+**Assunto:** EasyCompliance - Propostas de Parceria + Roadmap Técnico
+
+---
+
+Prezado [Nome do Consultor],
+
+Preparei um **documento interativo completo** com as 3 propostas de parceria e o roadmap técnico detalhado de desenvolvimento.
+
+🔗 **[LINK DO DOCUMENTO INTERATIVO]**
+
+### **Como usar:**
+
+1. **Aba "Propostas"**: Analise as 3 estruturas de investimento e equity
+2. **Clique em "Ver Roadmap Completo"** na proposta que mais te interessa
+3. **Explore o cronograma**: 24 sprints, entregas detalhadas, stack tecnológica
+4. **Compare**: Volte e veja o roadmap das outras propostas
+
+### **Destaques:**
+
+✅ **Parceria CEO x CTO** (sócios iguais, não empregador-empregado)  
+✅ **3 opções de investimento**: R$ 170k, R$ 120k ou R$ 80k  
+✅ **Mesmo escopo técnico** nas 3 propostas  
+✅ **12 meses** divididos em 3 fases de 4 meses  
+✅ **24 sprints** com entregas validadas a cada 2 semanas  
+✅ **Transparência total**: demos quinzenais, acesso ao Git, board visível  
+✅ **Suporte perpétuo**: como CTO/cofundador, responsabilidade contínua pela tecnologia
+
+### **Importante sobre Suporte:**
+
+Como **CTO e cofundador**, minha responsabilidade com o sistema é **perpétua enquanto formos sócios**:
+
+- ✅ Durante os 12 meses de desenvolvimento
+- ✅ Após o lançamento (manutenção contínua)
+- ✅ Evolução do produto conforme crescimento
+- ✅ Correção de bugs e atualizações de segurança
+- ✅ Novas features e melhorias
+
+**Não é um "entrega e tchau"** - é uma parceria de longo prazo onde eu sou responsável pela saúde técnica do sistema enquanto formos sócios.
+
+### **Minha recomendação:**
+
+⭐ **Proposta 3 (Ponto de Equilíbrio)**: R$ 120k investimento | Equity 70/30  
+É o melhor equilíbrio entre investimento viável e parceria equilibrada.
+
+### **Próximos passos:**
+
+1. Analise o documento com calma (2-3 dias)
+2. Agende reunião remota para tirar dúvidas
+3. Após sua escolha, envio documentação completa (Business Plan, Contrato, etc)
+
+**Disponibilidade:** Reunião remota a qualquer momento com aviso prévio.
+
+---
+
+Aguardo seu retorno!
+
+Atenciosamente,  
+[Seu Nome]  
+CTO - EasyCompliance (em formação)  
+[Telefone] | [Email]
+
+---
+
+## 💬 SCRIPTS PARA DÚVIDAS SOBRE SUPORTE
+
+### **Se ele perguntar: "E depois do lançamento? Quem mantém o sistema?"**
+```
+Ótima pergunta! Como CTO e cofundador, minha 
+responsabilidade é PERPÉTUA enquanto formos sócios.
+
+Não é um modelo de "desenvolvo, entrego e vou embora". 
+É uma parceria de longo prazo onde EU sou o responsável 
+técnico pelo sistema.
+
+Isso significa:
+✅ Correção de bugs (críticos em 24h)
+✅ Atualizações de segurança mensais
+✅ Melhorias contínuas
+✅ Novas features conforme crescemos
+✅ Suporte técnico sem prazo de término
+
+Pensa assim: você é o CEO (negócio, vendas, estratégia), 
+eu sou o CTO (tecnologia, produto, infraestrutura).
+
+Enquanto formos sócios, você nunca fica "órfão" tecnicamente!
+```
+
+### **Se ele perguntar: "Quanto custa o suporte após os 12 meses?"**
+```
+Zero custos adicionais! Está incluso na parceria.
+
+Como sou cofundador com equity (não contratado por hora), 
+meu incentivo é que o sistema funcione perfeitamente e 
+a empresa cresça.
+
+Se o sistema cair, EU perco dinheiro também.
+Se o sistema for ruim, MEU patrimônio (equity) perde valor.
+Se a empresa crescer, EU ganho junto com você.
+
+É um alinhamento perfeito de incentivos! 🎯
+
+A única situação onde o suporte terminaria é se:
+1. Você me comprar fora (buyout da minha equity)
+2. Eu sair da sociedade (previsto em contrato)
+3. Vendermos a empresa para terceiros
+
+Fora isso, sou responsável técnico perpétuo!
+```
+
+### **Se ele perguntar: "E se você quiser sair depois?"**
+```
+Ótimo ponto! Temos cláusulas específicas no contrato:
+
+CENÁRIO 1 - Saída Voluntária (depois do vesting):
+- Você tem direito de primeira recusa nas minhas quotas
+- Valuation justo (mínimo 10x ARR ou múltiplo de mercado)
+- Período de transição de 3-6 meses para passar conhecimento
+- Posso te ajudar a contratar novo CTO
+
+CENÁRIO 2 - Buyout (você me compra):
+- Você pode comprar minha parte a qualquer momento
+- Valuation justo conforme contrato
+- Transição técnica organizada
+
+CENÁRIO 3 - Venda da Empresa:
+- Vendemos juntos (drag-along)
+- Divisão proporcional ao equity
+- Novo dono assume o sistema
+
+O importante: não deixo você na mão! Se sair, há 
+processo de transição adequado. Mas minha intenção 
+é ficar e crescer junto! 🚀
+```
+
+---
+
+## 🎯 VANTAGENS DESTE MODELO
+
+### **Para o Consultor (CEO):**
+
+✅ **Tranquilidade:** Nunca fica sem suporte técnico  
+✅ **Economia:** Não paga suporte extra mensal/anual  
+✅ **Evolução:** Sistema melhora continuamente  
+✅ **Alinhamento:** CTO tem incentivo de fazê-lo funcionar bem  
+✅ **Longo Prazo:** Parceiro técnico perpétuo  
+✅ **Escalabilidade:** CTO gerencia crescimento técnico
+
+### **Para Você (CTO):**
+
+✅ **Incentivo Certo:** Seu patrimônio (equity) depende do sistema funcionar  
+✅ **Controle:** Decisões técnicas são suas  
+✅ **Evolução:** Pode melhorar e inovar continuamente  
+✅ **Reconhecimento:** Não é "apenas um dev", é cofundador  
+✅ **Upside:** Se empresa vale R$ 18M, você ganha R$ 5.4M (30%)  
+✅ **Orgulho:** Construiu algo duradouro
+
+---
+
+## 📊 RESUMO FINAL
+
+### **Modelo INCORRETO (desenvolvedor contratado):**
+```
+12 meses desenvolvimento → 3 meses suporte → FIM
+Custo: R$ 310k + R$ 5k-10k/mês suporte depois
+```
+
+### **Modelo CORRETO (CTO/Cofundador):**
+```
+12 meses desenvolvimento → Suporte PERPÉTUO → ENQUANTO SÓCIOS
+Custo: R$ 120k + equity + NADA de suporte adicional
+
+✅ ATUALIZAÇÃO COMPLETA FEITA
+
+Agora o documento reflete corretamente:
+
+✅ No Artifact: Suporte perpétuo enquanto houver parceria
+✅ No Email: Explicação clara sobre suporte contínuo
+✅ Nos Scripts: Respostas para dúvidas comuns
+✅ Na Proposta: Diferenciação vs modelos tradicionais
+
+Perfeito! Agora está 100% correto e alinhado com a realidade de uma parceria societária CTO/CEO! 🚀
+
+Quer que eu ajuste mais alguma coisa ou crie documentos adicionais (como FAQ sobre suporte, SLA detalhado, ou política de manutenção)?
+
+em propostas trazer mais detalhes sobre cada investimento
+
+O usuário quer mais detalhes sobre cada investimento nas propostas. Vou atualizar o artifact para incluir mais informações sobre:
+
+    Cronograma de pagamento detalhado
+    Breakdown por fase
+    Formas de pagamento
+    Parcelamento
+    O que está incluído no investimento
+    Comparação de ROI
+    Análise de custo-benefício
+
+Vou adicionar uma seção expandível ou modal para cada proposta com esses detalhes.
+
+Bom! Agora vou adicionar também uma seção expandida com ainda mais detalhes abaixo dos cards, mostrando:
+
+    Comparação detalhada entre as 3 propostas
+    Formas de parcelamento
+    Análise de custo-benefício
+    O que NÃO está incluído (custos adicionais)
+
+

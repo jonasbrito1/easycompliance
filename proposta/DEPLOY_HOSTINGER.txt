@@ -1,0 +1,124 @@
+═══════════════════════════════════════════════════════════════
+   GUIA RÁPIDO DE DEPLOY - EASYCOMPLIANCE NA HOSTINGER
+═══════════════════════════════════════════════════════════════
+
+📦 ARQUIVOS NECESSÁRIOS PARA UPLOAD:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ index.html     (arquivo principal - 100% funcional)
+✓ .htaccess      (configuração Apache - opcional mas recomendado)
+
+❌ NÃO ENVIE:
+  - index.js (código fonte, não necessário)
+  - README.md (documentação, não necessário)
+  - DEPLOY_HOSTINGER.txt (este arquivo)
+
+
+🚀 PASSO A PASSO RÁPIDO (5 minutos):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ ACESSE O PAINEL
+   → https://hpanel.hostinger.com
+   → Faça login
+
+2️⃣ ABRA O GERENCIADOR DE ARQUIVOS
+   → Menu lateral: "Gerenciador de Arquivos"
+   → Navegue até: public_html/
+
+3️⃣ FAÇA UPLOAD
+   → Botão "Upload" no canto superior direito
+   → Selecione: index.html + .htaccess
+   → Aguarde upload (5-10 segundos)
+
+4️⃣ PRONTO!
+   → Acesse: http://seudominio.com.br
+   → A aplicação deve estar funcionando
+
+
+🔍 VERIFICAÇÃO:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Página carrega com "EasyCompliance" no topo?
+✓ Vê 3 cards de propostas?
+✓ Botão "Ver Roadmap Completo" funciona?
+✓ Pode navegar entre "Propostas" e "Roadmap"?
+
+Se SIM para todos = SUCESSO! ✅
+
+
+⚠️ PROBLEMAS COMUNS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PROBLEMA: Página em branco
+SOLUÇÃO:
+  → F12 (Console do navegador) → Veja erros
+  → Verifique se index.html foi enviado corretamente
+  → Tente Ctrl+Shift+R (reload forçado)
+
+PROBLEMA: Erro 404
+SOLUÇÃO:
+  → Verifique que arquivo está em public_html/
+  → Nome deve ser exatamente: index.html (minúsculo)
+  → Permissões: 644
+
+PROBLEMA: Ícones não aparecem
+SOLUÇÃO:
+  → Aguarde 5 segundos (CDN Lucide carregando)
+  → Limpe cache: Ctrl+Shift+Delete
+  → Teste em aba anônima
+
+
+🎨 CUSTOMIZAÇÕES OPCIONAIS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ADICIONAR LOGO:
+   No index.html, linha ~40, adicione:
+   <img src="logo.png" alt="Logo" class="w-32 h-32">
+
+2. MUDAR CORES:
+   Procure por "bg-blue-600" e troque por:
+   - bg-purple-600 (roxo)
+   - bg-green-600 (verde)
+   - bg-red-600 (vermelho)
+
+3. ATIVAR HTTPS:
+   → Painel Hostinger: SSL → Let's Encrypt (grátis)
+   → No .htaccess, descomente linhas 7-8
+
+
+📱 TESTE MOBILE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+→ Abra no celular: http://seudominio.com.br
+→ Layout deve adaptar automaticamente
+→ Navegação touch-friendly
+
+
+🔒 SEGURANÇA:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Sem banco de dados
+✓ Sem formulários
+✓ Sem coleta de dados
+✓ Site 100% estático e seguro
+✓ HTTPS recomendado (ative SSL grátis)
+
+
+💡 DICAS PRO:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+→ Faça backup semanal via painel Hostinger
+→ Ative SSL (certificado grátis disponível)
+→ Use domínio personalizado para profissionalismo
+→ Adicione Google Analytics para rastrear visitas
+
+
+📧 SUPORTE HOSTINGER:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Chat 24/7: Disponível no painel
+Email: support@hostinger.com
+Base conhecimento: support.hostinger.com
+
+
+═══════════════════════════════════════════════════════════════
+         DESENVOLVIMENTO: React 18 + Tailwind CSS
+         HOSPEDAGEM: Hostinger (compatível 100%)
+         TEMPO MÉDIO DE DEPLOY: 5 minutos
+═══════════════════════════════════════════════════════════════
+
+✨ Boa sorte com seu deploy! ✨
